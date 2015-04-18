@@ -4,7 +4,7 @@ var courses = [];
 var checked_eng_types = [];
 var checked_courses = [];
 
-//import rules from csv file
+//import rules from csv file on first load
 $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -33,7 +33,7 @@ function processData(allText) {
     }
 
     for (var i in courses) {
-        generateCheckBoxes(courses[i][1], "course_options", i);
+        generateCheckBoxes(courses[i][1], "course_options", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
     }
     
     
@@ -55,7 +55,7 @@ function generateCheckBoxes(name, div_tag, count) {
         checkbox.type = "checkbox";    // make the element a checkbox
         checkbox.name = 1;      // give it a name we can check on the server side
         checkbox.value = name;         // make its value
-        checkbox.id = count;
+        checkbox.id = count;    // unique ID for each checkbox
 
         label.appendChild(checkbox);   // add the box to the element
         label.appendChild(description);// add the description to the element
@@ -64,27 +64,49 @@ function generateCheckBoxes(name, div_tag, count) {
         document.getElementById(div_tag).appendChild(label);
 
         if (div_tag == "eng_options") {
-            //records what checkboxes are selected
-            $("[name=1]").change(function() { 
-                if(this.checked) {
-                    if (checked_eng_types.indexOf(this.value) == -1) {
-                        checked_eng_types.push(this.value);    
-                    }
-                } else {
-                    var index = checked_eng_types.indexOf(this.value);
-                    if (index > -1) {
-                        checked_eng_types.splice(index, 1);
-                    }
-                }
-            });
-        } else {
-            if (courses[count][3] == "All") {
+            watchEngCB();
+        } else { //check the required courses
+            if (courses[count-9][3] == "All") {
             checkbox.checked = true;
             }
+            console.log(checkbox);
         }
     //}
 }
 
+// watch the engineering checkboxes for change
+function watchEngCB() {
+    $("[name=1]").change(function() { 
+        if(this.checked) {
+            if (checked_eng_types.indexOf(this.value) == -1) {
+                checked_eng_types.push(this.value);
+            }
+        } else {
+            var index = checked_eng_types.indexOf(this.value);
+            if (index > -1) {
+                checked_eng_types.splice(index, 1);
+            }
+        }
+        changeHighlightedCourses();
+    });
+}
+
+// highlight different courses based on eng options selected
+function changeHighlightedCourses() {
+    //console.log(checked_eng_types.indexOf("Software Engineering"));
+    if (checked_eng_types.indexOf("Software Engineering") != -1) {
+        //console.log(eng_types.indexOf("Software Engineering"));
+        /*if (courses[5][4] == "Req") {
+            document.getElementById(14).checked = true;
+        }*/
+        
+        for (var i in courses) {
+            if (courses[i][4] == "Req") {
+                document.getElementById(parseInt(i)+9).checked = true;
+            }
+        }
+    }
+}
 
 
 
