@@ -1,6 +1,10 @@
 var table = [];
-var checked;
+var eng_types = [];
+var courses = [];
+var checked_eng_types = [];
+var checked_courses = [];
 
+//import rules from csv file
 $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -20,7 +24,21 @@ function processData(allText) {
         var data = allTextLines[i].split(',');
         table.push(data);
     }
-    engTypeCBoxes();
+    eng_types = table[3].slice(3);
+    courses = table.slice(4,21);
+    /*var course_rows = table.slice(4,21);
+    for (var i in course_rows) {
+        courses.push(course_rows[i][1])
+    }*/
+
+    //engTypeCBoxes(); //'eng_options'
+    
+    for (var i in eng_types) {
+        generateCheckBoxes(eng_types[i], "eng_options", i);
+    }
+    courseCBoxes();
+    
+    
     /*
     console.log(table);
     test = document.getElementById("test");
@@ -28,9 +46,9 @@ function processData(allText) {
     */
 }
 
+//generate checkbox for each type of engineering degree
 function engTypeCBoxes() {
 
-    var eng_types = table[3].slice(3);
     for(var i in eng_types) {
         var name = eng_types[i];
 
@@ -42,9 +60,7 @@ function engTypeCBoxes() {
         checkbox.type = "checkbox";    // make the element a checkbox
         checkbox.name = 1;      // give it a name we can check on the server side
         checkbox.value = name;         // make its value
-        checkbox.id = 1;
-
-        console.log(checkbox);
+        checkbox.id = i;
 
         label.appendChild(checkbox);   // add the box to the element
         label.appendChild(description);// add the description to the element
@@ -52,76 +68,93 @@ function engTypeCBoxes() {
         // add the label element to your div
         document.getElementById('eng_options').appendChild(label);
 
+
+        //records what checkboxes are selected
         $("[name=1]").change(function() { 
             if(this.checked) {
-                console.log(this.value);
+                if (checked_eng_types.indexOf(this.value) == -1) {
+                    checked_eng_types.push(this.value);    
+                }
             } else {
-                console.log("not here");
+                var index = checked_eng_types.indexOf(this.value);
+                if (index > -1) {
+                    checked_eng_types.splice(index, 1);
+                }
             }
         });
-        /*
-        $('#1').on('change', function() {
-            if(this.checked) {
-                console.log("checked");
-                checked = this;
-            } else {
-                console.log("not checked");
-            }
-            console.log(checked);
-        });
-        console.log(checked);
-        */
     }
-
-    /*
-    var cbh = document.getElementById('cb');
-    var val = '1';
-    var cap = 'Jan';
-
-    var cb = document.createElement('input');
-    cb.type = 'checkbox';
-    cbh.appendChild(cb);
-    cb.name = val;
-    cb.value = cap;
-    cb.appendChild(document.createTextNode(cap));
-    */
-
-    /*
-    var pair = ["answer1"];
-
-    // create the necessary elements
-    var label= document.createElement("label");
-    var description = document.createTextNode(pair);
-    var checkbox = document.createElement("input");
-
-    checkbox.type = "checkbox";    // make the element a checkbox
-    checkbox.name = "slct[]";      // give it a name we can check on the server side
-    checkbox.value = pair;         // make its value "pair"
-
-    label.appendChild(checkbox);   // add the box to the element
-    label.appendChild(description);// add the description to the element
-
-    // add the label element to your div
-    document.getElementById('some_div').appendChild(label);
-
-    // clear the former content of a given <div id="some_div"></div>
-    document.getElementById('some_div').innerHTML = '';
-    */
-
-    /*
-    var eng_types = table[3].slice(3);
-    $("div").append("<ul></ul>");
-    for(var i in eng_types) {
-        var li = "<li>";
-        $("ul").append(li.concat(eng_types[i]))
-    }
-    */
 
 }
 
+//generate checkbox for each course
+function courseCBoxes(){
+    for(var i in courses) {
+        var name = courses[i][1];
 
-function displayPapers(i){
-    console.log(i);
+        // create the necessary elements
+        var label = document.createElement("label");
+        var description = document.createTextNode(name);
+        var checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";    // make the element a checkbox
+        checkbox.name = 1;      // give it a name we can check on the server side
+        checkbox.value = name;         // make its value
+        checkbox.id = i;
+
+        if (courses[i][3] == "All") {
+            checkbox.checked = true;
+        }
+
+
+        label.appendChild(checkbox);   // add the box to the element
+        label.appendChild(description);// add the description to the element
+
+        // add the label element to your div
+        document.getElementById('course_options').appendChild(label);
+    }
+}
+
+
+function generateCheckBoxes(name, div_tag, count) {
+    //for(var i in options) {
+        //var name = options[i];
+
+        // create the necessary elements
+        var label = document.createElement("label");
+        var description = document.createTextNode(name);
+        var checkbox = document.createElement("input");
+
+        checkbox.type = "checkbox";    // make the element a checkbox
+        checkbox.name = 1;      // give it a name we can check on the server side
+        checkbox.value = name;         // make its value
+        checkbox.id = count;
+
+        label.appendChild(checkbox);   // add the box to the element
+        label.appendChild(description);// add the description to the element
+
+        // add the label element to your div
+        document.getElementById(div_tag).appendChild(label);
+
+        if (div_tag == "eng_options") {
+            //records what checkboxes are selected
+            $("[name=1]").change(function() { 
+                if(this.checked) {
+                    if (checked_eng_types.indexOf(this.value) == -1) {
+                        checked_eng_types.push(this.value);    
+                    }
+                } else {
+                    var index = checked_eng_types.indexOf(this.value);
+                    if (index > -1) {
+                        checked_eng_types.splice(index, 1);
+                    }
+                }
+            });
+        } else {
+            if (courses[i][3] == "All") {
+            checkbox.checked = true;
+            }
+        }
+    //}
 }
 
 
