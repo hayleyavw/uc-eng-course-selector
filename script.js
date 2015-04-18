@@ -27,13 +27,20 @@ function processData(allText) {
     eng_types = table[3].slice(3);
     courses = table.slice(4,21);
     
-    console.log(courses);
     for (var i in eng_types) {
         generateCheckBoxes(eng_types[i], "eng_options", i);
     }
 
+    console.log(courses);
+
     for (var i in courses) {
-        generateCheckBoxes(courses[i][1], "course_options", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+        if (i <= 5) {
+           generateCheckBoxes(courses[i][1], "semester_one", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+        } else if (i <= 13) {
+            generateCheckBoxes(courses[i][1], "semester_two", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+        } else {
+            generateCheckBoxes(courses[i][1], "summer", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+        }
     }
     
 }
@@ -63,7 +70,6 @@ function generateCheckBoxes(name, div_tag, count) {
             if (courses[count-9][3] == "All") {
             checkbox.checked = true;
             }
-            console.log(checkbox);
         }
     //}
 }
