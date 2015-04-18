@@ -1,4 +1,5 @@
 var table = [];
+var checked;
 
 $(document).ready(function() {
     $.ajax({
@@ -19,33 +20,59 @@ function processData(allText) {
         var data = allTextLines[i].split(',');
         table.push(data);
     }
+    engTypeCBoxes();
+    /*
     console.log(table);
     test = document.getElementById("test");
     test.innerHTML = table[0][0];
+    */
+}
 
-
+function engTypeCBoxes() {
 
     var eng_types = table[3].slice(3);
     for(var i in eng_types) {
         var name = eng_types[i];
 
         // create the necessary elements
-        var label= document.createElement("label");
+        var label = document.createElement("label");
         var description = document.createTextNode(name);
         var checkbox = document.createElement("input");
 
         checkbox.type = "checkbox";    // make the element a checkbox
-        checkbox.name = i;      // give it a name we can check on the server side
-        checkbox.value = name;         // make its value "pair"
+        checkbox.name = 1;      // give it a name we can check on the server side
+        checkbox.value = name;         // make its value
+        checkbox.id = 1;
+
+        console.log(checkbox);
 
         label.appendChild(checkbox);   // add the box to the element
         label.appendChild(description);// add the description to the element
 
         // add the label element to your div
-        document.getElementById('some_div').appendChild(label);
-        
+        document.getElementById('eng_options').appendChild(label);
+
+        $("[name=1]").change(function() { 
+            if(this.checked) {
+                console.log(this.value);
+            } else {
+                console.log("not here");
+            }
+        });
+        /*
+        $('#1').on('change', function() {
+            if(this.checked) {
+                console.log("checked");
+                checked = this;
+            } else {
+                console.log("not checked");
+            }
+            console.log(checked);
+        });
+        console.log(checked);
+        */
     }
-    
+
     /*
     var cbh = document.getElementById('cb');
     var val = '1';
@@ -81,12 +108,6 @@ function processData(allText) {
     document.getElementById('some_div').innerHTML = '';
     */
 
-    
-    
-    
-
-
-
     /*
     var eng_types = table[3].slice(3);
     $("div").append("<ul></ul>");
@@ -98,6 +119,10 @@ function processData(allText) {
 
 }
 
+
+function displayPapers(i){
+    console.log(i);
+}
 
 
 
