@@ -45,35 +45,6 @@ function processData(allText) {
 }
 
 
-//generate checkbox for each course
-function courseCBoxes(){
-    for(var i in courses) {
-        var name = courses[i][1];
-
-        // create the necessary elements
-        var label = document.createElement("label");
-        var description = document.createTextNode(name);
-        var checkbox = document.createElement("input");
-
-        checkbox.type = "checkbox";    // make the element a checkbox
-        checkbox.name = 1;      // give it a name we can check on the server side
-        checkbox.value = name;         // make its value
-        checkbox.id = i;
-
-        if (courses[i][3] == "All") {
-            checkbox.checked = true;
-        }
-
-
-        label.appendChild(checkbox);   // add the box to the element
-        label.appendChild(description);// add the description to the element
-
-        // add the label element to your div
-        document.getElementById('course_options').appendChild(label);
-    }
-}
-
-
 function generateCheckBoxes(name, div_tag, count) {
 
         // create the necessary elements
