@@ -36,12 +36,6 @@ function processData(allText) {
         generateCheckBoxes(courses[i][1], "course_options", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
     }
     
-    
-    /*
-    console.log(table);
-    test = document.getElementById("test");
-    test.innerHTML = table[0][0];
-    */
 }
 
 
@@ -77,33 +71,25 @@ function generateCheckBoxes(name, div_tag, count) {
 // watch the engineering checkboxes for change
 function watchEngCB() {
     $("[name=1]").change(function() { 
+        var index = checked_eng_types.indexOf(this.value);
         if(this.checked) {
-            if (checked_eng_types.indexOf(this.value) == -1) {
+            if (index == -1) {
                 checked_eng_types.push(this.value);
             }
         } else {
-            var index = checked_eng_types.indexOf(this.value);
             if (index > -1) {
                 checked_eng_types.splice(index, 1);
             }
         }
-        changeHighlightedCourses();
+        changeHighlightedCourses(this.id);
     });
 }
 
 // highlight different courses based on eng options selected
-function changeHighlightedCourses() {
-    //console.log(checked_eng_types.indexOf("Software Engineering"));
-    if (checked_eng_types.indexOf("Software Engineering") != -1) {
-        //console.log(eng_types.indexOf("Software Engineering"));
-        /*if (courses[5][4] == "Req") {
-            document.getElementById(14).checked = true;
-        }*/
-        
-        for (var i in courses) {
-            if (courses[i][4] == "Req") {
-                document.getElementById(parseInt(i)+9).checked = true;
-            }
+function changeHighlightedCourses(cbID) {
+    for (var i in courses) {
+        if (courses[i][parseInt(cbID)+3] == "Req") {
+            document.getElementById(parseInt(i)+9).checked = true;
         }
     }
 }
