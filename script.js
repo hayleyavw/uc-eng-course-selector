@@ -8,7 +8,7 @@ var checked_courses = [];
 $(document).ready(function() {
     $.ajax({
         type: "GET",
-        url: "rules.csv",
+        url: "rules2.csv",
         dataType: "text",
         success: function(data) { 
             processData(data); 
@@ -25,7 +25,7 @@ function processData(allText) {
         table.push(data);
     }
     eng_types = table[3].slice(3);
-    courses = table.slice(4,21);
+    courses = table.slice(4);
     
     for (var i in eng_types) {
         generateCheckBoxes(eng_types[i], "eng_options", i);
@@ -81,21 +81,27 @@ function watchEngCB() {
         if(this.checked) {
             if (index == -1) {
                 checked_eng_types.push(this.value);
+                changeHighlightedCourses(this.id, true);
             }
         } else {
             if (index > -1) {
                 checked_eng_types.splice(index, 1);
+                changeHighlightedCourses(this.id, false);
             }
         }
-        changeHighlightedCourses(this.id);
+        
     });
 }
 
 // highlight different courses based on eng options selected
-function changeHighlightedCourses(cbID) {
+function changeHighlightedCourses(cbID, added) {
     for (var i in courses) {
         if (courses[i][parseInt(cbID)+3] == "Req") {
-            document.getElementById(parseInt(i)+9).checked = true;
+            if (added == true) {
+                document.getElementById(parseInt(i)+9).checked = true;
+            } else {
+                document.getElementById(parseInt(i)+9).checked = false;
+            }
         }
     }
 }

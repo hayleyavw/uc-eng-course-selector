@@ -1,9 +1,23 @@
 html {
 	background-color: white;
 	font-family: "Arial";
+	margin: 20px;
 }
+
 
 label {
     display: block;
     margin-top: 10px;
+}
+
+
+h5 {
+	float: left;
+	width: 33%;
+}
+
+
+#semester_one, #semester_two, #summer {
+	float: left;
+	width: 33%;
 }
