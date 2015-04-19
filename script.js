@@ -16,7 +16,7 @@ $(document).ready(function() {
     });
 });
 
-
+// put csv dat into lists (eng options and course options)
 function processData(allText) {
     
     var allTextLines = allText.split(/\r\n|\n/);
@@ -45,33 +45,34 @@ function processData(allText) {
     
 }
 
-
+// create checkboxes for each option individually
 function generateCheckBoxes(name, div_tag, count) {
 
-        // create the necessary elements
-        var label = document.createElement("label");
-        var description = document.createTextNode(name);
-        var checkbox = document.createElement("input");
+    // create the necessary elements
+    var label = document.createElement("label");
+    var description = document.createTextNode(name);
+    var checkbox = document.createElement("input");
 
-        checkbox.type = "checkbox";    // make the element a checkbox
-        checkbox.name = 1;      // give it a name we can check on the server side
-        checkbox.value = name;         // make its value
-        checkbox.id = count;    // unique ID for each checkbox
+    checkbox.type = "checkbox";    // make the element a checkbox
+    checkbox.name = 1;      // give it a name we can check on the server side
+    checkbox.value = name;         // make its value
+    checkbox.id = count;    // unique ID for each checkbox
 
-        label.appendChild(checkbox);   // add the box to the element
-        label.appendChild(description);// add the description to the element
+    label.appendChild(checkbox);   // add the box to the element
+    label.appendChild(description);// add the description to the element
 
-        // add the label element to your div
-        document.getElementById(div_tag).appendChild(label);
+    // add the label element to your div
+    document.getElementById(div_tag).appendChild(label);
 
-        if (div_tag == "eng_options") {
-            watchEngCB();
-        } else { //check the required courses
-            if (courses[count-9][3] == "All") {
-            checkbox.checked = true;
-            }
+    if (div_tag == "eng_options") {
+        watchEngCB();
+    } else { //check the required courses
+        if (courses[count-9][3] == "All") {
+        checkbox.checked = true;
+        checked_courses.push(name);
         }
-    //}
+    }
+
 }
 
 // watch the engineering checkboxes for change
@@ -81,27 +82,43 @@ function watchEngCB() {
         if(this.checked) {
             if (index == -1) {
                 checked_eng_types.push(this.value);
-                changeHighlightedCourses(this.id, true);
+                addMoreCourses(this.id);
             }
         } else {
             if (index > -1) {
                 checked_eng_types.splice(index, 1);
-                changeHighlightedCourses(this.id, false);
+                changeHighlightedCourses(this);
             }
         }
         
     });
 }
 
-// highlight different courses based on eng options selected
-function changeHighlightedCourses(cbID, added) {
+// check new courses when new eng option selected
+function addMoreCourses(cbID) {
     for (var i in courses) {
         if (courses[i][parseInt(cbID)+3] == "Req") {
-            if (added == true) {
-                document.getElementById(parseInt(i)+9).checked = true;
-            } else {
-                document.getElementById(parseInt(i)+9).checked = false;
-            }
+            document.getElementById(parseInt(i)+9).checked = true;
+            checked_courses.push(courses[i][1]);
+        }
+    }
+}
+
+// uncheck courses when eng option unselected
+function changeHighlightedCourses(cbID) {
+    console.log(checked_courses);
+    for (var i in courses) {
+        var index = checked_courses.indexOf(courses[i][1]);
+        if (courses[i][parseInt(cbID.id)+3] == "Req") {
+            checked_courses.splice(index, 1);
+        }
+    }
+    console.log(checked_courses);
+    for (var box = 9; box < 26; box++) {
+        current_checkbox = document.getElementById(box);
+        if (checked_courses.indexOf(current_checkbox.value) == -1) {
+            console.log("found", current_checkbox.value);
+            current_checkbox.checked = false;
         }
     }
 }
