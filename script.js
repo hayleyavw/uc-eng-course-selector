@@ -3,8 +3,11 @@ var eng_types = [];
 var courses = [];
 var checked_eng_types = [];
 var checked_courses = [];
+var semester_one_count = 3; // 4 required for all courses
+var semester_two_count = 1; // 1 required for all courses
+var summer_count = 0;
 
-//import rules from csv file on first load
+// import rules from csv file on first load
 $(document).ready(function() {
     $.ajax({
         type: "GET",
@@ -16,7 +19,8 @@ $(document).ready(function() {
     });
 });
 
-// put csv dat into lists (eng options and course options)
+
+// put csv dat into lists - eng options and course options
 function processData(allText) {
     
     var allTextLines = allText.split(/\r\n|\n/);
@@ -34,16 +38,22 @@ function processData(allText) {
     console.log(courses);
 
     for (var i in courses) {
-        if (i <= 5) {
-           generateCheckBoxes(courses[i][1], "semester_one", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+        if (i <= 5) { // i+1 to give different ID's than eng_option checkboxes
+           generateCheckBoxes(courses[i][1], "semester_one", parseInt(i)+9);
         } else if (i <= 13) {
-            generateCheckBoxes(courses[i][1], "semester_two", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+            generateCheckBoxes(courses[i][1], "semester_two", parseInt(i)+9);
         } else {
-            generateCheckBoxes(courses[i][1], "summer", parseInt(i)+9); // i+1 to give different ID's than eng_option checkboxes
+            generateCheckBoxes(courses[i][1], "summer", parseInt(i)+9); 
         }
     }
+    var test = document.createElement("lable");
+
+    document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
+    document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
+    document.getElementById("summer_total").innerHTML = "Courses: " + summer_count;
     
 }
+
 
 // create checkboxes for each option individually
 function generateCheckBoxes(name, div_tag, count) {
@@ -73,15 +83,25 @@ function generateCheckBoxes(name, div_tag, count) {
         }
     }
 
+
+
 }
+
 
 // watch the engineering checkboxes for change
 function watchEngCB() {
-    $("[name=1]").change(function() { 
+    $("[name=1]").change(function() {
         var index = checked_eng_types.indexOf(this.value);
         if(this.checked) {
             if (index == -1) {
                 checked_eng_types.push(this.value);
+                if (this.id <= 5) {
+                    semester_one_count += 1;
+                }  else if (this.id <= 13) {
+                    semester_two_count += 1;
+                } else {
+                    summer_count += 1;
+                }
                 addMoreCourses(this.id);
             }
         } else {
@@ -90,34 +110,42 @@ function watchEngCB() {
                 changeHighlightedCourses(this);
             }
         }
-        
     });
+
 }
+
 
 // check new courses when new eng option selected
 function addMoreCourses(cbID) {
+    console.log("here");
     for (var i in courses) {
-        if (courses[i][parseInt(cbID)+3] == "Req") {
+        if (courses[i][parseInt(cbID)+3] == "Req" ) {
             document.getElementById(parseInt(i)+9).checked = true;
             checked_courses.push(courses[i][1]);
+            document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
+            document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
+            document.getElementById('summer_total').innerHTML = "Courses: " + summer_count;
         }
     }
+
+    console.log(semester_one_count);
+
 }
+
 
 // uncheck courses when eng option unselected
 function changeHighlightedCourses(cbID) {
-    console.log(checked_courses);
+    
     for (var i in courses) {
         var index = checked_courses.indexOf(courses[i][1]);
         if (courses[i][parseInt(cbID.id)+3] == "Req") {
             checked_courses.splice(index, 1);
         }
     }
-    console.log(checked_courses);
+
     for (var box = 9; box < 26; box++) {
         current_checkbox = document.getElementById(box);
         if (checked_courses.indexOf(current_checkbox.value) == -1) {
-            console.log("found", current_checkbox.value);
             current_checkbox.checked = false;
         }
     }
