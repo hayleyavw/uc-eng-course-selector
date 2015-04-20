@@ -3,9 +3,6 @@ var eng_types = [];
 var courses = [];
 var checked_eng_types = [];
 var checked_courses = [];
-var semester_one_count = 3; // 4 required for all courses
-var semester_two_count = 1; // 1 required for all courses
-var summer_count = 0;
 
 // import rules from csv file on first load
 $(document).ready(function() {
@@ -45,11 +42,8 @@ function processData(allText) {
             generateCheckBoxes(courses[i][1], "summer", parseInt(i)+9); 
         }
     }
-    var test = document.createElement("lable");
-
-    document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
-    document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
-    document.getElementById("summer_total").innerHTML = "Courses: " + summer_count;
+    
+    countCourses();
     
 }
 
@@ -78,7 +72,7 @@ function generateCheckBoxes(name, div_tag, count) {
     } else { //check the required courses
         if (courses[count-9][3] == "All") {
         checkbox.checked = true;
-        checked_courses.push(name);
+        checked_courses.push([name, checkbox.id]);
         }
     }
 
@@ -109,44 +103,94 @@ function watchEngCB() {
 
 // check new courses when new eng option selected
 function addMoreCourses(cbID) {
+    console.log("here")
+
     for (var i in courses) {
         if (courses[i][parseInt(cbID)+3] == "Req" ) {
             document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push(courses[i][1]);
-            console.log(document.getElementById(parseInt(i)+9));
-            if (document.getElementById(parseInt(i)+9).id <= 14) {
-                semester_one_count += 1;
-            } else if (document.getElementById(parseInt(i)+9).id <= 22) {
-                semester_two_count += 1;
-            } else {
-                summer_count += 1;
-            }
-            document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
-            document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
-            document.getElementById('summer_total').innerHTML = "Courses: " + summer_count;
+            checked_courses.push([courses[i][1], parseInt(i)+9]);            
         }
     }
+
+    countCourses();
+
 }
 
 
 // uncheck courses when eng option unselected
 function changeHighlightedCourses(cbID) {
     
+    var index;
     for (var i in courses) {
-        var index = checked_courses.indexOf(courses[i][1]);
+        for (var j in checked_courses) {
+            if (checked_courses[j][0] == courses[i][1]) {
+                index = j
+            }
+        }
+        //var index = checked_courses.indexOf(courses[i][1]);
         if (courses[i][parseInt(cbID.id)+3] == "Req") {
             checked_courses.splice(index, 1);
         }
     }
-
+    
+    var current_checkbox;
+    var found;
     for (var box = 9; box < 26; box++) {
         current_checkbox = document.getElementById(box);
+        found = false;
+        for (var i in checked_courses) {
+            if (checked_courses[i][0] == current_checkbox.value) {
+                found = true;
+            }
+        }
+        /*
         if (checked_courses.indexOf(current_checkbox.value) == -1) {
             current_checkbox.checked = false;
         }
+        */
+        if (found == false) {
+            current_checkbox.checked = false;
+        }
+
+        countCourses();
     }
+
 }
 
+
+
+function countCourses() {
+
+    var id_to_count = [];
+
+    var semester_one_count = 0;
+    var semester_two_count = 0;
+    var summer_count = 0;
+
+    for (var i in checked_courses) {
+        if (id_to_count.indexOf(checked_courses[i][1]) == -1) {
+            id_to_count.push(checked_courses[i][1]);
+        }
+    }
+
+    for (var i in id_to_count) {
+        if (id_to_count[i] <= 14) {
+            console.log(checked_courses[i][1])
+            semester_one_count += 1
+        } else if (id_to_count[i] <= 22) {
+            semester_two_count += 1
+        } else {
+            summer_count += 1
+        }
+    }
+
+    console.log(checked_courses);
+
+    document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
+    document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
+    document.getElementById('summer_total').innerHTML = "Courses: " + summer_count;
+
+}
 
 
 
