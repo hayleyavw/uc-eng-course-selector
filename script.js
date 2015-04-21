@@ -49,7 +49,7 @@ function processData(csv_text) {
         }
     }
     
-    countCourses();
+    countCoursesPerSemester();
     
 }
 
@@ -111,13 +111,18 @@ function watchEngCB() {
 function addMoreCourses(cbID) {
 
     for (var i in courses) {
-        if (courses[i][parseInt(cbID)+3] == "Req" ) {
+        console.log(courses[i][parseInt(cbID)+3])
+        if (courses[i][parseInt(cbID)+3] == "Req" ){
+            document.getElementById(parseInt(i)+9).checked = true;
+            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
+        }
+        if (courses[i][parseInt(cbID)+3] == "Rec" ){
             document.getElementById(parseInt(i)+9).checked = true;
             checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
         }
     }
 
-    countCourses();
+    countCoursesPerSemester();
 
 }
 
@@ -133,6 +138,9 @@ function changeHighlightedCourses(cbID) {
             }
         }
         if (courses[i][parseInt(cbID.id)+3] == "Req") {
+            checked_courses.splice(index, 1);
+        }
+        if (courses[i][parseInt(cbID.id)+3] == "Rec") {
             checked_courses.splice(index, 1);
         }
     }
@@ -152,14 +160,14 @@ function changeHighlightedCourses(cbID) {
             current_checkbox.checked = false;
         }
 
-        countCourses();
+        countCoursesPerSemester();
     }
 
 }
 
 
 
-function countCourses() {
+function countCoursesPerSemester() {
 
     var unique_checked_courses = [];
 
@@ -184,9 +192,6 @@ function countCourses() {
         }
     }
 
-    console.log(unique_checked_courses);
-
-
     for (var i in unique_checked_courses) {
         if (unique_checked_courses[i][0] == "Semester 1") {
             semester_one_count += 1;
@@ -197,6 +202,12 @@ function countCourses() {
         }
     }
 
+    displayCourseCount(semester_one_count, semester_two_count, summer_count);
+
+}
+
+
+function displayCourseCount(semester_one_count, semester_two_count, summer_count) {
 
     document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
     document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
@@ -209,6 +220,8 @@ function countCourses() {
     }
 
     if (semester_two_count > 4) {
+        document.getElementById('semester_two_total').style.color = 'red';
+    } else {
         document.getElementById('semester_two_total').style.color = 'black';
     }
  
