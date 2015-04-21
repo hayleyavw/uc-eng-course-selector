@@ -3,26 +3,17 @@ var courses = [];
 var checked_eng_types = [];
 var checked_courses = [];
 
-// import rules from csv file on first load
+table = [['Version 3', '', '', '', '', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', '', '', '', '', ''], ['', '', '', '', '', '', '', '', '', '', '', ''], ['', '', '', 'Software Engineering', 'Computer Engineering', 'Electrical and Electronic Engineering', 'Mechatronics Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Natural Resources Engineering', 'Forest Engineering', 'Chemical and Process Engineering'], ['Semester 1', 'ENGR100', '', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'], ['Semester 1', 'ENGR101', '', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'], ['Semester 1', 'EMTH118', '', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'], ['Semester 1', 'PHYS101', '', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'], ['Semester 1', 'CHEM111', '', '', '', '', '', 'Rec', 'Rec', 'Rec', 'Rec', 'Rec'], ['Semester 1', 'COSC121', '', 'Req', 'Req', '', '', '', '', '', '', ''], ['Semester 1', 'Other elective', '', '', '', '', '', '', '', '', '', ''], ['Semester 2', 'EMTH119', '', '', '', 'Rec', 'Rec', 'Rec', 'Rec', 'Rec', 'Rec', 'Rec'], ['Semester 2', 'EMTH171', '', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All', 'All'], ['Semester 2', 'ENGR102', '', '', '', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'], ['Semester 2', 'CHEM111', '', '', '', '', '', '', '', '', '', ''], ['Semester 2', 'PHYS102', '', '', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'], ['Semester 2', 'COSC121', '', '', '', '', '', '', '', '', '', ''], ['Semester 2', 'COSC122', '', 'Req', 'Req', '', '', '', '', '', '', ''], ['Semester 2', 'MATH120', '', 'Req', 'Req', '', '', '', '', '', '', ''], ['Semester 2', 'other elective', '', '', '', '', '', '', '', '', '', ''], ['Summer', 'PHYS102', '', '', '', '', '', '', '', '', '', ''], ['Summer', 'COSC122', '', '', '', '', '', '', '', '', '', '']]
+
 $(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "rules3.csv",
-        dataType: "text",
-        success: function(data) { 
-            processData(data); 
-        }
-    });
+    processData(table);
 });
 
-
-
 // put csv dat into lists - eng options and course options
-function processData(csv_text) {
+function processData(table_data) {
     
-    var csv_rows = csv_text.split(/\r\n|\n/);
-    for (var i=0; i<csv_rows.length; i++) {
-        var data = csv_rows[i].split(',');
+    for (var i = 0; i < table_data.length; i++) {
+        var data = table_data[i];
 
         if (i == 3) {
             for (var j in data) {
@@ -83,8 +74,6 @@ function generateCheckBoxes(semester, name, div_tag, count) {
         }
     }
 
-    console.log(checkbox);
-
 }
 
 
@@ -112,7 +101,6 @@ function watchEngCB() {
 function addMoreCourses(cbID) {
 
     for (var i in courses) {
-        console.log(courses[i][parseInt(cbID)+3])
         if (courses[i][parseInt(cbID)+3] == "Req" ){
             document.getElementById(parseInt(i)+9).checked = true;
             checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
