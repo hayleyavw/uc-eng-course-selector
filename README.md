@@ -12,3 +12,14 @@ With server:
 Without server:
 
 1. Open index2.html in a web browser
+
+
+To update the rules:
+
+1. Update table manually in latest script file
+OR
+
+1. Update Google Sheet/Excel document
+2. Export document as csv
+3. Run csv_to_list.py (ensuring file name of csv is used in script)
+4. Copy and past output to table in latest script file
