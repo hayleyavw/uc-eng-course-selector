@@ -9,8 +9,8 @@ $(document).ready(function() {
         type: "GET",
         url: "rules3.csv",
         dataType: "text",
-        success: function(data) { 
-            processData(data); 
+        success: function(data) {
+            processData(data);
         }
     });
 });
@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 // put csv dat into lists - eng options and course options
 function processData(csv_text) {
-    
+
     var csv_rows = csv_text.split(/\r\n|\n/);
     for (var i=0; i<csv_rows.length; i++) {
         var data = csv_rows[i].split(',');
@@ -34,7 +34,7 @@ function processData(csv_text) {
             courses.push(data);
         }
     }
-    
+
     for (var i in eng_types) {
         generateCheckBoxes(null, eng_types[i], "eng_options", i);
     }
@@ -46,12 +46,12 @@ function processData(csv_text) {
         } else if (courses[i][0] == "Semester 2") {
             generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
         } else {
-            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9); 
+            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
         }
     }
-    
+
     countCoursesPerSemester();
-    
+
 }
 
 
@@ -115,11 +115,11 @@ function addMoreCourses(cbID) {
         console.log(courses[i][parseInt(cbID)+3])
         if (courses[i][parseInt(cbID)+3] == "Req" ){
             document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
+            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
         }
         if (courses[i][parseInt(cbID)+3] == "Rec" ){
             document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
+            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
         }
     }
 
@@ -130,7 +130,7 @@ function addMoreCourses(cbID) {
 
 // uncheck courses when eng option unselected
 function changeHighlightedCourses(cbID) {
-    
+
     var index;
     for (var i in courses) {
         for (var j in checked_courses) {
@@ -145,7 +145,7 @@ function changeHighlightedCourses(cbID) {
             checked_courses.splice(index, 1);
         }
     }
-    
+
     var current_checkbox;
     var found;
     for (var box = 9; box < 26; box++) {
@@ -165,7 +165,6 @@ function changeHighlightedCourses(cbID) {
     }
 
 }
-
 
 
 function countCoursesPerSemester() {
@@ -225,25 +224,6 @@ function displayCourseCount(semester_one_count, semester_two_count, summer_count
     } else {
         document.getElementById('semester_two_total').style.color = 'black';
     }
- 
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

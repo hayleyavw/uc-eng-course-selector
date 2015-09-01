@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 // put csv dat into lists - eng options and course options
 function processData(table_data) {
-    
+
     for (var i = 0; i < table_data.length; i++) {
         var data = table_data[i];
 
@@ -25,7 +25,7 @@ function processData(table_data) {
             courses.push(data);
         }
     }
-    
+
     for (var i in eng_types) {
         generateCheckBoxes(null, eng_types[i], "eng_options", i);
     }
@@ -37,12 +37,12 @@ function processData(table_data) {
         } else if (courses[i][0] == "Semester 2") {
             generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
         } else {
-            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9); 
+            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
         }
     }
-    
+
     countCoursesPerSemester();
-    
+
 }
 
 
@@ -103,11 +103,11 @@ function addMoreCourses(cbID) {
     for (var i in courses) {
         if (courses[i][parseInt(cbID)+3] == "Req" ){
             document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
+            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
         }
         if (courses[i][parseInt(cbID)+3] == "Rec" ){
             document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);            
+            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
         }
     }
 
@@ -118,7 +118,7 @@ function addMoreCourses(cbID) {
 
 // uncheck courses when eng option unselected
 function changeHighlightedCourses(cbID) {
-    
+
     var index;
     for (var i in courses) {
         for (var j in checked_courses) {
@@ -133,7 +133,7 @@ function changeHighlightedCourses(cbID) {
             checked_courses.splice(index, 1);
         }
     }
-    
+
     var current_checkbox;
     var found;
     for (var box = 9; box < 26; box++) {
@@ -213,25 +213,5 @@ function displayCourseCount(semester_one_count, semester_two_count, summer_count
     } else {
         document.getElementById('semester_two_total').style.color = 'black';
     }
- 
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
