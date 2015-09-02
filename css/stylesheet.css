@@ -1,7 +1,7 @@
 html {
-	background-color: white;
-	font-family: "Arial";
-	margin: 20px;
+    background-color: white;
+    font-family: "Arial";
+    margin: 20px;
 }
 
 
@@ -12,24 +12,29 @@ label {
 
 
 h5 {
-	float: left;
-	width: 33%;
+    float: left;
+    width: 33%;
 }
 
 #wrapper {
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 
 #semester_one, #semester_two, #summer {
-	float: left;
-	width: 33%;
+    float: left;
+    width: 33%;
 }
 
 #semester_one_total, #semester_two_total, #summer_total {
-	float: left;
-	width: 33%;
+    float: left;
+    width: 33%;
+}
+
+
+.header-row {
+    background-color: #7473a9;
 }

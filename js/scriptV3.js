@@ -25,56 +25,61 @@ table = [
     ['Semester 2', 'MATH120', 'Req', '', '', '', '', '', '', '', ''],
     ['Semester 2', 'other elective', '', '', '', '', '', '', '', '', ''],
     ['Summer', 'PHYS102', '', '', '', '', '', '', '', '', ''],
-    ['Summer', 'COSC122', '', '', '', '', '', '', '', '', ''],
-    ['', '', '', "Can't be taken at same time", '', '', '', '', '', '', ''],
-    ['', '', '', 'Have prerequisites', '', '', '', '', '', '', ''],
-    ['', '', '', 'Prioritise?', '', '', '', '', '', '', '']
+    ['Summer', 'COSC122', '', '', '', '', '', '', '', '', '']
 ]
 
+rules = {
+    "Software Engineering": ["ENGR100", "ENGR101"],
+    "Computer Engineering": ["ENGR100", "ENGR101"],
+    "Electrical and Electronic Engineering": ["ENGR100", "ENGR101"]
+}
 
+
+// on page load, process the table data
 $(document).ready(function() {
     processData(table);
 });
 
-// put csv dat into lists - eng options and course options
+// put csv data into lists - eng options and course options
 function processData(table_data) {
 
     for (var i = 0; i < table_data.length; i++) {
         var data = table_data[i];
 
-        if (i == 3) {
+        if (i == 3) { // 3 is row number for engineering options
             for (var j in data) {
-                if (j > 2){
+                if (j >= 2){ // eng options start at column 2
                     eng_types.push(data[j])
                 }
             }
-        } else if (i > 3){
-            courses.push(data);
+        } else if (i > 3){ // else must be a course
+            courses.push(data); // save semester, course name and info (e.g. required, recommended, etc)
         }
     }
 
+    // generate check box for each enginnering type
     for (var i in eng_types) {
-        generateCheckBoxes(null, eng_types[i], "eng_options", i);
+        generateEngCheckBoxes(eng_types[i], i);
     }
 
 
-    for (var i in courses) {
-        if (courses[i][0] == "Semester 1") { // i+1 to give different ID's than eng_option checkboxes
-           generateCheckBoxes("Semester 1", courses[i][1], "semester_one", parseInt(i)+9);
-        } else if (courses[i][0] == "Semester 2") {
-            generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
-        } else {
-            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
-        }
-    }
+    //for (var i in courses) {
+        //if (courses[i][0] == "Semester 1") { // i+1 to give different ID's than eng_option checkboxes
+           //generateCheckBoxes("Semester 1", courses[i][1], "semester_one", parseInt(i)+9);
+        //} else if (courses[i][0] == "Semester 2") {
+            //generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
+        //} else {
+            //generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
+        //}
+    //}
 
-    countCoursesPerSemester();
+    // countCoursesPerSemester();
 
 }
 
 
-// create checkboxes for each option individually
-function generateCheckBoxes(semester, name, div_tag, count) {
+// create checkboxes for each eng type individually
+function generateEngCheckBoxes(name, count) {
 
     // create the necessary elements
     var label = document.createElement("label");
@@ -82,24 +87,18 @@ function generateCheckBoxes(semester, name, div_tag, count) {
     var checkbox = document.createElement("input");
 
     checkbox.type = "checkbox";    // make the element a checkbox
-    checkbox.name = 1;      // give it a name we can check on the server side
+    // checkbox.name = 1;             // give it a name we can check on the server side
     checkbox.value = name;         // make its value
-    checkbox.id = count;    // unique ID for each checkbox
+    checkbox.id = count;           // unique ID for each checkbox
 
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
 
     // add the label element to the div
-    document.getElementById(div_tag).appendChild(label);
+    document.getElementById("eng_options").appendChild(label);
 
-    if (div_tag == "eng_options") {
-        watchEngCB();
-    } else { //check the required courses
-        if (courses[count-9][3] == "All") {
-        checkbox.checked = true;
-        checked_courses.push([semester, name, checkbox.id]);
-        }
-    }
+    // check if clicked
+    watchEngCB();
 
 }
 
