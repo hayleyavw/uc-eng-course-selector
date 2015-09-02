@@ -6,7 +6,8 @@
  */
 
 
-// TODO: remove global variables
+// TODO remove global variables
+// TODO does not account for summer school
 
 var checked_eng_types = [];
 var checked_subjects = [];
@@ -43,7 +44,8 @@ $(document).ready(function() {
         generateEngCheckBoxes(eng_types[i], i);
     }
 
-    updateReqSubjectList();
+    // watch buttons for if clicked
+    watchEngCB();
 
 });
 
@@ -67,8 +69,6 @@ function generateEngCheckBoxes(name, count) {
     // add the label element to the div
     document.getElementById("eng_options").appendChild(label);
 
-    // check if the button is clicked
-    watchEngCB(); // TODO: does this need to be called for every button?
 
 }
 
@@ -77,17 +77,14 @@ function generateEngCheckBoxes(name, count) {
 function watchEngCB() {
     $("[name=1]").change(function() {
         var index = checked_eng_types.indexOf(this.value);
-        if(this.checked) {
-            if (index == -1) {
-                checked_eng_types.push(this.value);
-                updateReqSubjectList();
-            }
-        } else {
-            if (index > -1) {
-                checked_eng_types.splice(index, 1);
-                changeHighlightedsubjects();
-            }
+        console.log(this.checked);
+        if (this.checked) { // if selected then add to list of checked eng types
+            checked_eng_types.push(this.value);
+        } else { // else if unselected then remove from list of checked eng types
+            checked_eng_types.splice(index, 1);
         }
+        // update list of required subjects
+        updateReqSubjectList();
     });
 
 }
@@ -97,7 +94,6 @@ function watchEngCB() {
 // update list of required subjects depending on which checkboxes are clicked
 function updateReqSubjectList() {
 
-     // TODO this variable name is used in another function...
     var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
 
     for (var i in checked_eng_types) { // iterate through selected engineerying types
