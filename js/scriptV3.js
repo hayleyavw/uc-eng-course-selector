@@ -1,81 +1,37 @@
-var eng_types = [];
-var courses = [];
 var checked_eng_types = [];
 var checked_courses = [];
 
-table = [
-    ['Version 4', '', '', '', '', '', '', '', '', '', ''],
-    ['', '', '', '', '', '', '', '', '', '', ''],
-    ['', '', '', '', '', '', '', '', '', '', ''],
-    ['', '', 'Software Engineering', 'Computer Engineering', 'Electrical and Electronic Engineering', 'Mechatronics Engineering', 'Mechanical Engineering', 'Civil Engineering', 'Natural Resources Engineering', 'Forest Engineering', 'Chemical and Process Engineering'],
-    ['Semester 1', 'ENGR100', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 1', 'ENGR101', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 1', 'EMTH118', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 1', 'PHYS101', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 1', 'CHEM111', '', '', '', '', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 1', 'COSC121', '', 'Req', 'Req', 'Req', '', '', '', '', ''],
-    ['Semester 1', 'Other elective', '', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'EMTH119', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 2', 'EMTH171', '', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req', 'Req'],
-    ['Semester 2', 'ENGR102', '', '', '', 'Req', 'Req', 'Req', 'Req', '', ''],
-    ['Semester 2', 'CHEM111', '', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'PHYS102', '', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'COSC121', '', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'COSC122', 'Req', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'MATH120', 'Req', '', '', '', '', '', '', '', ''],
-    ['Semester 2', 'other elective', '', '', '', '', '', '', '', '', ''],
-    ['Summer', 'PHYS102', '', '', '', '', '', '', '', '', ''],
-    ['Summer', 'COSC122', '', '', '', '', '', '', '', '', '']
-]
-
 rules = {
-    "Software Engineering": ["ENGR100", "ENGR101"],
-    "Computer Engineering": ["ENGR100", "ENGR101"],
-    "Electrical and Electronic Engineering": ["ENGR100", "ENGR101"]
+    "All": ["ENGR100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "Software Engineering":  ["MATH120", "COSC121", "COSC122"],
+    "Computer Engineering": ["EMTH171", "COSC121"],
+    "Electrical and Electronic Engineering": ["EMTH171", "COSC121"],
+    "Mechatronics Engineering": ["EMTH171", "COSC121", "ENGR102"],
+    "Mechanical Engineering": ["EMTH171", "ENGR102"],
+    "Civil Engineering": ["EMTH171", "CHEM111", "ENGR102"],
+    "Natural Resources Engineering": ["EMTH171", "CHEM111", "ENGR102"],
+    "Forest Engineering": ["EMTH171", "CHEM111", "ENGR102"],
+    "Chemical and Process Engineering": ["EMTH171", "CHEM111"]
+}
+
+// ENGR100 hardcoded separately
+semester_occurances = {
+    "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
+    "Semester 2": ["ENG102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
+    "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
 
-// on page load, process the table data
+// on page load
 $(document).ready(function() {
-    processData(table);
-});
 
-// put csv data into lists - eng options and course options
-function processData(table_data) {
-
-    for (var i = 0; i < table_data.length; i++) {
-        var data = table_data[i];
-
-        if (i == 3) { // 3 is row number for engineering options
-            for (var j in data) {
-                if (j >= 2){ // eng options start at column 2
-                    eng_types.push(data[j])
-                }
-            }
-        } else if (i > 3){ // else must be a course
-            courses.push(data); // save semester, course name and info (e.g. required, recommended, etc)
-        }
-    }
-
-    // generate check box for each enginnering type
+    var eng_types = Object.keys(rules); // get list of eng types from keys in dictionary
+    // generate check box for each engineering type
     for (var i in eng_types) {
         generateEngCheckBoxes(eng_types[i], i);
     }
 
-
-    //for (var i in courses) {
-        //if (courses[i][0] == "Semester 1") { // i+1 to give different ID's than eng_option checkboxes
-           //generateCheckBoxes("Semester 1", courses[i][1], "semester_one", parseInt(i)+9);
-        //} else if (courses[i][0] == "Semester 2") {
-            //generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
-        //} else {
-            //generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
-        //}
-    //}
-
-    // countCoursesPerSemester();
-
-}
+});
 
 
 // create checkboxes for each eng type individually
@@ -87,7 +43,7 @@ function generateEngCheckBoxes(name, count) {
     var checkbox = document.createElement("input");
 
     checkbox.type = "checkbox";    // make the element a checkbox
-    // checkbox.name = 1;             // give it a name we can check on the server side
+    checkbox.name = 1;             // give it a name we can check in watchEngCB()
     checkbox.value = name;         // make its value
     checkbox.id = count;           // unique ID for each checkbox
 
@@ -97,8 +53,8 @@ function generateEngCheckBoxes(name, count) {
     // add the label element to the div
     document.getElementById("eng_options").appendChild(label);
 
-    // check if clicked
-    watchEngCB();
+    // check if the button is clicked
+    watchEngCB(); // TODO: does this need to be called for every button?
 
 }
 
