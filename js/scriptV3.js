@@ -1,6 +1,17 @@
+/*
+ * Author: Hayley van Waas, University of Canterbury
+ * Date: September 2015
+ *
+ * This is an interactive designed to help students select which subjects to take in their first year of engineering at the University of Canterbury
+ */
+
+
+// TODO: remove global variables
+
 var checked_eng_types = [];
 var checked_courses = [];
 
+// Engineering type: required subjects
 rules = {
     "All": ["ENGR100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
     "Software Engineering":  ["MATH120", "COSC121", "COSC122"],
@@ -15,6 +26,7 @@ rules = {
 }
 
 // ENGR100 hardcoded separately
+// Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
     "Semester 2": ["ENG102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
@@ -30,6 +42,8 @@ $(document).ready(function() {
     for (var i in eng_types) {
         generateEngCheckBoxes(eng_types[i], i);
     }
+
+    buildDefaultTable();
 
 });
 
@@ -79,21 +93,41 @@ function watchEngCB() {
 }
 
 
-// check new courses when new eng option selected
-function addMoreCourses(cbID) {
+function buildDefaultTable() {
+    var subject_table = document.getElementById("subject-table");
 
-    for (var i in courses) {
-        if (courses[i][parseInt(cbID)+3] == "Req" ){
-            document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
-        }
-        if (courses[i][parseInt(cbID)+3] == "Rec" ){
-            document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
-        }
+    var tableBody = document.createElement("tbody");
+
+    //var tr = document.createElement('tr');
+    //var td = document.createElement('td');
+    //td.appendChild(document.createTextNode("hi"));
+    //tr.appendChild(td);
+    //tableBody.appendChild(tr);
+
+    subject_table.appendChild(tableBody);
+
+    // hard coded ENGR100
+    var new_row = subject_table.insertRow(1);
+    var new_cell = new_row.insertCell(0);
+    var new_text = document.createTextNode("ENGR100");
+    new_cell.appendChild(new_text);
+    // adjust column span
+    document.getElementById("subject-table").rows[1].cells[0].colSpan = 2;
+
+    // add all compulsory courses to table
+    compulsory_courses = rules["All"];
+    for (var i = 2; i < compulsory_courses.length+1; i++) {
+        var new_row = subject_table.insertRow(i);
+        var new_cell = new_row.insertCell(0);
+        var new_text = document.createTextNode(compulsory_courses[i-1]);
+        new_cell.appendChild(new_text);
     }
 
-    countCoursesPerSemester();
+}
+
+
+// check new courses when new eng option selected
+function addMoreCourses(cbID) {
 
 }
 
@@ -101,99 +135,17 @@ function addMoreCourses(cbID) {
 // uncheck courses when eng option unselected
 function changeHighlightedCourses(cbID) {
 
-    var index;
-    for (var i in courses) {
-        for (var j in checked_courses) {
-            if (checked_courses[j][1] == courses[i][1]) {
-                index = j
-            }
-        }
-        if (courses[i][parseInt(cbID.id)+3] == "Req") {
-            checked_courses.splice(index, 1);
-        }
-        if (courses[i][parseInt(cbID.id)+3] == "Rec") {
-            checked_courses.splice(index, 1);
-        }
-    }
-
-    var current_checkbox;
-    var found;
-    for (var box = 9; box < 26; box++) {
-        current_checkbox = document.getElementById(box);
-        found = false;
-        for (var i in checked_courses) {
-            if (checked_courses[i][1] == current_checkbox.value) {
-                found = true;
-            }
-        }
-
-        if (found == false) {
-            current_checkbox.checked = false;
-        }
-
-        countCoursesPerSemester();
-    }
-
 }
 
 
 
 function countCoursesPerSemester() {
 
-    var unique_checked_courses = [];
-
-    var semester_one_count = 0;
-    var semester_two_count = 0;
-    var summer_count = 0;
-
-
-    for (var j in checked_courses) {
-        var found = false;
-        if (unique_checked_courses.length > 0){
-            for (var i in unique_checked_courses){
-                if (checked_courses[j][1] == unique_checked_courses[i][1]) {
-                    found = true;
-                }
-            }
-            if (found == false) {
-                unique_checked_courses.push(checked_courses[j])
-            }
-        } else {
-            unique_checked_courses.push(checked_courses[j])
-        }
-    }
-
-    for (var i in unique_checked_courses) {
-        if (unique_checked_courses[i][0] == "Semester 1") {
-            semester_one_count += 1;
-        } else if (unique_checked_courses[i][0] == "Semester 2") {
-            semester_two_count += 1;
-        } else {
-            summer_count += 1;
-        }
-    }
-
-    displayCourseCount(semester_one_count, semester_two_count, summer_count);
 
 }
 
 
 function displayCourseCount(semester_one_count, semester_two_count, summer_count) {
 
-    document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
-    document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
-    document.getElementById('summer_total').innerHTML = "Courses: " + summer_count;
-
-    if (semester_one_count > 5) {
-        document.getElementById('semester_one_total').style.color = 'red';
-    } else {
-        document.getElementById('semester_one_total').style.color = 'black';
-    }
-
-    if (semester_two_count > 4) {
-        document.getElementById('semester_two_total').style.color = 'red';
-    } else {
-        document.getElementById('semester_two_total').style.color = 'black';
-    }
 
 }
