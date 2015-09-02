@@ -25,7 +25,7 @@ rules = {
     "Chemical and Process Engineering": ["EMTH171", "CHEM111"]
 }
 
-// ENGR100 hardcoded separately
+// ENGR100 hardcoded separately in HTML
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
@@ -43,7 +43,7 @@ $(document).ready(function() {
         generateEngCheckBoxes(eng_types[i], i);
     }
 
-    buildDefaultTable();
+    updateReqSubjectList();
 
 });
 
@@ -93,42 +93,25 @@ function watchEngCB() {
 }
 
 
-function buildDefaultTable() {
-    var subject_table = document.getElementById("subject-table");
-    // create table body, and append to subject table
-    var tableBody = document.createElement("tbody");
-    subject_table.appendChild(tableBody);
+// TODO does not account for when checkboxes are unselected
+// update list of required subjects depending on which checkboxes are clicked
+function updateReqSubjectList() {
 
-    // hard coded ENGR100 row
-    var new_row = subject_table.insertRow(1);
-    var new_cell = new_row.insertCell(0);
-    new_cell.className = "required";
-    var new_text = document.createTextNode("ENGR100");
-    new_cell.appendChild(new_text);
-    // adjust column span
-    document.getElementById("subject-table").rows[1].cells[0].colSpan = 2;
-
-    // add all required subjects to table
+     // TODO this variable name is used in another function...
     var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
-    var sem1 = semesterLists(required_subjects).sem1;
-    var sem2 = semesterLists(required_subjects).sem2;
 
-    // add rows for required subjects
-    for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
-        var new_row = subject_table.insertRow(i);
-        var new_cell = new_row.insertCell(0);
-        new_cell.className = "required";
-        var new_text = document.createTextNode(sem1[i-2]);
-        new_cell.appendChild(new_text);
-        if (sem2.length >= 1) {
-            var new_cell = new_row.insertCell(1);
-            new_cell.className = "required";
-            var new_text = document.createTextNode(sem2.splice(0,1));
-            new_cell.appendChild(new_text);
+    for (var i in checked_eng_types) { // iterate through selected engineerying types
+        subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
+        for (var j in subject_list) {
+            // add subject to list of required subjects if it is not already there
+            if (required_subjects.indexOf(subject_list[j]) == -1) {
+                required_subjects.push(subject_list[j])
+            }
         }
     }
-
+    updateTable(required_subjects);
 }
+
 
 // determine which subjects occur in each semester
 // returns 2 separate lists
@@ -150,69 +133,35 @@ function semesterLists(required_subjects) {
 }
 
 
-// update list of required subjects when an engineering checkbox is selected
-function updateReqSubjectList(cbID) {
-
-     // TODO this variable name is used in another function...
-    var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
-
-    for (var i in checked_eng_types) { // iterate through selected engineerying types
-        subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
-        for (var j in subject_list) {
-            // add subject to list of required subjects if it is not already there
-            if (required_subjects.indexOf(subject_list[j]) == -1) {
-                required_subjects.push(subject_list[j])
-            }
-        }
-    }
-    updateTable(required_subjects);
-}
-
-
 // update table according to new list of required subjects
 function updateTable(required_subjects){
 
     var subject_table = document.getElementById("subject-table");
     // delete all rows of table below ENGR100
     var num_rows = $("#subject-table tr").length;
-    while (num_rows >= 2) {
+    while (num_rows > 2) {
         subject_table.deleteRow(2);
+        num_rows = $("#subject-table tr").length;
+        console.log(num_rows);
     }
 
     var sem1 = semesterLists(required_subjects).sem1;
     var sem2 = semesterLists(required_subjects).sem2;
 
+    for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
+        var new_row = subject_table.insertRow(i);
+        var new_cell = new_row.insertCell(0);
+        new_cell.className = "required";
+        var new_text = document.createTextNode(sem1[i-2]);
+        new_cell.appendChild(new_text);
+        if (sem2.length >= 1) {
+            var new_cell = new_row.insertCell(1);
+            new_cell.className = "required";
+            var new_text = document.createTextNode(sem2.splice(0,1));
+            new_cell.appendChild(new_text);
+        }
+    }
 
-    //for (var i = 5; i < sem1.length + 5; i++) {
-        //new_row = subject_table.insertRow(i);
-        //new_cell = new_row.insertCell(0);
-        //new_cell.appendChild(document.createTextNode(sem1[i-5]));
-        //if (sem2.length >= 1) {
-            //var new_cell = new_row.insertCell(1);
-            //var new_text = document.createTextNode(sem2.splice(0,1));
-            //new_cell.appendChild(new_text);
-        //}
-    //}
-
-    //for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
-        //var new_row = subject_table.insertRow(i);
-        //var new_cell = new_row.insertCell(0);
-        //new_cell.className = "required";
-        //var new_text = document.createTextNode(sem1[i-2]);
-        //new_cell.appendChild(new_text);
-        //if (sem2.length >= 1) {
-            //var new_cell = new_row.insertCell(1);
-            //new_cell.className = "required";
-            //var new_text = document.createTextNode(sem2.splice(0,1));
-            //new_cell.appendChild(new_text);
-        //}
-    //}
-
-    //var new_row = subject_table.insertRow(1);
-    //var new_cell = new_row.insertCell(0);
-    //new_cell.className = "required";
-    //var new_text = document.createTextNode("ENGR100");
-    //new_cell.appendChild(new_text);
 }
 
 
