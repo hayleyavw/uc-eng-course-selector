@@ -110,16 +110,8 @@ function buildDefaultTable() {
 
     // add all required subjects to table
     var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
-    var sem1 = [];
-    var sem2 = [];
-    semester_1_subjects = semester_occurances["Semester 1"];
-    for (var i in required_subjects) { // find which semester each course is availiable in
-        if (semester_1_subjects.indexOf(required_subjects[i]) != -1) {
-            sem1.push(required_subjects[i]);
-        } else { // if not in semester 1, we assume it occurs in semester 2
-            sem2.push(required_subjects[i]);
-        }
-    }
+    var sem1 = semesterLists(required_subjects).sem1;
+    var sem2 = semesterLists(required_subjects).sem2;
 
     // add rows for required subjects
     for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
@@ -138,24 +130,89 @@ function buildDefaultTable() {
 
 }
 
+// determine which subjects occur in each semester
+// returns 2 separate lists
+function semesterLists(required_subjects) {
+    var sem1 = [];
+    var sem2 = [];
+    semester_1_subjects = semester_occurances["Semester 1"];
+    for (var i in required_subjects) { // find which semester each subject is availiable in
+        if (semester_1_subjects.indexOf(required_subjects[i]) != -1) {
+            sem1.push(required_subjects[i]);
+        } else { // if not in semester 1, we assume it occurs in semester 2
+            sem2.push(required_subjects[i]);
+        }
+    }
+    return {
+        sem1: sem1,
+        sem2: sem2
+    };
+}
+
 
 // update list of required subjects when an engineering checkbox is selected
 function updateReqSubjectList(cbID) {
-    var required_subjects = [];
+
+     // TODO this variable name is used in another function...
+    var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
+
     for (var i in checked_eng_types) { // iterate through selected engineerying types
-        course_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
-        for (var j in course_list) {
-            // add course to list of required subjects if it is not already there
-            if (required_subjects.indexOf(course_list[j]) == -1) {
-                required_subjects.push(course_list[j])
+        subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
+        for (var j in subject_list) {
+            // add subject to list of required subjects if it is not already there
+            if (required_subjects.indexOf(subject_list[j]) == -1) {
+                required_subjects.push(subject_list[j])
             }
         }
     }
     updateTable(required_subjects);
 }
 
+
 // update table according to new list of required subjects
 function updateTable(required_subjects){
+
+    var subject_table = document.getElementById("subject-table");
+    // delete all rows of table below ENGR100
+    var num_rows = $("#subject-table tr").length;
+    while (num_rows >= 2) {
+        subject_table.deleteRow(2);
+    }
+
+    var sem1 = semesterLists(required_subjects).sem1;
+    var sem2 = semesterLists(required_subjects).sem2;
+
+
+    //for (var i = 5; i < sem1.length + 5; i++) {
+        //new_row = subject_table.insertRow(i);
+        //new_cell = new_row.insertCell(0);
+        //new_cell.appendChild(document.createTextNode(sem1[i-5]));
+        //if (sem2.length >= 1) {
+            //var new_cell = new_row.insertCell(1);
+            //var new_text = document.createTextNode(sem2.splice(0,1));
+            //new_cell.appendChild(new_text);
+        //}
+    //}
+
+    //for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
+        //var new_row = subject_table.insertRow(i);
+        //var new_cell = new_row.insertCell(0);
+        //new_cell.className = "required";
+        //var new_text = document.createTextNode(sem1[i-2]);
+        //new_cell.appendChild(new_text);
+        //if (sem2.length >= 1) {
+            //var new_cell = new_row.insertCell(1);
+            //new_cell.className = "required";
+            //var new_text = document.createTextNode(sem2.splice(0,1));
+            //new_cell.appendChild(new_text);
+        //}
+    //}
+
+    //var new_row = subject_table.insertRow(1);
+    //var new_cell = new_row.insertCell(0);
+    //new_cell.className = "required";
+    //var new_text = document.createTextNode("ENGR100");
+    //new_cell.appendChild(new_text);
 }
 
 
@@ -174,7 +231,7 @@ function countsubjectsPerSemester() {
 
 
 // TODO
-function displayCourseCount(semester_one_count, semester_two_count, summer_count) {
+function displaysubjectCount(semester_one_count, semester_two_count, summer_count) {
 
 
 }
