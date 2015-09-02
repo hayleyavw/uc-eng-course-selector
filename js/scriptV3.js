@@ -47,6 +47,8 @@ $(document).ready(function() {
     // watch buttons for if clicked
     watchEngCB();
 
+    updateReqSubjectList();
+
 });
 
 
@@ -77,7 +79,6 @@ function generateEngCheckBoxes(name, count) {
 function watchEngCB() {
     $("[name=1]").change(function() {
         var index = checked_eng_types.indexOf(this.value);
-        console.log(this.checked);
         if (this.checked) { // if selected then add to list of checked eng types
             checked_eng_types.push(this.value);
         } else { // else if unselected then remove from list of checked eng types
@@ -132,38 +133,41 @@ function semesterLists(required_subjects) {
 // update table according to new list of required subjects
 function updateTable(required_subjects){
 
+    console.log(updateTable);
+
     var subject_table = document.getElementById("subject-table");
     // delete all rows of table below ENGR100
     var num_rows = $("#subject-table tr").length;
     while (num_rows > 2) {
         subject_table.deleteRow(2);
         num_rows = $("#subject-table tr").length;
-        console.log(num_rows);
     }
 
     var sem1 = semesterLists(required_subjects).sem1;
     var sem2 = semesterLists(required_subjects).sem2;
 
+    default_subjects = rules["All"];
+
     for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
         var new_row = subject_table.insertRow(i);
         var new_cell = new_row.insertCell(0);
-        new_cell.className = "required";
-        var new_text = document.createTextNode(sem1[i-2]);
+        subject = sem1[i-2];
+        if (default_subjects.indexOf(subject) != -1){
+            new_cell.className = "default";
+        }
+        var new_text = document.createTextNode(subject);
         new_cell.appendChild(new_text);
         if (sem2.length >= 1) {
             var new_cell = new_row.insertCell(1);
-            new_cell.className = "required";
-            var new_text = document.createTextNode(sem2.splice(0,1));
+            subject = sem2.splice(0,1).toString();
+            console.log(subject, default_subjects);
+            if (default_subjects.indexOf(subject) != -1){
+                new_cell.className = "default";
+            }
+            var new_text = document.createTextNode(subject);
             new_cell.appendChild(new_text);
         }
     }
-
-}
-
-
-// TODO
-// uncheck subjects when eng option unselected
-function changeHighlightedsubjects(cbID) {
 
 }
 
