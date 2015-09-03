@@ -12,9 +12,11 @@
 var checked_eng_types = [];
 var checked_subjects = [];
 
+
+// ENGR100 hardcoded separately in HTML
 // Engineering type: required subjects
 rules = {
-    "All": ["ENGR100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
     "Software Engineering":  ["MATH120", "COSC121", "COSC122"],
     "Computer Engineering": ["EMTH171", "COSC121"],
     "Electrical and Electronic Engineering": ["EMTH171", "COSC121"],
@@ -26,7 +28,6 @@ rules = {
     "Chemical and Process Engineering": ["EMTH171", "CHEM111"]
 }
 
-// ENGR100 hardcoded separately in HTML
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
@@ -78,11 +79,29 @@ function generateEngCheckBoxes(name, count) {
 // watch the engineering checkboxes for change
 function watchEngCB() {
     $("[name=1]").change(function() {
-        var index = checked_eng_types.indexOf(this.value);
-        if (this.checked) { // if selected then add to list of checked eng types
-            checked_eng_types.push(this.value);
-        } else { // else if unselected then remove from list of checked eng types
-            checked_eng_types.splice(index, 1);
+        // if "All" selected, automatically selects all engineering types
+        if (this.value == "All") {
+            count = 0;
+            if (this.checked == false) {
+                while (count <= 9) {
+                    document.getElementById(count).checked = false;
+                    checked_eng_types = [];
+                    count++;
+                }
+            } else {
+                while (count <= 9) {
+                    document.getElementById(count).checked = true;
+                    checked_eng_types = Object.keys(rules);
+                    count++;
+                }
+            }
+        } else {
+            var index = checked_eng_types.indexOf(this.value);
+            if (this.checked) { // if selected then add to list of checked eng types
+                checked_eng_types.push(this.value);
+            } else { // else if unselected then remove from list of checked eng types
+                checked_eng_types.splice(index, 1);
+            }
         }
         // update list of required subjects
         updateReqSubjectList();
@@ -95,7 +114,7 @@ function watchEngCB() {
 // update list of required subjects depending on which checkboxes are clicked
 function updateReqSubjectList() {
 
-    var required_subjects = rules["All"].slice(1); // get all subjects except ENGR100
+    var required_subjects = rules["All"].slice(); // gets a copy of subjects required for all courses
 
     for (var i in checked_eng_types) { // iterate through selected engineerying types
         subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
@@ -131,7 +150,7 @@ function semesterLists(required_subjects) {
 
 
 // update table according to new list of required subjects
-function updateTable(required_subjects){
+function updateTable(required_subjects) {
 
     var subject_table = document.getElementById("subject-table");
     // delete all rows of table below ENGR100
@@ -177,15 +196,3 @@ function updateTable(required_subjects){
 }
 
 
-// TODO
-function countsubjectsPerSemester() {
-
-
-}
-
-
-// TODO
-function displaysubjectCount(semester_one_count, semester_two_count, summer_count) {
-
-
-}
