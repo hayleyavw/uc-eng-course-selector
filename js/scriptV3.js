@@ -17,15 +17,15 @@ var checked_subjects = [];
 // Engineering type: required subjects
 rules = {
     "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
-    "Software Engineering":  ["MATH120", "COSC121", "COSC122"],
-    "Computer Engineering": ["EMTH171", "COSC121"],
-    "Electrical and Electronic Engineering": ["EMTH171", "COSC121"],
-    "Mechatronics Engineering": ["EMTH171", "COSC121", "ENGR102"],
-    "Mechanical Engineering": ["EMTH171", "ENGR102"],
-    "Civil Engineering": ["EMTH171", "CHEM111", "ENGR102"],
-    "Natural Resources Engineering": ["EMTH171", "CHEM111", "ENGR102"],
-    "Forest Engineering": ["EMTH171", "CHEM111", "ENGR102"],
-    "Chemical and Process Engineering": ["EMTH171", "CHEM111"]
+    "Software":  ["MATH120", "COSC121", "COSC122"],
+    "Computer": ["EMTH171", "COSC121"],
+    "Electrical and Electronic": ["EMTH171", "COSC121"],
+    "Mechatronics": ["EMTH171", "COSC121", "ENGR102"],
+    "Mechanical": ["EMTH171", "ENGR102"],
+    "Civil": ["EMTH171", "CHEM111", "ENGR102"],
+    "Natural Resources": ["EMTH171", "CHEM111", "ENGR102"],
+    "Forest": ["EMTH171", "CHEM111", "ENGR102"],
+    "Chemical and Process": ["EMTH171", "CHEM111"]
 }
 
 // Semester: available subjects
@@ -64,7 +64,7 @@ function generateEngCheckBoxes(name, count) {
     checkbox.type = "checkbox";    // make the element a checkbox
     checkbox.name = 1;             // give it a name we can check in watchEngCB()
     checkbox.value = name;         // make its value
-    checkbox.id = count;           // unique ID for each checkbox
+    checkbox.id = name;           // unique ID for each checkbox
 
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
@@ -77,6 +77,7 @@ function generateEngCheckBoxes(name, count) {
 
 
 // watch the engineering checkboxes for change
+// TODO changed id from numbers to name, causes problem in checking "All"
 function watchEngCB() {
     $("[name=1]").change(function() {
         // if "All" selected, automatically selects all engineering types
@@ -125,6 +126,7 @@ function updateReqSubjectList() {
             }
         }
     }
+    updateEngList(required_subjects);
     updateTable(required_subjects);
 }
 
@@ -196,3 +198,22 @@ function updateTable(required_subjects) {
 }
 
 
+function updateEngList(subjects) {
+    for (var i in rules) {
+        if (i == "All") {
+            continue;
+        }
+        req_subjects = rules[i];
+        for (j = 0; j < req_subjects.length-1; j++) {
+            if (subjects.indexOf(req_subjects[j]) == -1) {
+                break;
+            }
+        }
+        element = document.getElementById(i).closest("label");
+        if (req_subjects.length == j + 1) {
+            element.className = "possible-eng";
+        } else {
+            element.className = "";
+        }
+    }
+}
