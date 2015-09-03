@@ -77,24 +77,21 @@ function generateEngCheckBoxes(name, count) {
 
 
 // watch the engineering checkboxes for change
-// TODO changed id from numbers to name, causes problem in checking "All"
 function watchEngCB() {
     $("[name=1]").change(function() {
         // if "All" selected, automatically selects all engineering types
         if (this.value == "All") {
-            count = 0;
+            var eng_types = Object.keys(rules); // get list of eng types from keys in dictionary
             if (this.checked == false) {
-                while (count <= 9) {
-                    document.getElementById(count).checked = false;
-                    checked_eng_types = [];
-                    count++;
+                for (var i = 1; i < eng_types.length; i++ ) {
+                    document.getElementById(eng_types[i]).checked = false;
                 }
+                checked_eng_types = [];
             } else {
-                while (count <= 9) {
-                    document.getElementById(count).checked = true;
-                    checked_eng_types = Object.keys(rules);
-                    count++;
+                for (var i = 1; i < eng_types.length; i++ ) {
+                    document.getElementById(eng_types[i]).checked = true;
                 }
+                checked_eng_types = eng_types;
             }
         } else {
             var index = checked_eng_types.indexOf(this.value);
