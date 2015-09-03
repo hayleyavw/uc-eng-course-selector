@@ -15,6 +15,10 @@
 }
 
 .possible-eng {
-    background-color: green;
+    background-color: #4BA14B;
+}
+
+.selected-eng {
+    background-color: #288128;
 }
 
