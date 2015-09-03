@@ -133,8 +133,6 @@ function semesterLists(required_subjects) {
 // update table according to new list of required subjects
 function updateTable(required_subjects){
 
-    console.log(updateTable);
-
     var subject_table = document.getElementById("subject-table");
     // delete all rows of table below ENGR100
     var num_rows = $("#subject-table tr").length;
@@ -154,15 +152,22 @@ function updateTable(required_subjects){
         subject = sem1[i-2];
         if (default_subjects.indexOf(subject) != -1){
             new_cell.className = "default";
+        } else if (i > 5) {
+            new_cell.className = "overflow";
+        } else {
+            new_cell.className = "added-subject";
         }
         var new_text = document.createTextNode(subject);
         new_cell.appendChild(new_text);
         if (sem2.length >= 1) {
             var new_cell = new_row.insertCell(1);
             subject = sem2.splice(0,1).toString();
-            console.log(subject, default_subjects);
             if (default_subjects.indexOf(subject) != -1){
                 new_cell.className = "default";
+            } else if (i > 5) {
+            new_cell.className = "overflow";
+            } else {
+                new_cell.className = "added-subject";
             }
             var new_text = document.createTextNode(subject);
             new_cell.appendChild(new_text);
