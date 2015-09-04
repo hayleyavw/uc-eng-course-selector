@@ -31,7 +31,7 @@ rules = {
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENG102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
     "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
@@ -72,7 +72,6 @@ function generateEngCheckBoxes(name, count) {
     // add the label element to the div
     document.getElementById("eng_options").appendChild(label);
 
-
 }
 
 
@@ -112,7 +111,6 @@ function watchEngCB() {
         // update list of required subjects
         updateReqSubjectList();
     });
-
 }
 
 
@@ -142,7 +140,13 @@ function semesterLists(required_subjects) {
     var sem1 = [];
     var sem2 = [];
     semester_1_subjects = semester_occurances["Semester 1"];
+    semester_2_subjects = semester_occurances["Semester 2"];
+    both_sem = [];
     for (var i in required_subjects) { // find which semester each subject is availiable in
+
+        if (semester_1_subjects.indexOf(required_subjects[i]) != -1 && semester_2_subjects.indexOf(required_subjects[i]) != -1) {
+            both_sem.push(required_subjects[i]);
+        }
         if (semester_1_subjects.indexOf(required_subjects[i]) != -1) {
             sem1.push(required_subjects[i]);
         } else { // if not in semester 1, we assume it occurs in semester 2
@@ -151,7 +155,8 @@ function semesterLists(required_subjects) {
     }
     return {
         sem1: sem1,
-        sem2: sem2
+        sem2: sem2,
+        both_sem: both_sem,
     };
 }
 
@@ -169,6 +174,7 @@ function updateTable(required_subjects) {
 
     var sem1 = semesterLists(required_subjects).sem1;
     var sem2 = semesterLists(required_subjects).sem2;
+    var both_sem = semesterLists(required_subjects).both_sem;
 
     default_subjects = rules["All"];
 
@@ -210,15 +216,19 @@ function updateEngList(subjects) {
             continue;
         }
         req_subjects = rules[i];
-        for (j = 0; j < req_subjects.length-1; j++) {
+        count = 0;
+        for (j = 0; j < req_subjects.length; j++) {
             if (subjects.indexOf(req_subjects[j]) == -1) {
                 break;
+            } else {
+                count ++;
             }
         }
+        console.log(req_subjects.length, count);
         element = document.getElementById(i).closest("label");
         if (element.className == "selected-eng") {
             continue;
-        } else if (req_subjects.length == j + 1) {
+        } else if (req_subjects.length == count) {
             element.className = "possible-eng";
         } else {
             element.className = "";
