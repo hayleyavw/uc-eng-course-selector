@@ -130,7 +130,40 @@ function updateReqSubjectList() {
         }
     }
     updateEngList(required_subjects);
-    updateTable(required_subjects);
+    //updateTable(required_subjects);
+    build_table(required_subjects); // test
+}
+
+
+function build_table(required_subjects) {
+    table = document.getElementById("subject-table");
+
+    for (var i in required_subjects) {
+
+        var table_row = document.createElement("div");
+        table_row.className = "table-row";
+
+        var button = document.createElement("input");
+        button.type = "Submit";
+        button.value = required_subjects[i];
+        button.id = required_subjects[i];
+        button.className = "subject-button subject-label";
+        table_row.appendChild(button);
+
+        var label = document.createElement("label");
+        label.value = required_subjects[i];
+        label.className = "subject-label";
+        label.appendChild(document.createTextNode(required_subjects[i]));
+        table_row.appendChild(label);
+
+        var label = document.createElement("label");
+        label.value = required_subjects[i];
+        label.className = "subject-label";
+        label.appendChild(document.createTextNode(required_subjects[i]));
+        table_row.appendChild(label);
+
+        table.appendChild(table_row);
+    }
 }
 
 
@@ -164,8 +197,7 @@ function semesterLists(required_subjects) {
 // update table according to new list of required subjects
 function updateTable(required_subjects) {
 
-    var subject_table = document.getElementById("subject-table");
-    // delete all rows of table below ENGR100
+    var subject_table = document.getElementById("subject-table"); // delete all rows of table below ENGR100
     var num_rows = $("#subject-table tr").length;
     while (num_rows > 2) {
         subject_table.deleteRow(2);
@@ -178,7 +210,7 @@ function updateTable(required_subjects) {
 
     default_subjects = rules["All"];
 
-    for (var i = 2; i < sem1.length+2; i++) { //start at 2 because row 0 = semester headings, row 1 = ENGR100
+    for (var i = 2; i < sem1.length+2; i++) { // start at 2 because row 0 = semester headings, row 1 = ENGR100
         var new_row = subject_table.insertRow(i);
         var new_cell = new_row.insertCell(0);
         subject = sem1[i-2];
@@ -224,7 +256,7 @@ function updateEngList(subjects) {
                 count ++;
             }
         }
-        console.log(req_subjects.length, count);
+        // change class for label (for colour coding)
         element = document.getElementById(i).closest("label");
         if (element.className == "selected-eng") {
             continue;

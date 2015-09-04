@@ -22,3 +22,29 @@
     background-color: #288128;
 }
 
+/*temporary table formatting*/
+.table-row {
+    display: block;
+}
+
+.subject-label {
+    display: inline-block;
+    background-color: blue;
+    margin: 5px;
+    padding: 10px;
+}
+
+.subject-button {
+    margin: 5px;
+    background-color: red;
+    border: none;
+    padding: 10px;
+}
+
+.header-box {
+    display: inline-block;
+    margin: 5px;
+    background-color: #7473A9;
+    padding: 10px;
+}
+
