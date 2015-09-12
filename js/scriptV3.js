@@ -7,16 +7,14 @@
 
 
 // TODO remove global variables
-// TODO does not account for summer school
 
 var checked_eng_types = [];
 var checked_subjects = [];
 
 
-// ENGR100 hardcoded separately in HTML
 // Engineering type: required subjects
 rules = {
-    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "All": ["ENG100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
     "Software":  ["MATH120", "COSC121", "COSC122"],
     "Computer": ["EMTH171", "COSC121"],
     "Electrical and Electronic": ["EMTH171", "COSC121"],
@@ -30,8 +28,8 @@ rules = {
 
 // Semester: available subjects
 semester_occurances = {
-    "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
+    "Semester 1": ["ENG100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
+    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
     "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
@@ -48,7 +46,7 @@ $(document).ready(function() {
     // watch buttons for if clicked
     watchEngCB();
 
-    updateReqSubjectList();
+    updateTable(rules["All"]); // test
 
 });
 
@@ -114,11 +112,10 @@ function watchEngCB() {
 }
 
 
-// TODO does not account for when checkboxes are unselected
 // update list of required subjects depending on which checkboxes are clicked
 function updateReqSubjectList() {
 
-    var required_subjects = rules["All"].slice(); // gets a copy of subjects required for all courses
+    var required_subjects = rules["All"].slice();  // gets a copy of subjects required for all courses
 
     for (var i in checked_eng_types) { // iterate through selected engineerying types
         subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
@@ -130,12 +127,16 @@ function updateReqSubjectList() {
         }
     }
     updateEngList(required_subjects);
-    //updateTable(required_subjects);
-    build_table(required_subjects); // test
+    updateTable(required_subjects);
 }
 
 
-function build_table(required_subjects) {
+// rebuilds table based on eng selection
+function updateTable(required_subjects) {
+
+    var subject_table = document.getElementById("subject-table"); // delete all rows of table below default
+    $(".table-row").remove();
+
     table = document.getElementById("subject-table");
 
     for (var i in required_subjects) {
@@ -143,101 +144,52 @@ function build_table(required_subjects) {
         var table_row = document.createElement("div");
         table_row.className = "table-row";
 
-        var button = document.createElement("input");
-        button.type = "Submit";
-        button.value = required_subjects[i];
-        button.id = required_subjects[i];
-        button.className = "subject-button subject-label";
-        table_row.appendChild(button);
+        subject = required_subjects[i];
 
-        var label = document.createElement("label");
-        label.value = required_subjects[i];
-        label.className = "subject-label";
-        label.appendChild(document.createTextNode(required_subjects[i]));
-        table_row.appendChild(label);
+        if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
+            var button = document.createElement("input");
+            button.type = "Submit";
+            button.value = subject;
+            button.id = subject;
+            button.className = "subject-button place-holder";
+            table_row.appendChild(button);
+        } else {
+            var label = document.createElement("label");
+            label.innerHTML = required_subjects[i];
+            label.className = "place-holder";
+            table_row.appendChild(label);
+        }
 
-        var label = document.createElement("label");
-        label.value = required_subjects[i];
-        label.className = "subject-label";
-        label.appendChild(document.createTextNode(required_subjects[i]));
-        table_row.appendChild(label);
+        if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
+            var button = document.createElement("input");
+            button.type = "Submit";
+            button.value = subject;
+            button.id = subject;
+            button.className = "subject-button place-holder";
+            table_row.appendChild(button);
+        } else {
+            var label = document.createElement("label");
+            label.innerHTML = required_subjects[i];
+            label.className = "place-holder";
+            table_row.appendChild(label);
+        }
+
+        if (semester_occurances["Summer School"].indexOf(subject) != -1) {
+            var button = document.createElement("input");
+            button.type = "Submit";
+            button.value = subject;
+            button.id = subject;
+            button.className = "subject-button place-holder";
+            table_row.appendChild(button);
+        } else {
+            var label = document.createElement("label");
+            label.innerHTML = required_subjects[i];
+            label.className = "place-holder";
+            table_row.appendChild(label);
+        }
 
         table.appendChild(table_row);
     }
-}
-
-
-// determine which subjects occur in each semester
-// returns 2 separate lists
-function semesterLists(required_subjects) {
-    var sem1 = [];
-    var sem2 = [];
-    semester_1_subjects = semester_occurances["Semester 1"];
-    semester_2_subjects = semester_occurances["Semester 2"];
-    both_sem = [];
-    for (var i in required_subjects) { // find which semester each subject is availiable in
-
-        if (semester_1_subjects.indexOf(required_subjects[i]) != -1 && semester_2_subjects.indexOf(required_subjects[i]) != -1) {
-            both_sem.push(required_subjects[i]);
-        }
-        if (semester_1_subjects.indexOf(required_subjects[i]) != -1) {
-            sem1.push(required_subjects[i]);
-        } else { // if not in semester 1, we assume it occurs in semester 2
-            sem2.push(required_subjects[i]);
-        }
-    }
-    return {
-        sem1: sem1,
-        sem2: sem2,
-        both_sem: both_sem,
-    };
-}
-
-
-// update table according to new list of required subjects
-function updateTable(required_subjects) {
-
-    var subject_table = document.getElementById("subject-table"); // delete all rows of table below ENGR100
-    var num_rows = $("#subject-table tr").length;
-    while (num_rows > 2) {
-        subject_table.deleteRow(2);
-        num_rows = $("#subject-table tr").length;
-    }
-
-    var sem1 = semesterLists(required_subjects).sem1;
-    var sem2 = semesterLists(required_subjects).sem2;
-    var both_sem = semesterLists(required_subjects).both_sem;
-
-    default_subjects = rules["All"];
-
-    for (var i = 2; i < sem1.length+2; i++) { // start at 2 because row 0 = semester headings, row 1 = ENGR100
-        var new_row = subject_table.insertRow(i);
-        var new_cell = new_row.insertCell(0);
-        subject = sem1[i-2];
-        if (default_subjects.indexOf(subject) != -1){
-            new_cell.className = "default";
-        } else if (i > 5) {
-            new_cell.className = "overflow";
-        } else {
-            new_cell.className = "added-subject";
-        }
-        var new_text = document.createTextNode(subject);
-        new_cell.appendChild(new_text);
-        if (sem2.length >= 1) {
-            var new_cell = new_row.insertCell(1);
-            subject = sem2.splice(0,1).toString();
-            if (default_subjects.indexOf(subject) != -1){
-                new_cell.className = "default";
-            } else if (i > 5) {
-            new_cell.className = "overflow";
-            } else {
-                new_cell.className = "added-subject";
-            }
-            var new_text = document.createTextNode(subject);
-            new_cell.appendChild(new_text);
-        }
-    }
-
 }
 
 
