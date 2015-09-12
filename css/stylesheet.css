@@ -14,9 +14,16 @@
 
 
 /* subject table */
+.header-row {
+    background-color: #D1D3D4;
+}
+
 .table-row, .header-row {
     display: block;
-    width: 100%;
+}
+
+.default-row {
+    background-color: #D1D3D4;
 }
 
 .place-holder, .subject-button {
@@ -31,21 +38,25 @@
 }
 
 .subject-button {
-    background-color: green;
     border: none;
 }
 
-.header-box {
-    margin: 5px;
-    width: 30%;
-    display: inline-block;
-    background-color: #7473A9;
-    padding: 10px;
+.true.subject-button {
+    background-color: green;
 }
 
-.default {
-    background-color: #D1D3D4;
+.false .subject-button {
+    background-color: grey;
 }
+
+.header-box {
+    display: inline-block;
+    background-color: #7473A9;
+    margin: 5px;
+    padding: 10px;
+    width: 30%;
+}
+
 
 .overflow {
     background-color: #E71D1D;

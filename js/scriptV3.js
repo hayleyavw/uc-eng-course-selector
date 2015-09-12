@@ -7,6 +7,7 @@
 
 
 // TODO remove global variables
+// TODO eng100 needs to be green for sem1 and sem2
 
 var checked_eng_types = [];
 var checked_subjects = [];
@@ -134,6 +135,7 @@ function updateReqSubjectList() {
 // rebuilds table based on eng selection
 function updateTable(required_subjects) {
 
+    console.log(required_subjects);
     var subject_table = document.getElementById("subject-table"); // delete all rows of table below default
     $(".table-row").remove();
 
@@ -145,21 +147,33 @@ function updateTable(required_subjects) {
         table_row.className = "table-row";
 
         subject = required_subjects[i];
+        selected = false; // boolean value to check if a button has already been placed
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            table_row.appendChild(buildButton(subject));
+            selected = true;
+            buildButton(table_row, subject, selected);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            table_row.appendChild(buildButton(subject));
+            if (selected == true) {
+                selected = false; // change selected back to false so new button is not selected by default
+            } else {
+                selected = true;
+            }
+            buildButton(table_row, subject, selected);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            table_row.appendChild(buildButton(subject));
+            if (selected == true) {
+                selected = false; // change selected back to false so new button is not selected by default
+            } else {
+                selected = true;
+            }
+            buildButton(table_row, subject, selected);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -170,17 +184,17 @@ function updateTable(required_subjects) {
 
 
 //build button element for table
-function buildButton(subject) {
+function buildButton(table_row, subject, selected) {
     var button = document.createElement("input");
     button.type = "Submit";
     button.value = subject;
     button.id = subject;
+    button.className = selected + " subject-button";
+    table_row.appendChild(button);
+    // check if subject is required for all engineering types
     if (rules["All"].indexOf(subject) != -1) {
-        button.className = "default subject-button";
-    } else {
-        button.className = "subject-button";
+        button.closest("div").className = "table-row default-row";
     }
-    return button;
 }
 
 
