@@ -30,7 +30,7 @@ rules = {
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENG100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "COSC122"],
+    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
@@ -135,14 +135,17 @@ function updateReqSubjectList() {
 // rebuilds table based on eng selection
 function updateTable(required_subjects) {
 
-    console.log(required_subjects);
-    var subject_table = document.getElementById("subject-table"); // delete all rows of table below default
+    // delete all rows of table below default
+    var subject_table = document.getElementById("subject-table");
     $(".table-row").remove();
 
-    table = document.getElementById("subject-table");
+    // initialise counters to check number of subjects in each semester
+    sem1_count = 0;
+    sem2_count = 0;
 
     for (var i in required_subjects) {
 
+        // create new row
         var table_row = document.createElement("div");
         table_row.className = "table-row";
 
@@ -151,18 +154,22 @@ function updateTable(required_subjects) {
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             selected = true;
-            buildButton(table_row, subject, selected);
+            sem1_count += 1;
+            buildButton(table_row, subject, selected, sem1_count);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            if (selected == true) {
-                selected = false; // change selected back to false so new button is not selected by default
+            if (selected == true && subject != "ENG100") {
+                // change selected back to false so new button is not selected by default
+                // unless subject is ENG100 (this must span accross both semesters)
+                selected = false;
             } else {
                 selected = true;
+                sem2_count += 1;
             }
-            buildButton(table_row, subject, selected);
+            buildButton(table_row, subject, selected, sem2_count);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -173,23 +180,28 @@ function updateTable(required_subjects) {
             } else {
                 selected = true;
             }
-            buildButton(table_row, subject, selected);
+            buildButton(table_row, subject, selected, null);
         } else {
             table_row.appendChild(buildLabel());
         }
 
+        table = document.getElementById("subject-table");
         table.appendChild(table_row);
     }
 }
 
 
 //build button element for table
-function buildButton(table_row, subject, selected) {
+function buildButton(table_row, subject, selected, count) {
     var button = document.createElement("input");
     button.type = "Submit";
     button.value = subject;
     button.id = subject;
-    button.className = selected + " subject-button";
+    if (count > 5) {
+        button.className = selected + " overflow subject-button";
+    } else {
+        button.className = selected + " subject-button";
+    }
     table_row.appendChild(button);
     // check if subject is required for all engineering types
     if (rules["All"].indexOf(subject) != -1) {

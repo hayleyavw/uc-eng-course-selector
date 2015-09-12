@@ -44,6 +44,9 @@
 .true.subject-button {
     background-color: green;
 }
+.overflow.subject-button {
+    background-color: #E71D1D;
+}
 
 .false .subject-button {
     background-color: grey;
