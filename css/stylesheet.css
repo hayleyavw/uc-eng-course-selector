@@ -1,10 +1,4 @@
-.default {
-    background-color: #D1D3D4;
-}
-
-.overflow {
-    background-color: #E71D1D;
-}
+/* engineering list */
 
 .added-subject {
     background-color: #4BA14B;
@@ -18,26 +12,27 @@
     background-color: #288128;
 }
 
-/*temporary table formatting*/
+
+/* subject table */
 .table-row, .header-row {
     display: block;
     width: 100%;
 }
 
-.place-holder {
+.place-holder, .subject-button {
     display: inline-block;
-    background-color: black;
     margin: 5px;
     padding: 10px;
     width: 30%;
 }
 
+.place-holder {
+    background-color: black;
+}
+
 .subject-button {
-    display: inline-block;
-    margin: 5px;
-    background-color: grey;
+    background-color: green;
     border: none;
-    padding: 10px;
 }
 
 .header-box {
@@ -46,5 +41,13 @@
     display: inline-block;
     background-color: #7473A9;
     padding: 10px;
+}
+
+.default {
+    background-color: #D1D3D4;
+}
+
+.overflow {
+    background-color: #E71D1D;
 }
 

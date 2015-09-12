@@ -29,7 +29,7 @@ rules = {
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENG100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111"],
+    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "COSC122"],
     "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
@@ -147,49 +147,49 @@ function updateTable(required_subjects) {
         subject = required_subjects[i];
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            var button = document.createElement("input");
-            button.type = "Submit";
-            button.value = subject;
-            button.id = subject;
-            button.className = "subject-button place-holder";
-            table_row.appendChild(button);
+            table_row.appendChild(buildButton(subject));
         } else {
-            var label = document.createElement("label");
-            label.innerHTML = required_subjects[i];
-            label.className = "place-holder";
-            table_row.appendChild(label);
+            table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            var button = document.createElement("input");
-            button.type = "Submit";
-            button.value = subject;
-            button.id = subject;
-            button.className = "subject-button place-holder";
-            table_row.appendChild(button);
+            table_row.appendChild(buildButton(subject));
         } else {
-            var label = document.createElement("label");
-            label.innerHTML = required_subjects[i];
-            label.className = "place-holder";
-            table_row.appendChild(label);
+            table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            var button = document.createElement("input");
-            button.type = "Submit";
-            button.value = subject;
-            button.id = subject;
-            button.className = "subject-button place-holder";
-            table_row.appendChild(button);
+            table_row.appendChild(buildButton(subject));
         } else {
-            var label = document.createElement("label");
-            label.innerHTML = required_subjects[i];
-            label.className = "place-holder";
-            table_row.appendChild(label);
+            table_row.appendChild(buildLabel());
         }
 
         table.appendChild(table_row);
     }
+}
+
+
+//build button element for table
+function buildButton(subject) {
+    var button = document.createElement("input");
+    button.type = "Submit";
+    button.value = subject;
+    button.id = subject;
+    if (rules["All"].indexOf(subject) != -1) {
+        button.className = "default subject-button";
+    } else {
+        button.className = "subject-button";
+    }
+    return button;
+}
+
+
+// build label element for table
+function buildLabel() {
+    var label = document.createElement("label");
+    label.innerHTML = "PLACE HOLDER";
+    label.className = "place-holder";
+    return label;
 }
 
 
