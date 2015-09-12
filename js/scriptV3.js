@@ -7,7 +7,7 @@
 
 
 // TODO remove global variables
-// TODO eng100 needs to be green for sem1 and sem2
+// TODO change checkbox and buttons from 1 and 2 to meaningful names
 
 var checked_eng_types = [];
 var checked_subjects = [];
@@ -43,8 +43,7 @@ $(document).ready(function() {
     for (var i in eng_types) {
         generateEngCheckBoxes(eng_types[i], i);
     }
-
-    // watch buttons for if clicked
+    // watch eng buttons for if clicked
     watchEngCB();
 
     updateTable(rules["All"]); // test
@@ -113,6 +112,26 @@ function watchEngCB() {
 }
 
 
+// react to subject button click
+function subjectButtonClick(subject) {
+    // get other elements in same row
+    siblings = subject.closest("div").children;
+    for (var i = 0; i < siblings.length; i++) {
+        tag = siblings[i];
+        // if the sibling is an input (i.e. another button)
+        if (tag.tagName == "INPUT") {
+            // if tag matches the subject, change class to true
+            if (tag == subject) {
+                tag.className = "true subject-button";
+            // else false
+            } else {
+                tag.className = "false subject-button";
+            }
+        }
+    }
+}
+
+
 // update list of required subjects depending on which checkboxes are clicked
 function updateReqSubjectList() {
 
@@ -155,7 +174,7 @@ function updateTable(required_subjects) {
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             selected = true;
             sem1_count += 1;
-            buildButton(table_row, subject, selected, sem1_count);
+            buildButton(table_row, subject, selected, sem1_count, 0);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -169,7 +188,7 @@ function updateTable(required_subjects) {
                 selected = true;
                 sem2_count += 1;
             }
-            buildButton(table_row, subject, selected, sem2_count);
+            buildButton(table_row, subject, selected, sem2_count, 1);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -180,7 +199,7 @@ function updateTable(required_subjects) {
             } else {
                 selected = true;
             }
-            buildButton(table_row, subject, selected, null);
+            buildButton(table_row, subject, selected, null, 2);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -192,17 +211,30 @@ function updateTable(required_subjects) {
 
 
 //build button element for table
-function buildButton(table_row, subject, selected, count) {
+// TODO incorrectly signing name
+function buildButton(table_row, subject, selected, count, column) {
+    /* input:
+     *   - new table row element
+     *   - subject name
+     *   - boolean value
+     *   - integer for semester subject count
+     *   - column number
+     */
     var button = document.createElement("input");
+
     button.type = "Submit";
+    button.name = column.toString();
     button.value = subject;
     button.id = subject;
+    button.onclick = function() { subjectButtonClick(button) };
+
     if (count > 5) {
         button.className = selected + " overflow subject-button";
     } else {
         button.className = selected + " subject-button";
     }
     table_row.appendChild(button);
+
     // check if subject is required for all engineering types
     if (rules["All"].indexOf(subject) != -1) {
         button.closest("div").className = "table-row default-row";
