@@ -117,34 +117,25 @@ function watchEngCB() {
 
 // react to subject button click
 function subjectButtonClick(subject) {
-    existing_class = subject.className;
-    // get other elements in same row
-    //siblings = subject.closest("div").children;
-    //for (var i = 0; i < siblings.length; i++) {
-        //tag = siblings[i];
-        //// if the sibling is an input (i.e. another button)
-        //if (tag.tagName == "INPUT") {
-            //// if tag matches the subject, change class to true
-            //if (tag == subject) {
-                //if (existing_class.indexOf("true") == -1) {
-                    //tag.className = "true subject-button";
-                    //if (subject.name == 0) {
-                        //count = sem1_count + 1;
-                    //} else if (subject.name == 1) {
-                        //count = sem2_count + 1;
-                    //}
-                    //if (count > 5) {
-                        //tag.className = "true overflow subject-button";
-                    //} else {
-                        //tag.className = "true subject-button";
-                    //}
-                //}
-            //// else false
-            //} else {
-                //tag.className = "false subject-button";
-            //}
-        //}
-    //}
+    current_class = subject.className;
+    if (current_class.indexOf("true") != -1) { //true is included in class
+        subject.className = "false subject-button";
+        // decrease semester count
+    } else { // class must have been false
+        siblings = subject.closest("div").children;
+        for (var i = 0; i < siblings.length; i++) { // each sibling except the last
+            tag = siblings[i];
+            if (tag.tagName == "INPUT") { // ignore labels
+                // TODO: check classname to change count OR could just change every tag to false
+                if (tag.className.indexOf("true") != -1) {
+                    tag.className = "false subject-button";
+                    // decrease semester count
+                }
+            }
+        }
+        subject.className = "true subject-button";
+        // increase semester count
+    }
 }
 
 
