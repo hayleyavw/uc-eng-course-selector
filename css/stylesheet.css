@@ -45,8 +45,12 @@
     background-color: green;
 }
 
+.true {
+    background-color: green;
+}
+
 .overflow.subject-button {
-    background-color: #E71D1D;
+    background-color: #EC9D00;
 }
 
 .false .subject-button {
@@ -63,6 +67,6 @@
 
 
 .overflow {
-    background-color: #E71D1D;
+    background-color: #EC9D00;
 }
 

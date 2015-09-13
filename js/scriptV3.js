@@ -7,11 +7,14 @@
 
 
 // TODO remove global variables
-// TODO change checkbox and buttons from 1 and 2 to meaningful names
+// TODO functions need docstrings
 
 var checked_eng_types = [];
 var checked_subjects = [];
 
+// initialise counters to check number of subjects in each semester
+var sem1_count = 0;
+var sem2_count = 0;
 
 // Engineering type: required subjects
 rules = {
@@ -114,21 +117,34 @@ function watchEngCB() {
 
 // react to subject button click
 function subjectButtonClick(subject) {
+    existing_class = subject.className;
     // get other elements in same row
-    siblings = subject.closest("div").children;
-    for (var i = 0; i < siblings.length; i++) {
-        tag = siblings[i];
-        // if the sibling is an input (i.e. another button)
-        if (tag.tagName == "INPUT") {
-            // if tag matches the subject, change class to true
-            if (tag == subject) {
-                tag.className = "true subject-button";
-            // else false
-            } else {
-                tag.className = "false subject-button";
-            }
-        }
-    }
+    //siblings = subject.closest("div").children;
+    //for (var i = 0; i < siblings.length; i++) {
+        //tag = siblings[i];
+        //// if the sibling is an input (i.e. another button)
+        //if (tag.tagName == "INPUT") {
+            //// if tag matches the subject, change class to true
+            //if (tag == subject) {
+                //if (existing_class.indexOf("true") == -1) {
+                    //tag.className = "true subject-button";
+                    //if (subject.name == 0) {
+                        //count = sem1_count + 1;
+                    //} else if (subject.name == 1) {
+                        //count = sem2_count + 1;
+                    //}
+                    //if (count > 5) {
+                        //tag.className = "true overflow subject-button";
+                    //} else {
+                        //tag.className = "true subject-button";
+                    //}
+                //}
+            //// else false
+            //} else {
+                //tag.className = "false subject-button";
+            //}
+        //}
+    //}
 }
 
 
@@ -158,9 +174,36 @@ function updateTable(required_subjects) {
     var subject_table = document.getElementById("subject-table");
     $(".table-row").remove();
 
-    // initialise counters to check number of subjects in each semester
-    sem1_count = 0;
-    sem2_count = 0;
+    var default_subjects = required_subjects.splice(0, rules["All"].length);
+    for (var i in default_subjects) {
+
+        // create new row
+        var table_row = document.createElement("div");
+        table_row.className = "default-row";
+
+        subject = default_subjects[i];
+
+        if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Summer School"].indexOf(subject) != -1) {
+            buildButton(table_row, subject, 0);
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        table = document.getElementById("subject-table");
+        table.appendChild(table_row);
+    }
 
     for (var i in required_subjects) {
 
@@ -169,37 +212,21 @@ function updateTable(required_subjects) {
         table_row.className = "table-row";
 
         subject = required_subjects[i];
-        selected = false; // boolean value to check if a button has already been placed
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            selected = true;
-            sem1_count += 1;
-            buildButton(table_row, subject, selected, sem1_count, 0);
+            buildButton(table_row, subject, 0);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            if (selected == true && subject != "ENG100") {
-                // change selected back to false so new button is not selected by default
-                // unless subject is ENG100 (this must span accross both semesters)
-                selected = false;
-            } else {
-                selected = true;
-                sem2_count += 1;
-            }
-            buildButton(table_row, subject, selected, sem2_count, 1);
+            buildButton(table_row, subject, 1);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            if (selected == true) {
-                selected = false; // change selected back to false so new button is not selected by default
-            } else {
-                selected = true;
-            }
-            buildButton(table_row, subject, selected, null, 2);
+            buildButton(table_row, subject, 2);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -209,15 +236,20 @@ function updateTable(required_subjects) {
     }
 }
 
+// build labels for default subjects
+function buildDefaultSubjectLabels(table_row, subject, column) {
+    var label = document.createElement("label");
+    label.innerHTML = subject;
+    label.className = "true place-holder";
+    return label;
+}
+
 
 //build button element for table
-// TODO incorrectly signing name
-function buildButton(table_row, subject, selected, count, column) {
+function buildButton(table_row, subject, column) {
     /* input:
      *   - new table row element
      *   - subject name
-     *   - boolean value
-     *   - integer for semester subject count
      *   - column number
      */
     var button = document.createElement("input");
@@ -228,11 +260,7 @@ function buildButton(table_row, subject, selected, count, column) {
     button.id = subject;
     button.onclick = function() { subjectButtonClick(button) };
 
-    if (count > 5) {
-        button.className = selected + " overflow subject-button";
-    } else {
-        button.className = selected + " subject-button";
-    }
+    button.className = "false subject-button";
     table_row.appendChild(button);
 
     // check if subject is required for all engineering types
