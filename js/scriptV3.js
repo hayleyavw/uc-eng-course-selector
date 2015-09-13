@@ -206,11 +206,13 @@ function updateReqSubjectList() {
 // rebuilds table based on eng selection
 function updateTable(required_subjects) {
 
+    console.log(required_subjects);
     // delete all rows of table below default
     var subject_table = document.getElementById("subject-table");
     $(".table-row").remove();
 
     var default_subjects = required_subjects.splice(0, rules["All"].length);
+
     for (var i in default_subjects) {
 
         // create new row
@@ -218,6 +220,8 @@ function updateTable(required_subjects) {
         table_row.className = "default-row";
 
         subject = default_subjects[i];
+
+        console.log(subject);
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
@@ -310,7 +314,7 @@ function buildButton(table_row, subject, column) {
 function buildLabel() {
     var label = document.createElement("label");
     label.innerHTML = "PLACE HOLDER";
-    label.className = "place-holder";
+    label.className = "real-place-holder";
     return label;
 }
 
