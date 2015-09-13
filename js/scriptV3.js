@@ -8,6 +8,7 @@
 
 // TODO remove global variables
 // TODO functions need docstrings
+// TODO update table on checkbutton click instead of rebuilding
 
 var checked_eng_types = [];
 var checked_subjects = [];
@@ -116,6 +117,7 @@ function watchEngCB() {
 
 
 // react to subject button click
+// TODO does not account for buttons marked as overflow
 function subjectButtonClick(subject) {
     current_class = subject.className;
     if (current_class.indexOf("true") != -1) { //true is included in class
@@ -135,6 +137,49 @@ function subjectButtonClick(subject) {
         }
         subject.className = "true subject-button";
         // increase semester count
+    }
+}
+
+
+// count subjects per semester
+function semesterCount() {
+
+    sem1_count = 0
+    sem1_buttons = document.getElementsByName("0");
+    for (var i = 0; i < sem1_buttons.length; i++) {
+        if (sem1_buttons[i].className.indexOf("true") != -1) {
+            sem1_count += 1;
+        }
+    }
+
+    sem2_count = 0
+    sem2_buttons = document.getElementsByName("1");
+    for (var i = 0; i < sem2_buttons.length; i++) {
+        if (sem2_buttons[i].className.indexOf("true") != -1) {
+            sem2_count += 1;
+        }
+    }
+
+    // use function to update classes of buttons
+    updateOverflowButtons(sem1_buttons, 1, sem1_count);
+    updateOverflowButtons(sem2_buttons, 3, sem2_count);
+
+}
+
+
+// change class applied to each button depending on number of buttons clicked in given semester
+function updateOverflowButtons(button_list, threshold, count) {
+    for (var i = 0; i < button_list.length; i++) {
+        if (count > threshold) {
+            // if over the given threshold, buttons should be coloured for overflow
+            if (button_list[i].className.indexOf("true") != -1) {
+                button_list[i].className = "overflow true subject-button";
+            }
+        } else {
+            if (button_list[i].className.indexOf("overflow") != -1 && button_list[i].className.indexOf("true") != -1) {
+                button_list[i].className = "true subject-button";
+            }
+        }
     }
 }
 
@@ -181,13 +226,13 @@ function updateTable(required_subjects) {
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 1));
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, 0);
+            buildButton(table_row, subject, 2);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -249,7 +294,7 @@ function buildButton(table_row, subject, column) {
     button.name = column.toString();
     button.value = subject;
     button.id = subject;
-    button.onclick = function() { subjectButtonClick(button) };
+    button.onclick = function() { subjectButtonClick(button); semesterCount(); };
 
     button.className = "false subject-button";
     table_row.appendChild(button);
