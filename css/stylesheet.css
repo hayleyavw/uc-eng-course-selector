@@ -1,7 +1,7 @@
 /* engineering list */
 
-.added-subject {
-    background-color: #4BA14B;
+.eng-options label {
+    display: block;
 }
 
 .possible-eng {
@@ -14,7 +14,7 @@
 
 
 /* subject table */
-.subject-table {
+#subject-table {
     width: 100%;
 }
 
@@ -23,19 +23,16 @@
 }
 
 .header-box {
+    float: left;
     display: inline-block;
-    float: right;
+    margin: 0px;
     background-color: #7473A9;
     border: 1px solid black;
-    width: 33.33%;
     text-align: center;
+    width: 33.33%;
     color: white;
 }
 
-.table-row, .header-row {
-    display: block;
-    height: 100%;
-}
 
 .default-row {
     background-color: #D1D3D4;
@@ -46,20 +43,25 @@
     display: inline-block;
     border: 1px solid black;
     padding: 10px;
-    width: 33.33%;
     font-size: 12px;
     text-align: center;
 }
 
+.place-holder {
+    width: 30%;
+}
+
+.subject-button {
+    width: 33.33%;
+}
+
 .real-place-holder {
-    vertical-align: top;
     background-color: black;
-    height: 100%;
     width: 33.33%;
     display: inline-block;
 }
 
-.true.subject-button {
+.true .subject-button {
     background-color: green;
 }
 

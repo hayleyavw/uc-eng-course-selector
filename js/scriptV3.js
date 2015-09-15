@@ -316,8 +316,8 @@ function buildButton(table_row, subject, column) {
 // build label element for table
 function buildLabel(height) {
     var label = document.createElement("label");
-    label.innerHTML = "PLACE HOLDER";
-    label.style.height = height+"px";
+    //label.innerHTML = "PLACE HOLDER";
+    //label.style.height = height+"px";
     label.className = "real-place-holder";
     return label;
 }
