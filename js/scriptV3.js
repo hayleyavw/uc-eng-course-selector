@@ -243,9 +243,6 @@ function updateTable(required_subjects) {
         table.appendChild(table_row);
     }
 
-    height = $("#default-row").height();
-    console.log(height);
-    height = document.getElementsByClassName("true place-holder")[0].clientHeight;
 
     for (var i in required_subjects) {
 
@@ -258,19 +255,19 @@ function updateTable(required_subjects) {
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 0);
         } else {
-            table_row.appendChild(buildLabel(height));
+            table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 1);
         } else {
-            table_row.appendChild(buildLabel(height));
+            table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 2);
         } else {
-            table_row.appendChild(buildLabel(height));
+            table_row.appendChild(buildLabel());
         }
 
         table = document.getElementById("subject-table");
@@ -314,10 +311,8 @@ function buildButton(table_row, subject, column) {
 
 
 // build label element for table
-function buildLabel(height) {
+function buildLabel() {
     var label = document.createElement("label");
-    //label.innerHTML = "PLACE HOLDER";
-    //label.style.height = height+"px";
     label.className = "real-place-holder";
     return label;
 }

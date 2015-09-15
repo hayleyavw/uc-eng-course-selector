@@ -1,21 +1,30 @@
 /* engineering list */
 
+body {
+    font-family: geneva, arial, helvetica, sans-serif;
+}
+
+.eng-options {
+    float: left;
+}
+
 .eng-options label {
     display: block;
 }
 
 .possible-eng {
-    background-color: #4BA14B;
+    color: #A09FC7;
 }
 
 .selected-eng {
-    background-color: #288128;
+    color: #7473A9;
 }
 
 
 /* subject table */
 #subject-table {
-    width: 100%;
+    float: right;
+    width: 600px;
 }
 
 .header-row {
@@ -23,61 +32,55 @@
 }
 
 .header-box {
-    float: left;
     display: inline-block;
-    margin: 0px;
     background-color: #7473A9;
-    border: 1px solid black;
     text-align: center;
-    width: 33.33%;
+    width: 30%;
     color: white;
 }
 
 
 .default-row {
+    background-color: #A09FC7;
+}
+
+.table-row {
     background-color: #D1D3D4;
 }
 
-.place-holder, .subject-button {
+
+.true, .place-holder, .subject-button {
     vertical-align: top;
-    display: inline-block;
     border: 1px solid black;
+    display: inline-block;
     padding: 10px;
     font-size: 12px;
     text-align: center;
 }
 
-.place-holder {
+label.true.place-holder {
     width: 30%;
 }
 
 .subject-button {
-    width: 33.33%;
+    width: 33%;
 }
 
 .real-place-holder {
     background-color: black;
-    width: 33.33%;
+    width: 33%;
     display: inline-block;
 }
 
-.true .subject-button {
-    background-color: green;
-}
-
 .true {
-    background-color: green;
+    background-color: #D1D3D4;
 }
 
-.overflow .subject-button {
-    background-color: #EC9D00;
-}
-
-.false .subject-button {
-    background-color: grey;
+.false {
+    background-color: #FFFFFF;
 }
 
 .overflow {
-    background-color: #EC9D00;
+    background-color: #FFD658;
 }
 
