@@ -206,7 +206,6 @@ function updateReqSubjectList() {
 // rebuilds table based on eng selection
 function updateTable(required_subjects) {
 
-    console.log(required_subjects);
     // delete all rows of table below default
     var subject_table = document.getElementById("subject-table");
     $(".table-row").remove();
@@ -218,10 +217,9 @@ function updateTable(required_subjects) {
         // create new row
         var table_row = document.createElement("div");
         table_row.className = "default-row";
+        table_row.id = "default-row";
 
         subject = default_subjects[i];
-
-        console.log(subject);
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
@@ -245,6 +243,10 @@ function updateTable(required_subjects) {
         table.appendChild(table_row);
     }
 
+    height = $("#default-row").height();
+    console.log(height);
+    height = document.getElementsByClassName("true place-holder")[0].clientHeight;
+
     for (var i in required_subjects) {
 
         // create new row
@@ -256,23 +258,24 @@ function updateTable(required_subjects) {
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 0);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(height));
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 1);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(height));
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
             buildButton(table_row, subject, 2);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(height));
         }
 
         table = document.getElementById("subject-table");
         table.appendChild(table_row);
+
     }
 }
 
@@ -311,9 +314,10 @@ function buildButton(table_row, subject, column) {
 
 
 // build label element for table
-function buildLabel() {
+function buildLabel(height) {
     var label = document.createElement("label");
     label.innerHTML = "PLACE HOLDER";
+    label.style.height = height+"px";
     label.className = "real-place-holder";
     return label;
 }

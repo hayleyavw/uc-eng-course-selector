@@ -52,9 +52,11 @@
 }
 
 .real-place-holder {
+    vertical-align: top;
     background-color: black;
     height: 100%;
-    visibility: hidden;
+    width: 33.33%;
+    display: inline-block;
 }
 
 .true.subject-button {
