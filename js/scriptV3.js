@@ -198,7 +198,7 @@ function updateReqSubjectList() {
             }
         }
     }
-    updateEngList(required_subjects);
+    //updateEngList(required_subjects);
     updateTable(required_subjects);
 }
 
@@ -234,7 +234,7 @@ function updateTable(required_subjects) {
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, 2);
+            buildButton(table_row, subject, "false", 2);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -251,21 +251,29 @@ function updateTable(required_subjects) {
         table_row.className = "table-row";
 
         subject = required_subjects[i];
+        selected = false;
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, 0);
+            selected = true;
+            buildButton(table_row, subject, selected, 0);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, 1);
+            if (selected == true) {
+                selected = false;
+            } else {
+                selected = true;
+            }
+            buildButton(table_row, subject, selected, 1);
         } else {
             table_row.appendChild(buildLabel());
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, 2);
+            selected = false;
+            buildButton(table_row, subject, selected, 2);
         } else {
             table_row.appendChild(buildLabel());
         }
@@ -274,6 +282,8 @@ function updateTable(required_subjects) {
         table.appendChild(table_row);
 
     }
+
+    semesterCount();
 }
 
 // build labels for default subjects
@@ -286,7 +296,7 @@ function buildDefaultSubjectLabels(table_row, subject, column) {
 
 
 //build button element for table
-function buildButton(table_row, subject, column) {
+function buildButton(table_row, subject, selected, column) {
     /* input:
      *   - new table row element
      *   - subject name
@@ -298,9 +308,9 @@ function buildButton(table_row, subject, column) {
     button.name = column.toString();
     button.value = subject;
     button.id = subject;
-    button.onclick = function() { subjectButtonClick(button); semesterCount(); };
+    button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
 
-    button.className = "false subject-button";
+    button.className = selected + " subject-button";
     table_row.appendChild(button);
 
     // check if subject is required for all engineering types
@@ -319,7 +329,16 @@ function buildLabel() {
 
 
 // determine which eng types are possible based on subjects currently in table
-function updateEngList(subjects) {
+function updateEngList() {
+
+    selected_subjects = document.getElementsByClassName("true subject-button");
+    subjects = [];
+
+    for (var i in selected_subjects) {
+        subjects.push(selected_subjects[i].value);
+    }
+    console.log(subjects);
+
     for (var i in rules) {
         if (i == "All") {
             continue;
