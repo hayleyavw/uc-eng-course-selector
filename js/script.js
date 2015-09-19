@@ -287,6 +287,7 @@ function updateTable(required_subjects) {
     }
 
     semesterCount();
+    updateEngList();
 }
 
 // build labels for default subjects
@@ -335,6 +336,7 @@ function buildLabel(column) {
 function updateEngList() {
 
     selected_subjects = document.getElementsByClassName("true subject-button");
+
     subjects = [];
 
     for (var i in selected_subjects) {
