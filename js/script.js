@@ -1,62 +1,62 @@
-var eng_types = [];
-var courses = [];
+/*
+ * Author: Hayley van Waas, University of Canterbury
+ * Date: September 2015
+ *
+ * This is an interactive designed to help students select which subjects to take in their first year of engineering at the University of Canterbury
+ */
+
+
+// TODO remove global variables
+// TODO functions need docstrings
+// TODO update table on checkbutton click instead of rebuilding
+
 var checked_eng_types = [];
-var checked_courses = [];
+var checked_subjects = [];
 
-// import rules from csv file on first load
-$(document).ready(function() {
-    $.ajax({
-        type: "GET",
-        url: "rules3.csv",
-        dataType: "text",
-        success: function(data) {
-            processData(data);
-        }
-    });
-});
+// initialise counters to check number of subjects in each semester
+var sem1_count = 0;
+var sem2_count = 0;
 
+// Engineering type: required subjects
+rules = {
+    "All": ["ENG100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "Software":  ["MATH120", "COSC121", "COSC122"],
+    "Computer": ["EMTH171", "COSC121"],
+    "Electrical and Electronic": ["EMTH171", "COSC121"],
+    "Mechatronics": ["EMTH171", "COSC121", "ENGR102"],
+    "Mechanical": ["EMTH171", "ENGR102"],
+    "Civil": ["EMTH171", "CHEM111", "ENGR102"],
+    "Natural Resources": ["EMTH171", "CHEM111", "ENGR102"],
+    "Forest": ["EMTH171", "CHEM111", "ENGR102"],
+    "Chemical and Process": ["EMTH171", "CHEM111"]
+}
 
-
-// put csv dat into lists - eng options and course options
-function processData(csv_text) {
-
-    var csv_rows = csv_text.split(/\r\n|\n/);
-    for (var i=0; i<csv_rows.length; i++) {
-        var data = csv_rows[i].split(',');
-
-        if (i == 3) {
-            for (var j in data) {
-                if (j > 2){
-                    eng_types.push(data[j])
-                }
-            }
-        } else if (i > 3){
-            courses.push(data);
-        }
-    }
-
-    for (var i in eng_types) {
-        generateCheckBoxes(null, eng_types[i], "eng_options", i);
-    }
-
-
-    for (var i in courses) {
-        if (courses[i][0] == "Semester 1") { // i+1 to give different ID's than eng_option checkboxes
-           generateCheckBoxes("Semester 1", courses[i][1], "semester_one", parseInt(i)+9);
-        } else if (courses[i][0] == "Semester 2") {
-            generateCheckBoxes("Semester 2", courses[i][1], "semester_two", parseInt(i)+9);
-        } else {
-            generateCheckBoxes("Summer", courses[i][1], "summer", parseInt(i)+9);
-        }
-    }
-
-    countCoursesPerSemester();
-
+// Semester: available subjects
+semester_occurances = {
+    "Semester 1": ["ENG100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
+    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
 
-// create checkboxes for each option individually
-function generateCheckBoxes(semester, name, div_tag, count) {
+// on page load
+$(document).ready(function() {
+
+    var eng_types = Object.keys(rules); // get list of eng types from keys in dictionary
+    // generate check box for each engineering type
+    for (var i in eng_types) {
+        generateEngCheckBoxes(eng_types[i], i);
+    }
+    // watch eng buttons for if clicked
+    watchEngCB();
+
+    updateTable(rules["All"]); // test
+
+});
+
+
+// create checkboxes for each eng type individually
+function generateEngCheckBoxes(name, count) {
 
     // create the necessary elements
     var label = document.createElement("label");
@@ -64,26 +64,15 @@ function generateCheckBoxes(semester, name, div_tag, count) {
     var checkbox = document.createElement("input");
 
     checkbox.type = "checkbox";    // make the element a checkbox
-    checkbox.name = 1;      // give it a name we can check on the server side
+    checkbox.name = 1;             // give it a name we can check in watchEngCB()
     checkbox.value = name;         // make its value
-    checkbox.id = count;    // unique ID for each checkbox
+    checkbox.id = name;           // unique ID for each checkbox
 
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
 
     // add the label element to the div
-    document.getElementById(div_tag).appendChild(label);
-
-    if (div_tag == "eng_options") {
-        watchEngCB();
-    } else { //check the required courses
-        if (courses[count-9][3] == "All") {
-        checkbox.checked = true;
-        checked_courses.push([semester, name, checkbox.id]);
-        }
-    }
-
-    console.log(checkbox);
+    document.getElementById("eng_options").appendChild(label);
 
 }
 
@@ -91,139 +80,286 @@ function generateCheckBoxes(semester, name, div_tag, count) {
 // watch the engineering checkboxes for change
 function watchEngCB() {
     $("[name=1]").change(function() {
-        var index = checked_eng_types.indexOf(this.value);
-        if(this.checked) {
-            if (index == -1) {
-                checked_eng_types.push(this.value);
-                addMoreCourses(this.id);
+        // if "All" selected, automatically selects all engineering types
+        if (this.value == "All") {
+            var eng_types = Object.keys(rules); // get list of eng types from keys in dictionary
+            if (this.checked == false) {
+                // set each of the checkboxes to unchecked
+                for (var i = 1; i < eng_types.length; i++ ) {
+                    document.getElementById(eng_types[i]).checked = false;
+                    document.getElementById(eng_types[i]).closest("label").className = "";
+                }
+                // clear checked eng types list
+                checked_eng_types = [];
+            } else {
+                // set each of the checkboxes to checked
+                for (var i = 1; i < eng_types.length; i++ ) {
+                    document.getElementById(eng_types[i]).checked = true;
+                    document.getElementById(eng_types[i]).closest("label").className = "selected-eng";
+                }
+                // reset list of checked eng types to inclue all
+                checked_eng_types = eng_types;
             }
         } else {
-            if (index > -1) {
+            var index = checked_eng_types.indexOf(this.value);
+            if (this.checked) { // if selected then add to list of checked eng types
+                checked_eng_types.push(this.value);
+                this.closest("label").className = "selected-eng";
+            } else { // else if unselected then remove from list of checked eng types
                 checked_eng_types.splice(index, 1);
-                changeHighlightedCourses(this);
+                this.closest("label").className = "";
             }
         }
+        // update list of required subjects
+        updateReqSubjectList();
     });
-
 }
 
 
-// check new courses when new eng option selected
-function addMoreCourses(cbID) {
-
-    for (var i in courses) {
-        console.log(courses[i][parseInt(cbID)+3])
-        if (courses[i][parseInt(cbID)+3] == "Req" ){
-            document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
-        }
-        if (courses[i][parseInt(cbID)+3] == "Rec" ){
-            document.getElementById(parseInt(i)+9).checked = true;
-            checked_courses.push([courses[i][0], courses[i][1], parseInt(i)+9]);
-        }
-    }
-
-    countCoursesPerSemester();
-
-}
-
-
-// uncheck courses when eng option unselected
-function changeHighlightedCourses(cbID) {
-
-    var index;
-    for (var i in courses) {
-        for (var j in checked_courses) {
-            if (checked_courses[j][1] == courses[i][1]) {
-                index = j
-            }
-        }
-        if (courses[i][parseInt(cbID.id)+3] == "Req") {
-            checked_courses.splice(index, 1);
-        }
-        if (courses[i][parseInt(cbID.id)+3] == "Rec") {
-            checked_courses.splice(index, 1);
-        }
-    }
-
-    var current_checkbox;
-    var found;
-    for (var box = 9; box < 26; box++) {
-        current_checkbox = document.getElementById(box);
-        found = false;
-        for (var i in checked_courses) {
-            if (checked_courses[i][1] == current_checkbox.value) {
-                found = true;
-            }
-        }
-
-        if (found == false) {
-            current_checkbox.checked = false;
-        }
-
-        countCoursesPerSemester();
-    }
-
-}
-
-
-function countCoursesPerSemester() {
-
-    var unique_checked_courses = [];
-
-    var semester_one_count = 0;
-    var semester_two_count = 0;
-    var summer_count = 0;
-
-
-    for (var j in checked_courses) {
-        var found = false;
-        if (unique_checked_courses.length > 0){
-            for (var i in unique_checked_courses){
-                if (checked_courses[j][1] == unique_checked_courses[i][1]) {
-                    found = true;
+// react to subject button click
+// TODO does not account for buttons marked as overflow
+function subjectButtonClick(subject) {
+    current_class = subject.className;
+    if (current_class.indexOf("true") != -1) { //true is included in class
+        subject.className = "false subject-button";
+        // decrease semester count
+    } else { // class must have been false
+        siblings = subject.closest("div").children;
+        for (var i = 0; i < siblings.length; i++) { // each sibling except the last
+            tag = siblings[i];
+            if (tag.tagName == "INPUT") { // ignore labels
+                // TODO: check classname to change count OR could just change every tag to false
+                if (tag.className.indexOf("true") != -1) {
+                    tag.className = "false subject-button";
+                    // decrease semester count
                 }
             }
-            if (found == false) {
-                unique_checked_courses.push(checked_courses[j])
+        }
+        subject.className = "true subject-button";
+        // increase semester count
+    }
+}
+
+
+// count subjects per semester
+function semesterCount() {
+
+    sem1_count = 0
+    sem1_buttons = document.getElementsByName("0");
+    for (var i = 0; i < sem1_buttons.length; i++) {
+        if (sem1_buttons[i].className.indexOf("true") != -1) {
+            sem1_count += 1;
+        }
+    }
+
+    sem2_count = 0
+    sem2_buttons = document.getElementsByName("1");
+    for (var i = 0; i < sem2_buttons.length; i++) {
+        if (sem2_buttons[i].className.indexOf("true") != -1) {
+            sem2_count += 1;
+        }
+    }
+
+    // use function to update classes of buttons
+    updateOverflowButtons(sem1_buttons, 1, sem1_count);
+    updateOverflowButtons(sem2_buttons, 3, sem2_count);
+
+}
+
+
+// change class applied to each button depending on number of buttons clicked in given semester
+function updateOverflowButtons(button_list, threshold, count) {
+    for (var i = 0; i < button_list.length; i++) {
+        if (count > threshold) {
+            // if over the given threshold, buttons should be coloured for overflow
+            if (button_list[i].className.indexOf("true") != -1) {
+                button_list[i].className = "overflow true subject-button";
             }
         } else {
-            unique_checked_courses.push(checked_courses[j])
+            if (button_list[i].className.indexOf("overflow") != -1 && button_list[i].className.indexOf("true") != -1) {
+                button_list[i].className = "true subject-button";
+            }
         }
     }
+}
 
-    for (var i in unique_checked_courses) {
-        if (unique_checked_courses[i][0] == "Semester 1") {
-            semester_one_count += 1;
-        } else if (unique_checked_courses[i][0] == "Semester 2") {
-            semester_two_count += 1;
+
+// update list of required subjects depending on which checkboxes are clicked
+function updateReqSubjectList() {
+
+    var required_subjects = rules["All"].slice();  // gets a copy of subjects required for all courses
+
+    for (var i in checked_eng_types) { // iterate through selected engineerying types
+        subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
+        for (var j in subject_list) {
+            // add subject to list of required subjects if it is not already there
+            if (required_subjects.indexOf(subject_list[j]) == -1) {
+                required_subjects.push(subject_list[j])
+            }
+        }
+    }
+    //updateEngList(required_subjects);
+    updateTable(required_subjects);
+}
+
+
+// rebuilds table based on eng selection
+function updateTable(required_subjects) {
+
+    // delete all rows of table below default
+    var subject_table = document.getElementById("subject-table");
+    $(".table-row").remove();
+
+    var default_subjects = required_subjects.splice(0, rules["All"].length);
+
+    for (var i in default_subjects) {
+
+        // create new row
+        var table_row = document.createElement("div");
+        table_row.className = "default-row";
+        table_row.id = "default-row";
+
+        subject = default_subjects[i];
+
+        if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
         } else {
-            summer_count += 1;
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 1));
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Summer School"].indexOf(subject) != -1) {
+            buildButton(table_row, subject, "false", 2);
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        table = document.getElementById("subject-table");
+        table.appendChild(table_row);
+    }
+
+
+    for (var i in required_subjects) {
+
+        // create new row
+        var table_row = document.createElement("div");
+        table_row.className = "table-row";
+
+        subject = required_subjects[i];
+        selected = false;
+
+        if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
+            selected = true;
+            buildButton(table_row, subject, selected, 0);
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
+            if (selected == true) {
+                selected = false;
+            } else {
+                selected = true;
+            }
+            buildButton(table_row, subject, selected, 1);
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        if (semester_occurances["Summer School"].indexOf(subject) != -1) {
+            selected = false;
+            buildButton(table_row, subject, selected, 2);
+        } else {
+            table_row.appendChild(buildLabel());
+        }
+
+        table = document.getElementById("subject-table");
+        table.appendChild(table_row);
+
+    }
+
+    semesterCount();
+}
+
+// build labels for default subjects
+function buildDefaultSubjectLabels(table_row, subject, column) {
+    var label = document.createElement("label");
+    label.innerHTML = subject;
+    label.className = "true place-holder";
+    return label;
+}
+
+
+//build button element for table
+function buildButton(table_row, subject, selected, column) {
+    /* input:
+     *   - new table row element
+     *   - subject name
+     *   - column number
+     */
+    var button = document.createElement("input");
+
+    button.type = "Submit";
+    button.name = column.toString();
+    button.value = subject;
+    button.id = subject;
+    button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
+
+    button.className = selected + " subject-button";
+    table_row.appendChild(button);
+
+    // check if subject is required for all engineering types
+    if (rules["All"].indexOf(subject) != -1) {
+        button.closest("div").className = "table-row default-row";
+    }
+}
+
+
+// build label element for table
+function buildLabel() {
+    var label = document.createElement("label");
+    label.className = "real-place-holder";
+    return label;
+}
+
+
+// determine which eng types are possible based on subjects currently in table
+function updateEngList() {
+
+    selected_subjects = document.getElementsByClassName("true subject-button");
+    subjects = [];
+
+    for (var i in selected_subjects) {
+        subjects.push(selected_subjects[i].value);
+    }
+    console.log(subjects);
+
+    for (var i in rules) {
+        if (i == "All") {
+            continue;
+        }
+        req_subjects = rules[i];
+        count = 0;
+        for (j = 0; j < req_subjects.length; j++) {
+            if (subjects.indexOf(req_subjects[j]) == -1) {
+                break;
+            } else {
+                count ++;
+            }
+        }
+        // change class for label (for colour coding)
+        element = document.getElementById(i).closest("label");
+        if (element.className == "selected-eng") {
+            continue;
+        } else if (req_subjects.length == count) {
+            element.className = "possible-eng";
+        } else {
+            element.className = "";
         }
     }
-
-    displayCourseCount(semester_one_count, semester_two_count, summer_count);
-
 }
-
-
-function displayCourseCount(semester_one_count, semester_two_count, summer_count) {
-
-    document.getElementById('semester_one_total').innerHTML = "Courses: " + semester_one_count;
-    document.getElementById('semester_two_total').innerHTML = "Courses: " + semester_two_count;
-    document.getElementById('summer_total').innerHTML = "Courses: " + summer_count;
-
-    if (semester_one_count > 5) {
-        document.getElementById('semester_one_total').style.color = 'red';
-    } else {
-        document.getElementById('semester_one_total').style.color = 'black';
-    }
-
-    if (semester_two_count > 4) {
-        document.getElementById('semester_two_total').style.color = 'red';
-    } else {
-        document.getElementById('semester_two_total').style.color = 'black';
-    }
-
-}
-
