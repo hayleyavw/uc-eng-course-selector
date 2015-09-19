@@ -4,8 +4,13 @@ body {
     font-family: geneva, arial, helvetica, sans-serif;
 }
 
+h1 {
+    margin-left: 10%;
+}
+
 .eng-options {
     float: left;
+    margin-left: 10%;
 }
 
 .eng-options label {
@@ -25,39 +30,59 @@ body {
 #subject-table {
     float: right;
     width: 600px;
+    text-align: center;
 }
 
-.default-row, .table-row {
+.header-row, .default-row, .table-row {
     display: block;
     height: 30px;
+    margin-bottom: 5px;
 }
 
 .column-1, .column-2, .column-3 {
     display: block;
     float: left;
     width: 30%;
+    margin-right: 5px;
 }
 
 .header-box, .real-place-holder, .place-holder, .subject-button {
     height: 100%;
     width: 30%;
     border: none;
+    line-height: 200%;
+}
+
+.subject-button {
+    border-radius: 6px;
+}
+
+.subject-button:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
 }
 
 .header-box {
     background-color: #7473A9;
+    color: #FFF;
 }
 
-.real-place-holder {
-    background-color: black;
+label.true.place-holder {
+    background-color: #A09FC7;
+    /*border: 3px solid #7473A9;*/
 }
 
 .true {
-    background-color: #D1D3D4;
+    background-color: #A09FC7;
+}
+
+
+.real-place-holder {
+    background-color: #4C4C55;
 }
 
 .false {
-    background-color: #FFFFFF;
+    background-color: #D1D3D4;
 }
 
 .overflow {
