@@ -8,17 +8,39 @@ h1 {
     margin-left: 10%;
 }
 
+p {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#tables {
+    margin: 0px auto;
+}
+
 .eng-options {
     float: left;
     margin-left: 10%;
+    width: 500px;
+    text-align: center;
 }
 
 .eng-options label {
+    padding-right: 15px;
     display: block;
+    float: left;
     background-color: #D1D3D4;
     border-radius: 5px;
     margin: 5px;
+    width: 23%;
+    height: 50px;
 }
+
+label.span-3 {
+    display: block;
+    width: 79%;
+    height: auto;
+}
+
 
 .eng-options label:hover {
     transition: all .1s ease-in-out;
@@ -40,8 +62,10 @@ h1 {
 
 /* subject table */
 #subject-table {
-    float: right;
-    width: 600px;
+    float: left;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 500px;
     text-align: center;
 }
 

@@ -19,7 +19,7 @@ var sem2_count = 0;
 
 // Engineering type: required subjects
 rules = {
-    "All": ["ENG100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "All": ["ENGR100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
     "Software":  ["MATH120", "COSC121", "COSC122"],
     "Computer": ["EMTH171", "COSC121"],
     "Electrical and Electronic": ["EMTH171", "COSC121"],
@@ -33,8 +33,8 @@ rules = {
 
 // Semester: available subjects
 semester_occurances = {
-    "Semester 1": ["ENG100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENG100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Semester 1": ["ENGR100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
+    "Semester 2": ["ENGR100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["PHYS101", "COSC122"]  // check this
 }
 
@@ -68,8 +68,10 @@ function generateEngCheckBoxes(name, count) {
     checkbox.value = name;         // make its value
     checkbox.id = name;           // unique ID for each checkbox
 
+    label.className = "span-3"; // class will only be added to first button
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
+
 
     // add the label element to the div
     document.getElementById("eng_options").appendChild(label);
@@ -335,6 +337,7 @@ function buildLabel(column) {
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
 
+    console.log("here");
     selected_subjects = document.getElementsByClassName("true subject-button");
 
     subjects = [];
@@ -359,7 +362,11 @@ function updateEngList() {
         // change class for label (for colour coding)
         element = document.getElementById(i).closest("label");
         if (element.className == "selected-eng") {
-            continue;
+            if (req_subjects.length == count) {
+                continue;
+            } else {
+                element.className = "";
+            }
         } else if (req_subjects.length == count) {
             element.className = "possible-eng";
         } else {
