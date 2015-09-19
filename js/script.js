@@ -120,8 +120,9 @@ function watchEngCB() {
 // TODO does not account for buttons marked as overflow
 function subjectButtonClick(subject) {
     current_class = subject.className;
+    column = current_class.slice(-1);
     if (current_class.indexOf("true") != -1) { //true is included in class
-        subject.className = "false subject-button";
+        subject.className = "false subject-button column-" + column;
         // decrease semester count
     } else { // class must have been false
         siblings = subject.closest("div").children;
@@ -130,12 +131,12 @@ function subjectButtonClick(subject) {
             if (tag.tagName == "INPUT") { // ignore labels
                 // TODO: check classname to change count OR could just change every tag to false
                 if (tag.className.indexOf("true") != -1) {
-                    tag.className = "false subject-button";
+                    tag.className = "false subject-button column-" + column;
                     // decrease semester count
                 }
             }
         }
-        subject.className = "true subject-button";
+        subject.className = "true subject-button column-" + column;
         // increase semester count
     }
 }
@@ -222,21 +223,21 @@ function updateTable(required_subjects) {
         subject = default_subjects[i];
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 0));
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 1));
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(1));
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 1));
+            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, 2));
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(2));
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, "false", 2);
+            buildButton(table_row, subject, "false", 3);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(3));
         }
 
         table = document.getElementById("subject-table");
@@ -255,9 +256,9 @@ function updateTable(required_subjects) {
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
             selected = true;
-            buildButton(table_row, subject, selected, 0);
+            buildButton(table_row, subject, selected, 1);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(1));
         }
 
         if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
@@ -266,16 +267,16 @@ function updateTable(required_subjects) {
             } else {
                 selected = true;
             }
-            buildButton(table_row, subject, selected, 1);
+            buildButton(table_row, subject, selected, 2);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(2));
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
             selected = false;
-            buildButton(table_row, subject, selected, 2);
+            buildButton(table_row, subject, selected, 3);
         } else {
-            table_row.appendChild(buildLabel());
+            table_row.appendChild(buildLabel(3));
         }
 
         table = document.getElementById("subject-table");
@@ -290,7 +291,7 @@ function updateTable(required_subjects) {
 function buildDefaultSubjectLabels(table_row, subject, column) {
     var label = document.createElement("label");
     label.innerHTML = subject;
-    label.className = "true place-holder";
+    label.className = "true place-holder column-" + column;
     return label;
 }
 
@@ -310,20 +311,20 @@ function buildButton(table_row, subject, selected, column) {
     button.id = subject;
     button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
 
-    button.className = selected + " subject-button";
+    button.className = selected + " subject-button column-" + column;
     table_row.appendChild(button);
 
     // check if subject is required for all engineering types
     if (rules["All"].indexOf(subject) != -1) {
-        button.closest("div").className = "table-row default-row";
+        button.closest("div").className = "table-row default-row column-" + column;
     }
 }
 
 
 // build label element for table
-function buildLabel() {
+function buildLabel(column) {
     var label = document.createElement("label");
-    label.className = "real-place-holder";
+    label.className = "real-place-holder column-" + column;
     return label;
 }
 

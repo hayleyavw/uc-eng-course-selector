@@ -27,49 +27,29 @@ body {
     width: 600px;
 }
 
-.header-row {
-    background-color: #D1D3D4;
+.default-row, .table-row {
+    display: block;
+    height: 30px;
+}
+
+.column-1, .column-2, .column-3 {
+    display: block;
+    float: left;
+    width: 30%;
+}
+
+.header-box, .real-place-holder, .place-holder, .subject-button {
+    height: 100%;
+    width: 30%;
+    border: none;
 }
 
 .header-box {
-    display: inline-block;
     background-color: #7473A9;
-    text-align: center;
-    width: 30%;
-    color: white;
-}
-
-
-.default-row {
-    background-color: #A09FC7;
-}
-
-.table-row {
-    background-color: #D1D3D4;
-}
-
-
-.true, .place-holder, .subject-button {
-    vertical-align: top;
-    border: 1px solid black;
-    display: inline-block;
-    padding: 10px;
-    font-size: 12px;
-    text-align: center;
-}
-
-label.true.place-holder {
-    width: 30%;
-}
-
-.subject-button {
-    width: 33%;
 }
 
 .real-place-holder {
     background-color: black;
-    width: 33%;
-    display: inline-block;
 }
 
 .true {
@@ -83,4 +63,5 @@ label.true.place-holder {
 .overflow {
     background-color: #FFD658;
 }
+
 
