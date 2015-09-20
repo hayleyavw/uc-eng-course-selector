@@ -18,24 +18,25 @@ var sem1_count = 0;
 var sem2_count = 0;
 
 // Engineering type: required subjects
+// ENGR100 hardcoded
 rules = {
-    "All": ["ENGR100", "ENGR101", "EMTH118", "EMTH119", "PHYS101"],
-    "Software":  ["MATH120", "COSC121", "COSC122"],
-    "Computer": ["EMTH171", "COSC121"],
-    "Electrical and Electronic": ["EMTH171", "COSC121"],
-    "Mechatronics": ["EMTH171", "COSC121", "ENGR102"],
-    "Mechanical": ["EMTH171", "ENGR102"],
-    "Civil": ["EMTH171", "CHEM111", "ENGR102"],
-    "Natural Resources": ["EMTH171", "CHEM111", "ENGR102"],
-    "Forest": ["EMTH171", "CHEM111", "ENGR102"],
-    "Chemical and Process": ["EMTH171", "CHEM111"]
+//    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
+    "Software":  ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "MATH120", "COSC121", "COSC122"],
+    "Computer": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121"],
+    "Electrical and Electronic": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121"],
+    "Mechatronics": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121", "ENGR102"],
+    "Mechanical": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "ENGR102"],
+    "Civil": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
+    "Natural Resources": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
+    "Forest": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
+    "Chemical and Process": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111"]
 }
 
 // Semester: available subjects
 semester_occurances = {
-    "Semester 1": ["ENGR100", "ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENGR100", "ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
-    "Summer School": ["PHYS101", "COSC122"]  // check this
+    "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
 
@@ -164,19 +165,19 @@ function semesterCount() {
     }
 
     // use function to update classes of buttons
-    updateOverflowButtons(sem1_buttons, 1, sem1_count);
-    updateOverflowButtons(sem2_buttons, 3, sem2_count);
+    updateOverflowButtons(sem1_buttons, sem1_count);
+    updateOverflowButtons(sem2_buttons, sem2_count);
 
 }
 
 
 // change class applied to each button depending on number of buttons clicked in given semester
-function updateOverflowButtons(button_list, threshold, count) {
+function updateOverflowButtons(button_list, count) {
     for (var i = 0; i < button_list.length; i++) {
         current_class = button_list[i].className;
         column = current_class.slice(-9);
-        if (count > threshold) {
-            // if over the given threshold, buttons should be coloured for overflow
+        if (count > 4) { //4 = reccommended number of subjects per semester
+            // if over 4, buttons should be coloured for overflow
             if (button_list[i].className.indexOf("true") != -1) {
                 button_list[i].className = "overflow true subject-button" + column;
             }
@@ -192,7 +193,8 @@ function updateOverflowButtons(button_list, threshold, count) {
 // update list of required subjects depending on which checkboxes are clicked
 function updateReqSubjectList() {
 
-    var required_subjects = rules["All"].slice();  // gets a copy of subjects required for all courses
+//    var required_subjects = rules["All"].slice();  // gets a copy of subjects required for all courses
+    var required_subjects = [];
 
     for (var i in checked_eng_types) { // iterate through selected engineerying types
         subject_list = rules[checked_eng_types[i]]; // get subjects required for specific engineering type
@@ -215,38 +217,22 @@ function updateTable(required_subjects) {
     var subject_table = document.getElementById("subject-table");
     $(".table-row").remove();
 
-    var default_subjects = required_subjects.splice(0, rules["All"].length);
+    // ENGR100
+    var table_row = document.createElement("div");
+    table_row.className = "table-row";
 
-    for (var i in default_subjects) {
+    var col1_label = document.createElement("label");
+    col1_label.className = "true place-holder column-1";
+    col1_label.innerHTML = "ENGR100";
+    table_row.appendChild(col1_label)
 
-        // create new row
-        var table_row = document.createElement("div");
-        table_row.className = "default-row";
-        table_row.id = "default-row";
+    var col2_label = document.createElement("label");
+    col2_label.className = "true place-holder column-2";
+    col2_label.innerHTML = "ENGR100";
+    table_row.appendChild(col2_label)
+    table_row.appendChild(buildLabel(" column-3"));
 
-        subject = default_subjects[i];
-
-        if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
-            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, " column-1"));
-        } else {
-            table_row.appendChild(buildLabel(" column-1"));
-        }
-
-        if (semester_occurances["Semester 2"].indexOf(subject) != -1) {
-            table_row.appendChild(buildDefaultSubjectLabels(table_row, subject, " column-2"));
-        } else {
-            table_row.appendChild(buildLabel(" column-2"));
-        }
-
-        if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            buildButton(table_row, subject, "false", " column-3");
-        } else {
-            table_row.appendChild(buildLabel(" column-3"));
-        }
-
-        table = document.getElementById("subject-table");
-        table.appendChild(table_row);
-    }
+    subject_table.appendChild(table_row);
 
 
     for (var i in required_subjects) {
@@ -283,21 +269,12 @@ function updateTable(required_subjects) {
             table_row.appendChild(buildLabel(" column-3"));
         }
 
-        table = document.getElementById("subject-table");
-        table.appendChild(table_row);
+        subject_table.appendChild(table_row);
 
     }
 
     semesterCount();
     updateEngList();
-}
-
-// build labels for default subjects
-function buildDefaultSubjectLabels(table_row, subject, column) {
-    var label = document.createElement("label");
-    label.innerHTML = subject;
-    label.className = "true place-holder" + column;
-    return label;
 }
 
 
@@ -319,10 +296,6 @@ function buildButton(table_row, subject, selected, column) {
     button.className = selected + " subject-button" + column;
     table_row.appendChild(button);
 
-    // check if subject is required for all engineering types
-    if (rules["All"].indexOf(subject) != -1) {
-        button.closest("div").className = "table-row default-row" + column;
-    }
 }
 
 
@@ -337,7 +310,6 @@ function buildLabel(column) {
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
 
-    console.log("here");
     selected_subjects = document.getElementsByClassName("true subject-button");
 
     subjects = [];

@@ -8,9 +8,19 @@ h1 {
     margin-left: 10%;
 }
 
-p {
+#note, p {
     margin-left: 10%;
     margin-right: 10%;
+}
+
+#note p {
+    margin-left :0px;
+    margin-bottom: 0px;
+    line-height: 0px;
+}
+
+#note {
+    font-size: 12px;
 }
 
 #tables {
@@ -33,12 +43,6 @@ p {
     margin: 5px;
     width: 23%;
     height: 50px;
-}
-
-label.span-3 {
-    display: block;
-    width: 79%;
-    height: auto;
 }
 
 
