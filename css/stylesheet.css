@@ -1,3 +1,7 @@
+html {
+    width: 100%;
+}
+
 /* text formatting */
 body {
     font-family: geneva, arial, helvetica, sans-serif;
@@ -30,9 +34,9 @@ h1 {
 
 .eng-options {
     float: left;
-    margin-left: 10%;
+    margin-left: 12%;
     margin-bottom: 20px;
-    width: 500px;
+    width: 40%;
     text-align: center;
 }
 
@@ -43,7 +47,7 @@ h1 {
     background-color: #D1D3D4;
     border-radius: 5px;
     margin: 5px;
-    width: 23%;
+    width: 25%;
     height: 50px;
 }
 
@@ -69,9 +73,9 @@ h1 {
 /* subject table */
 #subjects {
     float: left;
-    margin-left: 5%;
     margin-right: 5%;
-    width: 500px;
+    margin-bottom: 50px;
+    width: 40%;
     text-align: center;
 }
 
@@ -130,4 +134,37 @@ label.true.place-holder {
 
 .overflow {
     background-color: #FFE28A;
+}
+
+
+@media only screen and (max-width: 1100px) {
+    .eng-options, #subjects {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .eng-options {
+        width: 100%;
+        font-size: 10px;
+        margin-left: 5%;
+    }
+    #subjects {
+        width: 94%;
+        font-size: 12px;
+        margin-left: 6%;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .eng-options {
+        width: 100%;
+        font-size: 14px;
+        margin-left: 5%;
+    }
+    #subjects {
+        width: 100%;
+        font-size: 12px;
+        margin-left: 6%;
+    }
 }
