@@ -69,7 +69,6 @@ h1 {
     height: 50px;
 }
 
-
 .eng-options label:hover {
     transition: all .1s ease-in-out;
     transform: scale(1.1);
@@ -81,10 +80,6 @@ h1 {
 
 .eng-options input {
     opacity: 0;
-}
-
-.eng-options .possible-eng {
-    background-color: #A09FC7;
 }
 
 #checkboxes p {
@@ -176,19 +171,14 @@ label.true.place-holder {
     .eng-options, #subjects {
         font-size: 16px;
     }
-    #checkboxes {
+    #checkboxes, .eng-options {
         width: 100%;
     }
-    #checkboxes p {
-        margin-left: 6%;
-    }
-    .eng-options {
-        width: 100%;
+    #checkboxes p, .eng-options, #subjects {
         margin-left: 6%;
     }
     #subjects {
         width: 94%;
-        margin-left: 6%;
     }
 }
 

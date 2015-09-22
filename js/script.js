@@ -85,35 +85,13 @@ function generateEngCheckBoxes(name, count) {
 // watch the engineering checkboxes for change
 function watchEngCB() {
     $("[name=1]").change(function() {
-        // if "All" selected, automatically selects all engineering types
-        if (this.value == "All") {
-            var eng_types = Object.keys(rules); // get list of eng types from keys in dictionary
-            if (this.checked == false) {
-                // set each of the checkboxes to unchecked
-                for (var i = 1; i < eng_types.length; i++ ) {
-                    document.getElementById(eng_types[i]).checked = false;
-                    document.getElementById(eng_types[i]).closest("label").className = "";
-                }
-                // clear checked eng types list
-                checked_eng_types = [];
-            } else {
-                // set each of the checkboxes to checked
-                for (var i = 1; i < eng_types.length; i++ ) {
-                    document.getElementById(eng_types[i]).checked = true;
-                    document.getElementById(eng_types[i]).closest("label").className = "selected-eng";
-                }
-                // reset list of checked eng types to inclue all
-                checked_eng_types = eng_types;
-            }
-        } else {
-            var index = checked_eng_types.indexOf(this.value);
-            if (this.checked) { // if selected then add to list of checked eng types
-                checked_eng_types.push(this.value);
-                this.closest("label").className = "selected-eng";
-            } else { // else if unselected then remove from list of checked eng types
-                checked_eng_types.splice(index, 1);
-                this.closest("label").className = "";
-            }
+        var index = checked_eng_types.indexOf(this.value);
+        if (this.closest("label").className != "selected-eng") { // if selected then add to list of checked eng types
+            checked_eng_types.push(this.value);
+            this.closest("label").className = "selected-eng";
+        } else { // else if unselected then remove from list of checked eng types
+            checked_eng_types.splice(index, 1);
+            this.closest("label").className = "";
         }
         // update list of required subjects
         updateReqSubjectList();
@@ -334,7 +312,12 @@ function updateEngList() {
     subjects = [];
 
     for (var i in selected_subjects) {
-        subjects.push(selected_subjects[i].value);
+        subject_name = selected_subjects[i].value;
+        if (subject_name == undefined) {
+            continue;
+        } else if (subjects.indexOf(subject_name) == -1) {
+            subjects.push(subject_name);
+        }
     }
 
     for (var i in rules) {
@@ -359,7 +342,8 @@ function updateEngList() {
                 element.className = "";
             }
         } else if (req_subjects.length == count) {
-            element.className = "possible-eng";
+            element.className = "selected-eng";
+            updateTable(subjects);
         } else {
             element.className = "";
         }
