@@ -9,6 +9,7 @@
 // TODO remove global variables
 // TODO functions need docstrings
 // TODO update table on checkbutton click instead of rebuilding
+// TODO shouldn't use possible-eng anymore - unclick of any selected eng type
 
 var checked_eng_types = [];
 var checked_subjects = [];
@@ -19,23 +20,24 @@ var sem2_count = 0;
 
 // Engineering type: required subjects
 // ENGR100 hardcoded
+// * in COSC121 and CHEM111 to indicate note underneath
 rules = {
 //    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
-    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
-    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
-    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
-    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
-    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
+    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121*", "COSC122"],
+    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"]
 }
 
 // Semester: available subjects
 semester_occurances = {
-    "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121*", "CHEM111*"],
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "COSC122"]
 }
 
@@ -224,12 +226,12 @@ function updateTable(required_subjects) {
 
     var col1_label = document.createElement("label");
     col1_label.className = "true place-holder column-1";
-    col1_label.innerHTML = "ENGR100";
+    col1_label.innerHTML = "ENGR100*";
     table_row.appendChild(col1_label)
 
     var col2_label = document.createElement("label");
     col2_label.className = "true place-holder column-2";
-    col2_label.innerHTML = "ENGR100";
+    col2_label.innerHTML = "ENGR100*";
     table_row.appendChild(col2_label)
     table_row.appendChild(buildLabel(" column-3"));
 
@@ -276,17 +278,17 @@ function updateTable(required_subjects) {
 
     // gives message when course has prerequisites
     var message = document.getElementById("message");
-    message.innerHTML = "";
+    message.innerHTML = "<p>*ENGR100 is an Academic Writing Assessment and is an EFTS free, zero-fee course.</p>";
 
     // cosc122
     if (required_subjects.indexOf("COSC122") != -1) {
         var p = document.createElement("p");
-        p.innerHTML = "Note: COSC121 can be taken in either semester, but only if you are not taking COSC122.";
+        p.innerHTML = "*COSC121 can be taken in either semester, but only if you are not taking COSC122.";
         message.appendChild(p);
     }
-    if (required_subjects.indexOf("CHEM111") != -1) {
+    if (required_subjects.indexOf("CHEM111*") != -1) {
         var p = document.createElement("p");
-        p.innerHTML = "Note: CHEM111 can be taken in either semester, but only if you are not taking CHEM122.";
+        p.innerHTML = "*CHEM111 can be taken in either semester, but only if you are not taking CHEM122.";
         message.appendChild(p);
     }
 

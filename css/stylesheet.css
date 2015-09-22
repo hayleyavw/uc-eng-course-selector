@@ -8,23 +8,38 @@ body {
 }
 
 h1 {
-    margin-left: 10%;
+    margin-left: 8%;
 }
 
 #note, p {
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 8%;
+    margin-right: 8%;
 }
 
 #note p {
     margin-left :0px;
     margin-bottom: 0px;
-    line-height: 0px;
 }
 
 #note, #message {
     font-size: 12px;
 }
+
+
+/* key */
+.key {
+    margin: 30px;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+}
+
+#key-unselected, #key-selected, #key-overflow {
+    height: 30px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
 
 /* eng boxes */
 
@@ -32,11 +47,14 @@ h1 {
     margin: 0px auto;
 }
 
-.eng-options {
+#checkboxes {
     float: left;
-    margin-left: 12%;
+    width: 50%;
+}
+
+.eng-options {
+    margin-left: 15%;
     margin-bottom: 20px;
-    width: 40%;
     text-align: center;
 }
 
@@ -58,7 +76,7 @@ h1 {
 }
 
 .eng-options .selected-eng {
-    background-color: #7473A9;
+    background-color: #A09FC7;
 }
 
 .eng-options input {
@@ -69,13 +87,20 @@ h1 {
     background-color: #A09FC7;
 }
 
+#checkboxes p {
+    float: left;
+    margin-left: 16%;
+    padding-right: 15px;
+    font-size: 12px;
+}
+
 
 /* subject table */
 #subjects {
     float: left;
     margin-right: 5%;
     margin-bottom: 50px;
-    width: 40%;
+    width: 45%;
     text-align: center;
 }
 
@@ -114,11 +139,11 @@ h1 {
 }
 
 label.true.place-holder {
-    background-color: #7473A9; /*#A09FC7*/
+    background-color: #A09FC7;
     /*border: 3px solid #7473A9;*/
 }
 
-.true {
+.true, #key-selected {
     background-color: #A09FC7;
 }
 
@@ -127,13 +152,17 @@ label.true.place-holder {
     background-color: #4C4C55;
 }
 
-.false {
+.false, #key-unselected {
     background-color: #D1D3D4;
 }
 
 
-.overflow {
+.overflow, #key-overflow {
     background-color: #FFE28A;
+}
+
+#message p {
+    margin-left: 0px;
 }
 
 
@@ -144,27 +173,33 @@ label.true.place-holder {
 }
 
 @media only screen and (max-width: 800px) {
+    .eng-options, #subjects {
+        font-size: 16px;
+    }
+    #checkboxes {
+        width: 100%;
+    }
+    #checkboxes p {
+        margin-left: 6%;
+    }
     .eng-options {
         width: 100%;
-        font-size: 10px;
-        margin-left: 5%;
+        margin-left: 6%;
     }
     #subjects {
         width: 94%;
-        font-size: 12px;
         margin-left: 6%;
     }
 }
 
-@media only screen and (max-width: 400px) {
-    .eng-options {
-        width: 100%;
+@media only screen and (max-width: 500px) {
+    .eng-options, #subjects {
         font-size: 14px;
-        margin-left: 5%;
     }
+}
+
+@media only screen and (max-width: 400px) {
     #subjects {
         width: 100%;
-        font-size: 12px;
-        margin-left: 6%;
     }
 }

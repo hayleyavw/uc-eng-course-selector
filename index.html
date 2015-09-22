@@ -17,33 +17,36 @@
 
         <!-- instructions -->
         <p>
-            Click on the engineering disciplines you are interested in. The table will show you which subjects are needed to qualify for all the disciplines you selected.
-            <br>
-            Note that some engineering disciplines have similar/the same requirements. If you did not select a discipline but it is highlighted, this means that with the current subject selection you are also eligible for this discipline.
-            <br>
-            If a subject is available in multiple semesters, you can choose which semester you would prefer to take it in (although some subjects will have prerequisites).
-            <br>
-            Subjects will be highlighted in yellow if you have selected more than the recommended four subjects per semester.
+            Click on the engineering disciplines you are interested in below. The table will show you which subjects are needed to qualify for all the disciplines you selected. If a subject is available in multiple semesters, you can choose which semester you would prefer to take it in.
             <br>
             <br>
+            If you have selected less that four subjects per semester, you must select courses to fill them. A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
         </p>
         <div id="note">
-            <p>Note:
-            </p>
-            <ul>
-                <li>
+            <p>
             The table assumes that you have achieved University Entrance and some subjects will assume that you have taken a specific subject at NCEA Level 3 (e.g. PHYS101 requires 14 credits in Level 3 Physics).
-                <li>If you have/are expecting an Excellent Endorsement in any subject, consult Student Advisors as you may be eligible for a Modified Intermediate.
-                <li>ENGR100 is an Academic Writing Assessment and is an EFTS free, zero-fee course.
-                <li>If you have selected less that four subjects per semester, you must select courses to fill them. A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
-            </ul>
+            <br>
+            If you have/are expecting an Excellent Endorsement in any subject, consult Student Advisors as you may be eligible for a Modified Intermediate.
+            </p>
+        </div>
 
+        <div class="key">
+            <label id="key-selected">Selected</label>
+            <label id="key-unselected">Unselected</label>
+            <label id="key-overflow">Too many subjects</label>
         </div>
 
         <div id="tables">
 
+            <div id="checkboxes">
             <!-- checkboxes for each engineering type -->
-            <div id="eng_options" class="eng-options"></div>
+                <div id="eng_options" class="eng-options">
+                </div>
+
+                <p>
+                Note that some engineering disciplines have similar/the same requirements. If you did not select a discipline but it is highlighted, this means that with the current subject selection you are also eligible for this discipline.
+                </p>
+            </div>
 
             <div id="subjects">
 
