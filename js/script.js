@@ -22,21 +22,21 @@ var sem2_count = 0;
 rules = {
 //    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
     "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
-    "Computer": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
-    "Electrical and Electronic": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
-    "Mechatronics": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
-    "Mechanical": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Civil": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Natural Resources": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Forest": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
-    "Chemical and Process": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
+    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
 }
 
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENGR102", "ENGR103", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
-    "Summer School": ["ENGR102", "EMTH119", "COSC122"]
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Summer School": ["ENGR102", "COSC122"]
 }
 
 
