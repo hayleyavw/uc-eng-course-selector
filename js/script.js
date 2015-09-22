@@ -21,21 +21,21 @@ var sem2_count = 0;
 // ENGR100 hardcoded
 rules = {
 //    "All": ["ENGR101", "EMTH118", "EMTH119", "PHYS101"],
-    "Software":  ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "MATH120", "COSC121", "COSC122"],
-    "Computer": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121"],
-    "Electrical and Electronic": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121"],
-    "Mechatronics": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "COSC121", "ENGR102"],
-    "Mechanical": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "ENGR102"],
-    "Civil": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
-    "Natural Resources": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
-    "Forest": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111", "ENGR102"],
-    "Chemical and Process": ["ENGR101", "EMTH118", "EMTH119", "PHYS101", "EMTH171", "CHEM111"]
+    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
+    "Computer": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
+    "Electrical and Electronic": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
+    "Mechatronics": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101"],
+    "Mechanical": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Civil": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Natural Resources": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Forest": ["ENGR101", "ENGR102", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Chemical and Process": ["ENGR101", "ENGR103", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
 }
 
 // Semester: available subjects
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121", "CHEM111"],
-    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
+    "Semester 2": ["ENGR102", "ENGR103", "EMTH119", "EMTH171", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
@@ -51,7 +51,7 @@ $(document).ready(function() {
     // watch eng buttons for if clicked
     watchEngCB();
 
-    updateTable(rules["All"]); // test
+    updateTable([]); // test
 
 });
 
@@ -210,6 +210,7 @@ function updateReqSubjectList() {
 }
 
 
+// TODO break up this function into smaller functions!
 // rebuilds table based on eng selection
 function updateTable(required_subjects) {
 
@@ -234,14 +235,13 @@ function updateTable(required_subjects) {
 
     subject_table.appendChild(table_row);
 
-
     for (var i in required_subjects) {
 
         // create new row
         var table_row = document.createElement("div");
         table_row.className = "table-row";
 
-        subject = required_subjects[i];
+        var subject = required_subjects[i];
         selected = false;
 
         if (semester_occurances["Semester 1"].indexOf(subject) != -1) {
@@ -271,6 +271,23 @@ function updateTable(required_subjects) {
 
         subject_table.appendChild(table_row);
 
+    }
+
+
+    // gives message when course has prerequisites
+    var message = document.getElementById("message");
+    message.innerHTML = "";
+
+    // cosc122
+    if (required_subjects.indexOf("COSC122") != -1) {
+        var p = document.createElement("p");
+        p.innerHTML = "Note: COSC121 can be taken in either semester, but only if you are not taking COSC122.";
+        message.appendChild(p);
+    }
+    if (required_subjects.indexOf("CHEM111") != -1) {
+        var p = document.createElement("p");
+        p.innerHTML = "Note: CHEM111 can be taken in either semester, but only if you are not taking CHEM122.";
+        message.appendChild(p);
     }
 
     semesterCount();

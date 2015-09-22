@@ -1,5 +1,4 @@
-/* engineering list */
-
+/* text formatting */
 body {
     font-family: geneva, arial, helvetica, sans-serif;
 }
@@ -19,9 +18,11 @@ h1 {
     line-height: 0px;
 }
 
-#note {
+#note, #message {
     font-size: 12px;
 }
+
+/* eng boxes */
 
 #tables {
     margin: 0px auto;
@@ -30,6 +31,7 @@ h1 {
 .eng-options {
     float: left;
     margin-left: 10%;
+    margin-bottom: 20px;
     width: 500px;
     text-align: center;
 }
@@ -65,7 +67,7 @@ h1 {
 
 
 /* subject table */
-#subject-table {
+#subjects {
     float: left;
     margin-left: 5%;
     margin-right: 5%;
