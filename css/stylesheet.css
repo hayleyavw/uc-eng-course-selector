@@ -192,4 +192,7 @@ label.true.place-holder {
     #subjects {
         width: 100%;
     }
+    .eng-options, #subjects {
+        font-size: 12px;
+    }
 }
