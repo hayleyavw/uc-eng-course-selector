@@ -362,6 +362,8 @@ function updateEngList() {
      * Output: none
      */
 
+    console.log("here");
+
     // get rules for what subjects are required for each eng discipline
     var rules = getRules()[0];
 

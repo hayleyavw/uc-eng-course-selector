@@ -1,27 +1,16 @@
-#UC Engineering Paper Selection Help
+#Planning Your Intermediate Engineering Year
 
-TODO: link to licence file for normalize.css
+**Author: Hayley van Waas, University of Canterbury, September 2015**
 
-This is an interactive page designed to help students in selecting which papers to take for first year engineering at the University of Canterbury.
+This is an interactive webpage designed to help students in selecting which papers to take for first year engineering at the University of Canterbury.
 
-With server:
+### To edit the table rules
+The page works according to rules specified in dictionaries in script.js. One dictionary specifies subjects required for each engineering discipline, and the other specifies which subjects are available in each semester. To change the rules, simply edit these dictionaries.
 
-1. Open Terminal (or Command Line)
-2. cd into the directory
-3. Type the command: python -m SimpleHTTPServer (this will start a local server)
-4. In your browser, navigate to 127.0.0.1:8000/index.html
+The initial rules were taken directly from the Intermediate Courses Advisor spreadsheet.
 
-Without server:
-
-1. Open index2.html in a web browser
-
-
-To update the rules:
-
-1. Update table manually in latest script file
-OR
-
-1. Update Google Sheet/Excel document
-2. Export document as csv
-3. Run csv_to_list.py (ensuring file name of csv is used in script)
-4. Copy and past output to table in latest script file
+### Required Files
+The webpage uses
+- jQuery
+- Code shared under the [Universal Licence](https://creativecommons.org/publicdomain/zero/1.0/)
+- normalize.css as used under the licence specified in the [LICENSE- normalize.md](LICENSE - normalize.md) file
