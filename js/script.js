@@ -5,7 +5,9 @@
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
-// TODO remove this global variable
+// TODO some subjects can't be taken at the same time
+// TODO remove global variables
+
 var prerequisites = {
     "star-maths": 0,
     "l3-maths": 0,
@@ -31,7 +33,7 @@ var rules = {
 // Dictionary maps available subjects to semester
 var semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121*","CHEM114",  "CHEM111*"],
-    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "PHYS101", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
@@ -105,7 +107,6 @@ function adjustRules() {
                 subjects[emth119_index] = "MATH101";
             }
             subjects.push("PHYS111");
-            console.log(subjects);
         }
     }
 
@@ -117,7 +118,6 @@ function adjustRules() {
             if (phys111_index == -1) { // make sure PHYS111 hasn't already been added
                 subjects.push("PHYS111");
             }
-            console.log(subjects);
         }
     }
 
@@ -125,7 +125,10 @@ function adjustRules() {
         // add CHEM114
         for (var i in rules) {
             var subjects = rules[i];
-            subjects.push("CHEM114");
+            var chem111_index = subjects.indexOf("CHEM111");
+            if (chem111_index != -1) { // if CHEM111 in list, add CHEM114
+                subjects.push("CHEM114");
+            }
         }
         if (prerequisites["l2-chemistry"] == 0) {
             // TODO note: summer recommended
