@@ -28,8 +28,18 @@ $(document).ready(function() {
     // table empty initially
     updateTable([]);
 
+
 });
 
+
+$("input[type=radio]").change(function() {
+    console.log(this.nextAll)
+    if (this.checked == true) {
+        $(this).nextAll("label")[0].className = "true";
+    } else {
+        $(this).nextAll("label")[0].className = "false";
+    }
+});
 
 // function to store rules
 function getRules() {
@@ -61,6 +71,10 @@ function getRules() {
     }
 
     return [rules, semester_occurances];
+}
+
+function handler() {
+    console.log("here");
 }
 
 // create checkboxes for each eng type individually

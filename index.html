@@ -15,81 +15,82 @@
 
         <h1>Planning Your Intermediate Engineering Year</h1>
 
-            <h2>Prerequisites</h2>
+        <h2>Prerequisites</h2>
 
             <form action="">
                 <div class="question">
                     <p class="q-text">
                         Are you doing or have you completed STAR Maths?
                     </p>
-                    <input type="radio" name="star-maths" class="answer-btn" id="star-maths-yes" value="Yes"/>
-                    <label for="star-maths-yes" class="q-col-1">Yes</label>
-                    <input type="radio" name="star-maths" class="answer-btn" id="star-maths-no" value="No"/>
-                    <label for="star-maths-no" class="q-col-2">No</label>
+                    <input type="radio" name="star-maths" id="star-maths-yes" value="Yes" />
+                    <label for="star-maths-yes">Yes</label>
+                    <input type="radio" name="star-maths" id="star-maths-no" value="No" />
+                    <label for="star-maths-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Are you doing more than 15 credits in NCEA L3 Maths?
                     </p>
-                    <input type="radio" name="l3-maths" class="answer-btn" id="l3-maths-yes" value="Yes"/>
+                    <input type="radio" name="l3-maths" id="l3-maths-yes" value="Yes"/>
                     <label for="l3-maths-yes">Yes</label>
-                    <input type="radio" name="l3-maths" class="answer-btn" id="l3-maths-no" value="No"/>
+                    <input type="radio" name="l3-maths" id="l3-maths-no" value="No" />
                     <label for="l3-maths-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Including differentiation?
                     </p>
-                    <input type="radio" class="answer-btn" id="differentiation-yes" value="Yes"/>
+                    <input type="radio" name="differentiation" id="differentiation-yes" value="Yes"/>
                     <label for="differentiation-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="differentiation-no" value="No"/>
-                    <label for="differentiation-yes">Yes</label>
+                    <input type="radio" name="differentiation" id="differentiation-no" value="No"/>
+                    <label for="differentiation-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Including Integration?
                     </p>
-                    <input type="radio" class="answer-btn" id="integration-yes" value="Yes"/>
+                    <input type="radio" name="integration" id="integration-yes" value="Yes"/>
                     <label for="integration-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="integration-no" value="No"/>
-                    <label for="integration-yes">Yes</label>
+                    <input type="radio" name="integration" id="integration-no" value="No"/>
+                    <label for="integration-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Are you doing more than 14 credits in NCEA L3 Physics?
                     </p>
-                    <input type="radio" class="answer-btn" id="l3-physics-yes" value="Yes"/>
+                    <input type="radio" name="l3-physics" id="l3-physics-yes" value="Yes"/>
                     <label for="l3-physics-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="l3-physics-no" value="No"/>
-                    <label for="l3-physics-yes">Yes</label>
+                    <input type="radio" name="l3-physics" id="l3-physics-no" value="No"/>
+                    <label for="l3-physics-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Are you doing more than 14 credits in NCEA L3 Chemistry?
                     </p>
-                    <input type="radio" class="answer-btn" id="l3-chemistry-yes" value="Yes"/>
+                    <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value="Yes"/>
                     <label for="l3-chemistry-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="l3-chemistry-no" value="No"/>
-                    <label for="l3-chemistry-yes">Yes</label>
+                    <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value="No"/>
+                    <label for="l3-chemistry-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Did you complete NCEA L2 Chemistry?
                     </p>
-                    <input type="radio" class="answer-btn" id="l2-chemistry-yes" value="Yes" />
+                    <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value="Yes" />
                     <label for="l2-chemistry-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="l2-chemistry-no" value="No" />
-                    <label for="l2-chemistry-yes">Yes</label>
+                    <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value="No" />
+                    <label for="l2-chemistry-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Do you expect Excellent Endorsement in any subject?
                     </p>
-                    <input type="radio" class="answer-btn" id="endorsement-yes" value="Yes" />
+                    <input type="radio" name="endorsement" id="endorsement-yes" value="Yes" />
                     <label for="endorsement-yes">Yes</label>
-                    <input type="radio" class="answer-btn" id="endorsement-no" value="No" />
-                    <label for="endorsement-yes">Yes</label>
+                    <input type="radio" name="endorsement" id="endorsement-no" value="No" />
+                    <label for="endorsement-no">No</label>
                 </div>
+                <input type="submit" value="done" class="submit" onclick="radioCheck();"/>
             </form>
 
         <!-- instructions -->
