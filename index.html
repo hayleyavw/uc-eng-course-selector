@@ -15,98 +15,85 @@
 
         <h1>Planning Your Intermediate Engineering Year</h1>
 
-        <h2>Prerequisites</h2>
+        <h2>NCEA Background</h2>
 
-            <form action="">
+            <form name="radio-btns" action="" onsubmit="return false;">
                 <div class="question">
                     <p class="q-text">
                         Are you doing or have you completed STAR Maths?
                     </p>
-                    <input type="radio" name="star-maths" id="star-maths-yes" value="Yes" />
+                    <input type="radio" name="star-maths" id="star-maths-yes" value=1 />
                     <label for="star-maths-yes">Yes</label>
-                    <input type="radio" name="star-maths" id="star-maths-no" value="No" />
+                    <input type="radio" name="star-maths" id="star-maths-no" value=0 />
                     <label for="star-maths-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Are you doing more than 15 credits in NCEA L3 Maths?
+                        Are you doing more than 14 credits in NCEA L3 Maths?
                     </p>
-                    <input type="radio" name="l3-maths" id="l3-maths-yes" value="Yes"/>
+                    <input type="radio" name="l3-maths" id="l3-maths-yes" value=1 />
                     <label for="l3-maths-yes">Yes</label>
-                    <input type="radio" name="l3-maths" id="l3-maths-no" value="No" />
+                    <input type="radio" name="l3-maths" id="l3-maths-no" value=0 />
                     <label for="l3-maths-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Including differentiation?
                     </p>
-                    <input type="radio" name="differentiation" id="differentiation-yes" value="Yes"/>
+                    <input type="radio" name="differentiation" id="differentiation-yes" value=1 />
                     <label for="differentiation-yes">Yes</label>
-                    <input type="radio" name="differentiation" id="differentiation-no" value="No"/>
+                    <input type="radio" name="differentiation" id="differentiation-no" value=0 />
                     <label for="differentiation-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Including Integration?
                     </p>
-                    <input type="radio" name="integration" id="integration-yes" value="Yes"/>
+                    <input type="radio" name="integration" id="integration-yes" value=1 />
                     <label for="integration-yes">Yes</label>
-                    <input type="radio" name="integration" id="integration-no" value="No"/>
+                    <input type="radio" name="integration" id="integration-no" value=0 />
                     <label for="integration-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Are you doing more than 14 credits in NCEA L3 Physics?
                     </p>
-                    <input type="radio" name="l3-physics" id="l3-physics-yes" value="Yes"/>
+                    <input type="radio" name="l3-physics" id="l3-physics-yes" value=1 />
                     <label for="l3-physics-yes">Yes</label>
-                    <input type="radio" name="l3-physics" id="l3-physics-no" value="No"/>
+                    <input type="radio" name="l3-physics" id="l3-physics-no" value=0 />
                     <label for="l3-physics-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Are you doing more than 14 credits in NCEA L3 Chemistry?
                     </p>
-                    <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value="Yes"/>
+                    <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value=1 />
                     <label for="l3-chemistry-yes">Yes</label>
-                    <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value="No"/>
+                    <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value=0 />
                     <label for="l3-chemistry-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Did you complete NCEA L2 Chemistry?
                     </p>
-                    <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value="Yes" />
+                    <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value=1 />
                     <label for="l2-chemistry-yes">Yes</label>
-                    <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value="No" />
+                    <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value=0 />
                     <label for="l2-chemistry-no">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
                         Do you expect Excellent Endorsement in any subject?
                     </p>
-                    <input type="radio" name="endorsement" id="endorsement-yes" value="Yes" />
+                    <input type="radio" name="endorsement" id="endorsement-yes" value=1 />
                     <label for="endorsement-yes">Yes</label>
-                    <input type="radio" name="endorsement" id="endorsement-no" value="No" />
+                    <input type="radio" name="endorsement" id="endorsement-no" value=0 />
                     <label for="endorsement-no">No</label>
                 </div>
-                <input type="submit" value="done" class="submit" onclick="radioCheck();"/>
+                <input type="submit" value="done" class="submit" onclick="adjustRules();" />
             </form>
 
         <!-- instructions -->
-        <p>
-            Click on the engineering disciplines you are interested in below. The table will show you which subjects are needed to qualify for all the disciplines you selected. If a subject is available in multiple semesters, you can choose which semester you would prefer to take it in.
-            <br>
-            <br>
-            If you have selected less that four subjects per semester, you must select courses to fill them. A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
-        </p>
-        <div id="note">
-            <p>
-            The table assumes that you have achieved University Entrance and some subjects will assume that you have taken a specific subject at NCEA Level 3 (e.g. PHYS101 requires 14 credits in Level 3 Physics).
-            <br>
-            If you have/are expecting an Excellent Endorsement in any subject, consult Student Advisors as you may be eligible for a Modified Intermediate.
-            </p>
-        </div>
 
         <div class="key">
             <label id="key-selected">Selected</label>
@@ -121,9 +108,6 @@
                 <div id="eng_options" class="eng-options">
                 </div>
 
-                <p>
-                Note that some engineering disciplines have similar/the same requirements. If you did not select a discipline but it is highlighted, this means that with the current subject selection you are also eligible for this discipline.
-                </p>
             </div>
 
             <div id="subjects">
@@ -139,11 +123,13 @@
                 </div>
 
                 <div id="message">
-
                 </div>
             </div>
         </div>
 
+        <p>
+            If you have selected less that four subjects per semester, you must select courses to fill them. A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
+        </p>
 
         <script src="js/script.js"></script>
         <script src="js/closest.js"></script>

@@ -5,12 +5,41 @@
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
+// TODO remove this global variable
+var prerequisites = {
+    "star-maths": 0,
+    "l3-maths": 0,
+    "differentiation": 0,
+    "integration": 0,
+    "l3-physics": 0,
+    "l3-chemistry": 0,
+    "l2-chemistry": 0,
+    "endorsement": 0
+}
+var rules = {
+    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121*", "COSC122"],
+    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
+    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
+    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"]
+}
+
+// Dictionary maps available subjects to semester
+var semester_occurances = {
+    "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121*","CHEM114",  "CHEM111*"],
+    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
+    "Summer School": ["ENGR102", "EMTH119", "COSC122"]
+}
 
 // on page load
 $(document).ready(function() {
 
     // get rules for what subjects are required for each eng discipline
-    var rules = getRules()[0];
+    //var rules = getRules()[0];
 
     // get list of eng types from keys in dictionary
     var eng_types = Object.keys(rules);
@@ -32,14 +61,82 @@ $(document).ready(function() {
 });
 
 
+// watches radio buttons for change
 $("input[type=radio]").change(function() {
-    console.log(this.nextAll)
     if (this.checked == true) {
+        $(this).siblings().removeClass("true").addClass("false");
         $(this).nextAll("label")[0].className = "true";
     } else {
         $(this).nextAll("label")[0].className = "false";
     }
 });
+
+
+function adjustRules() {
+    var radio_btns = document.forms["radio-btns"].getElementsByTagName("input");
+
+    for (var i in radio_btns) {
+        btn = radio_btns[i];
+        if (btn.checked == true) {
+            prerequisites[btn.name] = parseInt(btn.value);
+        }
+    }
+
+    if (prerequisites["star-maths"] == 1) {
+        // change EMTH118 to EMTH210 and remove EMTH119
+        for (var i in rules) {
+            var subjects = rules[i];
+            var emth118_index = subjects.indexOf("EMTH118");
+            if (emth118_index != -1) {
+                subjects[emth118_index] = "EMTH210";
+            }
+            var emth119_index = subject.indexOf("EMTH119");
+            if (emth119_index != -1) {
+                subjects.splice(emth119_index, 1);
+            }
+        }
+    } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["differentiation"] == 0) {
+        // change EMTH119 to MATH101
+        // add PHYS111
+        for (var i in rules) {
+            var subjects = rules[i];
+            var emth119_index = subjects.indexOf("EMTH119");
+            if (emth119_index != -1) {
+                subjects[emth119_index] = "MATH101";
+            }
+            subjects.push("PHYS111");
+            console.log(subjects);
+        }
+    }
+
+    if (prerequisites["l3-physics"] == 0) {
+        // add PHYS111
+        for (var i in rules) {
+            var subjects = rules[i];
+            var phys111_index = subjects.indexOf("PHYS111");
+            if (phys111_index == -1) { // make sure PHYS111 hasn't already been added
+                subjects.push("PHYS111");
+            }
+            console.log(subjects);
+        }
+    }
+
+    if (prerequisites["l3-chemistry"] == 0) {
+        // add CHEM114
+        for (var i in rules) {
+            var subjects = rules[i];
+            subjects.push("CHEM114");
+        }
+        if (prerequisites["l2-chemistry"] == 0) {
+            // TODO note: summer recommended
+         }
+     }
+
+    if (prerequisites["endorsement"] == 1) {
+        // TODO note: talk to course advisors
+    }
+
+}
 
 // function to store rules
 function getRules() {
@@ -65,17 +162,14 @@ function getRules() {
 
     // Dictionary maps available subjects to semester
     var semester_occurances = {
-        "Semester 1": ["ENGR101", "EMTH118", "PHYS101", "COSC121*", "CHEM111*"],
+        "Semester 1": ["ENGR101", "EMTH118", "MATH101", "PHYS111", "PHYS101", "COSC121*","CHEM114",  "CHEM111*"],
         "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
-        "Summer School": ["ENGR102", "COSC122"]
+        "Summer School": ["ENGR102", "EMTH119", "COSC122"]
     }
 
     return [rules, semester_occurances];
 }
 
-function handler() {
-    console.log("here");
-}
 
 // create checkboxes for each eng type individually
 function generateEngCheckBoxes(name) {
@@ -222,7 +316,7 @@ function updateReqSubjectList(checked_eng_types) {
      */
 
     // get rules for what subjects are required for each eng discipline
-    var rules = getRules()[0];
+    // var rules = getRules()[0];
 
     var required_subjects = [];
 
@@ -274,7 +368,7 @@ function updateTable(required_subjects) {
     subject_table.appendChild(table_row);
 
     // place all other subjects
-    var semester_occurances = getRules()[1];
+    // var semester_occurances = getRules()[1];
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
@@ -370,16 +464,16 @@ function buildLabel(column) {
 }
 
 
+// TODO Bug: some eng types removed when still possible
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
     /* Input: none
      * Output: none
      */
 
-    console.log("here");
-
     // get rules for what subjects are required for each eng discipline
-    var rules = getRules()[0];
+    //var rules = getRules()[0];
+    var selected_eng = document.getElementsByClassName("selected-eng");
 
     // get selected subjects by class name
     var selected_subjects = document.getElementsByClassName("true subject-button");
@@ -396,9 +490,12 @@ function updateEngList() {
         }
     }
 
-    // for each of the eng types, check if all the required subjects have been selected
-    for (var i in rules) {
-        var req_subjects = rules[i];
+    // for each of the selected eng types, check if all the required subjects have been selected
+    for (var i in selected_eng) {
+        if (selected_eng[i].innerText == undefined) {
+            continue;
+        }
+        var req_subjects = rules[selected_eng[i].innerText];
         var count = 0;
         for (j = 0; j < req_subjects.length; j++) {
             if (subjects.indexOf(req_subjects[j]) == -1) {
@@ -408,7 +505,7 @@ function updateEngList() {
             }
         }
         // change class for eng type if it available depending on subject selection
-        var element = document.getElementById(i).closest("label");
+        var element = document.getElementById(selected_eng[i].innerText).closest("label");
         if (element.className == "selected-eng") {
             if (req_subjects.length != count) {
                 element.className = "";
