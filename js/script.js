@@ -65,11 +65,16 @@ $(document).ready(function() {
 
 // watches radio buttons for change
 $("input[type=radio]").change(function() {
+    console.log("here");
     if (this.checked == true) {
-        $(this).siblings().removeClass("true").addClass("false");
+        siblings = $(this).siblings();
+        console.log(siblings);
+        for (var i in siblings) {
+            if (siblings[i].tagName == "LABEL") {
+                siblings[i].className = "false";
+            }
+        }
         $(this).nextAll("label")[0].className = "true";
-    } else {
-        $(this).nextAll("label")[0].className = "false";
     }
 });
 

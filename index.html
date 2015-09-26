@@ -15,7 +15,9 @@
 
         <h1>Planning Your Intermediate Engineering Year</h1>
 
-        <h2>NCEA Background</h2>
+        <div class="arrow">
+        <div class="base"><p>START HERE</p></div><h2>NCEA Background</h2>
+        </div>
 
             <form name="radio-btns" action="" onsubmit="return false;">
                 <div class="question">
@@ -24,8 +26,8 @@
                     </p>
                     <input type="radio" name="star-maths" id="star-maths-yes" value=1 />
                     <label for="star-maths-yes">Yes</label>
-                    <input type="radio" name="star-maths" id="star-maths-no" value=0 />
-                    <label for="star-maths-no">No</label>
+                    <input type="radio" name="star-maths" id="star-maths-no" value=0 checked />
+                    <label for="star-maths-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -33,8 +35,8 @@
                     </p>
                     <input type="radio" name="l3-maths" id="l3-maths-yes" value=1 />
                     <label for="l3-maths-yes">Yes</label>
-                    <input type="radio" name="l3-maths" id="l3-maths-no" value=0 />
-                    <label for="l3-maths-no">No</label>
+                    <input type="radio" name="l3-maths" id="l3-maths-no" value=0 checked />
+                    <label for="l3-maths-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -42,8 +44,8 @@
                     </p>
                     <input type="radio" name="differentiation" id="differentiation-yes" value=1 />
                     <label for="differentiation-yes">Yes</label>
-                    <input type="radio" name="differentiation" id="differentiation-no" value=0 />
-                    <label for="differentiation-no">No</label>
+                    <input type="radio" name="differentiation" id="differentiation-no" value=0 checked />
+                    <label for="differentiation-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -51,8 +53,8 @@
                     </p>
                     <input type="radio" name="integration" id="integration-yes" value=1 />
                     <label for="integration-yes">Yes</label>
-                    <input type="radio" name="integration" id="integration-no" value=0 />
-                    <label for="integration-no">No</label>
+                    <input type="radio" name="integration" id="integration-no" value=0 checked />
+                    <label for="integration-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -60,8 +62,8 @@
                     </p>
                     <input type="radio" name="l3-physics" id="l3-physics-yes" value=1 />
                     <label for="l3-physics-yes">Yes</label>
-                    <input type="radio" name="l3-physics" id="l3-physics-no" value=0 />
-                    <label for="l3-physics-no">No</label>
+                    <input type="radio" name="l3-physics" id="l3-physics-no" value=0 checked />
+                    <label for="l3-physics-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -69,8 +71,8 @@
                     </p>
                     <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value=1 />
                     <label for="l3-chemistry-yes">Yes</label>
-                    <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value=0 />
-                    <label for="l3-chemistry-no">No</label>
+                    <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value=0 checked />
+                    <label for="l3-chemistry-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -78,8 +80,8 @@
                     </p>
                     <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value=1 />
                     <label for="l2-chemistry-yes">Yes</label>
-                    <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value=0 />
-                    <label for="l2-chemistry-no">No</label>
+                    <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value=0 checked />
+                    <label for="l2-chemistry-no" class="true">No</label>
                 </div>
                 <div class="question">
                     <p class="q-text">
@@ -87,13 +89,16 @@
                     </p>
                     <input type="radio" name="endorsement" id="endorsement-yes" value=1 />
                     <label for="endorsement-yes">Yes</label>
-                    <input type="radio" name="endorsement" id="endorsement-no" value=0 />
-                    <label for="endorsement-no">No</label>
+                    <input type="radio" name="endorsement" id="endorsement-no" value=0 checked />
+                    <label for="endorsement-no" class="true">No</label>
                 </div>
                 <input type="submit" value="done" class="submit" onclick="adjustRules();" />
             </form>
 
-        <!-- instructions -->
+
+        <div class="arrow">
+        <div class="base"><p>Next</p></div><h2>Semester Planner</h2>
+        </div>
 
         <div class="key">
             <label id="key-selected">Selected</label>

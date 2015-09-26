@@ -11,6 +11,43 @@ h1, h2, form {
     margin-left: 8%;
 }
 
+
+.base {
+    background: #7473A9;
+    height: 100px;
+    margin-left: 20px;
+    position: relative;
+    width: 70px;
+    transform: rotate(90deg);
+    font-style: bold;
+    color: #FFF;
+}
+
+.base:before {
+    border-bottom: 30px solid #7473A9;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: -30px;
+    width: 0;
+}
+
+.base p {
+    transform: rotate(-90deg) !important;
+}
+
+.arrow {
+    display: block;
+    margin-left: 7%;
+}
+
+.base, .arrow h2 {
+    display: inline-block;
+}
+
 .question {
     display: block;
 }
@@ -202,6 +239,9 @@ label.true.place-holder {
 @media only screen and (max-width: 800px) {
     .eng-options, #subjects {
         font-size: 16px;
+    }
+    .eng-options {
+        margin-bottom: 200px;
     }
     #checkboxes, .eng-options {
         width: 100%;
