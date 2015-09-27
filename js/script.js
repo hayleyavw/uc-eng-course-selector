@@ -19,21 +19,21 @@ var prerequisites = {
     "endorsement": 0
 }
 var rules = {
-    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121*", "COSC122"],
-    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"]
+    "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
+    "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+    "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+    "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
 }
 
 // Dictionary maps available subjects to semester
 var semester_occurances = {
-    "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121*","CHEM114",  "CHEM111*"],
-    "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "PHYS101", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
+    "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121", "CHEM114",  "CHEM111"],
+    "Semester 2": ["ENGR102", "EMTH118", "EMTH119", "EMTH171", "PHYS101", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
@@ -76,9 +76,11 @@ $("input[type=radio]").change(function() {
         }
         $(this).nextAll("label")[0].className = "true";
     }
+
 });
 
 
+// changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
     var radio_btns = document.forms["radio-btns"].getElementsByTagName("input");
 
@@ -97,7 +99,7 @@ function adjustRules() {
             if (emth118_index != -1) {
                 subjects[emth118_index] = "EMTH210";
             }
-            var emth119_index = subject.indexOf("EMTH119");
+            var emth119_index = subjects.indexOf("EMTH119");
             if (emth119_index != -1) {
                 subjects.splice(emth119_index, 1);
             }
@@ -105,6 +107,8 @@ function adjustRules() {
     } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["differentiation"] == 0) {
         // change EMTH119 to MATH101
         // add PHYS111
+        // remove PHYS101 from semester 1
+        // remove EMTH118 from semester 1
         for (var i in rules) {
             var subjects = rules[i];
             var emth119_index = subjects.indexOf("EMTH119");
@@ -113,10 +117,15 @@ function adjustRules() {
             }
             subjects.push("PHYS111");
         }
+        var phys101_index = semester_occurances["Semester 1"].indexOf("PHYS101");
+        semester_occurances["Semester 1"].splice(phys101_index, 1);
+        var emth118_index = semester_occurances["Semester 1"].indexOf("EMTH118");
+        semester_occurances["Semester 1"].splice(emth118_index, 1);
     }
 
     if (prerequisites["l3-physics"] == 0) {
         // add PHYS111
+        // remove PHYS101 from semester 1
         for (var i in rules) {
             var subjects = rules[i];
             var phys111_index = subjects.indexOf("PHYS111");
@@ -124,19 +133,31 @@ function adjustRules() {
                 subjects.push("PHYS111");
             }
         }
+        var phys101_index = semester_occurances["Semester 1"].indexOf("PHYS101");
+        if (phys101_index != -1) { // check PHYS101 hasn't already been removed
+            semester_occurances["Semester 1"].splice(phys101_index, 1);
+        }
     }
 
     if (prerequisites["l3-chemistry"] == 0) {
         // add CHEM114
+        // remove CHEM111 from semester 1
         for (var i in rules) {
             var subjects = rules[i];
+            console.log(subjects);
             var chem111_index = subjects.indexOf("CHEM111");
+                console.log("here");
             if (chem111_index != -1) { // if CHEM111 in list, add CHEM114
                 subjects.push("CHEM114");
+                console.log(subjects);
             }
         }
+        var chem111_index = semester_occurances["Semester 1"].indexOf("CHEM111");
+        semester_occurances["Semester 1"].splice(chem111_index, 1);
         if (prerequisites["l2-chemistry"] == 0) {
             // TODO note: summer recommended
+         } else { //l2-chemistry == 1
+            // TODO note: talk to student advisors
          }
      }
 
@@ -144,14 +165,14 @@ function adjustRules() {
         // TODO note: talk to course advisors
     }
 
+    updateTable([]);
 }
 
 // function to store rules
+/*
 function getRules() {
-    /*
-     * Takes no input
-     * Returns array of length 2 - [eng rules, semester occurances]
-     */
+     Takes no input
+     Returns array of length 2 - [eng rules, semester occurances]
 
     // Dictionary for eng rules, maps required subjects to eng type
     // NOTE: ENGR100 is hardcoded therefore not included in the dictionary
@@ -177,6 +198,7 @@ function getRules() {
 
     return [rules, semester_occurances];
 }
+*/
 
 
 // create checkboxes for each eng type individually
@@ -430,7 +452,7 @@ function updateTable(required_subjects) {
         p.innerHTML = "*COSC121 can be taken in either semester, but only if you are not taking COSC122.";
         message.appendChild(p);
     }
-    if (required_subjects.indexOf("CHEM111*") != -1) {
+    if (required_subjects.indexOf("CHEM111") != -1) {
         var p = document.createElement("p");
         p.innerHTML = "*CHEM111 can be taken in either semester, but only if you are not taking CHEM122.";
         message.appendChild(p);
