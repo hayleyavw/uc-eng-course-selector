@@ -67,8 +67,6 @@ function adjustRules() {
         }
     }
 
-    console.log(prerequisites);
-
     if (prerequisites["star-maths"] == 1) {
         // change EMTH118 to EMTH210 and remove EMTH119
         for (var i in new_rules) {
@@ -142,6 +140,8 @@ function adjustRules() {
 
     rules = new_rules;
     semester_occurances = new_semester_occurances;
+
+    console.log(rules["Mechanical"]);
 
     // get list of eng types from keys in dictionary
     var eng_types = Object.keys(rules);
@@ -316,6 +316,7 @@ function semesterCount() {
     updateOverflowButtons(sem1_buttons, sem1_count, 4);
     updateOverflowButtons(sem2_buttons, sem2_count, 4);
     updateOverflowButtons(summer_buttons, summer_count, 2);
+    updateFreeSubjectInputs(sem1_count, sem2_count, 4);
 
 }
 
@@ -326,20 +327,56 @@ function updateOverflowButtons(button_list, count, threshold) {
      * Output: none
      */
 
-    // for each button get the current class name, and check if it needs to be set overflow or not
-    for (var i = 0; i < button_list.length; i++) {
-        var current_class = button_list[i].className;
+    if (button_list.length > 0) {
+        var current_class = button_list[0].className;
         var column = current_class.slice(-9);
+
+        // change class to overflow if over threshold, else remove overflow class
         if (count > threshold) {
-            // if over threshold, buttons should be coloured for overflow
-            if (button_list[i].className.indexOf("true") != -1) {
-                button_list[i].className = "overflow true subject-button" + column;
+            for (var i = 0; i < button_list.length; i++) {
+                var current_class = button_list[i].className;
+                // if over threshold, buttons should be coloured for overflow
+                if (button_list[i].className.indexOf("true") != -1) {
+                    button_list[i].className = "overflow true subject-button" + column;
+                }
             }
         } else {
-            if (button_list[i].className.indexOf("overflow") != -1 && button_list[i].className.indexOf("true") != -1) {
-                button_list[i].className = "true subject-button" + column;
+            for (var i = 0; i < button_list.length; i++) {
+                var current_class = button_list[i].className;
+                if (button_list[i].className.indexOf("overflow") != -1 && button_list[i].className.indexOf("true") != -1) {
+                    button_list[i].className = "true subject-button" + column;
+                }
             }
         }
+    }
+}
+
+
+function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
+
+    var num_sem1_spaces = threshold - sem1_count;
+    var num_sem2_spaces = threshold - sem2_count;
+
+    var subject_table = document.getElementById("subject-table");
+
+    while (num_sem1_spaces > 0 || num_sem2_spaces > 0) {
+    console.log(num_sem1_spaces, num_sem2_spaces);
+        var table_row = document.createElement("div");
+        table_row.className = "table-row";
+        if (num_sem1_spaces > 0) {
+            table_row.appendChild(buildFreeSpace(" column-1"));
+            num_sem1_spaces -= 1;
+        } else {
+            table_row.appendChild(buildLabel(" column-1"));
+        }
+        if (num_sem2_spaces > 0) {
+            table_row.appendChild(buildFreeSpace(" column-2"));
+            num_sem2_spaces -= 1;
+        } else {
+            table_row.appendChild(buildLabel(" column-2"));
+        }
+        table_row.appendChild(buildLabel(" column-3"));
+        subject_table.appendChild(table_row);
     }
 }
 
@@ -351,7 +388,6 @@ function updateReqSubjectList(checked_eng_types) {
      */
 
     // get rules for what subjects are required for each eng discipline
-    var rules = getRules()[0];
 
     var required_subjects = [];
 
@@ -404,7 +440,6 @@ function updateTable(required_subjects) {
 
     // place all other subjects
 
-    semester_occurances = getRules()[1];
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
@@ -504,6 +539,18 @@ function buildLabel(column) {
 }
 
 
+function buildFreeSpace(column) {
+    /* Input: column number
+     * Output: label element
+     */
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "elective" + column;
+    input.value = "Other elective";
+    return input;
+}
+
+
 // TODO Bug: some eng types removed when still possible
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
@@ -512,7 +559,6 @@ function updateEngList() {
      */
 
     // get rules for what subjects are required for each eng discipline
-    var rules = getRules()[0];
     var selected_eng = document.getElementsByClassName("selected-eng");
 
     // get selected subjects by class name
