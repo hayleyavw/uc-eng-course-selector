@@ -141,8 +141,6 @@ function adjustRules() {
     rules = new_rules;
     semester_occurances = new_semester_occurances;
 
-    console.log(rules["Mechanical"]);
-
     // get list of eng types from keys in dictionary
     var eng_types = Object.keys(rules);
 
@@ -351,8 +349,19 @@ function updateOverflowButtons(button_list, count, threshold) {
     }
 }
 
+// recursively deletes all free elective spaces
+function removeExistingElectiveRows(elective_inputs) {
+    if (elective_inputs.length > 0) { // if there are actually more electives to delete
+        elective_inputs[0].parentNode.removeChild(elective_inputs[0]); // remove the whole row
+        removeExistingElectiveRows(document.getElementsByClassName("elective-row")); // call the function again with the remaining elective spaces
+    }
+    return
+}
 
 function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
+
+    // clear the existing rows with free elective spaces
+    removeExistingElectiveRows(document.getElementsByClassName("elective-row"));
 
     var num_sem1_spaces = threshold - sem1_count;
     var num_sem2_spaces = threshold - sem2_count;
@@ -360,9 +369,8 @@ function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
     var subject_table = document.getElementById("subject-table");
 
     while (num_sem1_spaces > 0 || num_sem2_spaces > 0) {
-    console.log(num_sem1_spaces, num_sem2_spaces);
         var table_row = document.createElement("div");
-        table_row.className = "table-row";
+        table_row.className = "elective-row table-row";
         if (num_sem1_spaces > 0) {
             table_row.appendChild(buildFreeSpace(" column-1"));
             num_sem1_spaces -= 1;
