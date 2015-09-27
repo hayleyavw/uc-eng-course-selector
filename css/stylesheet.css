@@ -11,6 +11,10 @@ h1, h2, form {
     margin-left: 8%;
 }
 
+.sem-planner {
+    display: none;
+}
+
 
 .base {
     background: #7473A9;

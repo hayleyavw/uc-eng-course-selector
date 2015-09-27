@@ -6,19 +6,9 @@
  */
 
 // TODO some subjects can't be taken at the same time
-// TODO remove global variables
+// TODO deal with global variables
 
-var prerequisites = {
-    "star-maths": 0,
-    "l3-maths": 0,
-    "differentiation": 0,
-    "integration": 0,
-    "l3-physics": 0,
-    "l3-chemistry": 0,
-    "l2-chemistry": 0,
-    "endorsement": 0
-}
-var rules = {
+rules = {
     "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
     "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
     "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
@@ -30,45 +20,17 @@ var rules = {
     "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
 }
 
-// Dictionary maps available subjects to semester
-var semester_occurances = {
+semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121", "CHEM114",  "CHEM111"],
     "Semester 2": ["ENGR102", "EMTH118", "EMTH119", "EMTH171", "PHYS101", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
-// on page load
-$(document).ready(function() {
-
-    // get rules for what subjects are required for each eng discipline
-    //var rules = getRules()[0];
-
-    // get list of eng types from keys in dictionary
-    var eng_types = Object.keys(rules);
-
-    // generate check box for each engineering type
-    for (var i in eng_types) {
-        generateEngCheckBoxes(eng_types[i]);
-    }
-
-    // empty list of selected eng types to start with
-    var checked_eng_types = [];
-    // watch eng buttons for if clicked
-    watchEngCB(checked_eng_types);
-
-    // table empty initially
-    updateTable([]);
-
-
-});
-
 
 // watches radio buttons for change
 $("input[type=radio]").change(function() {
-    console.log("here");
     if (this.checked == true) {
         siblings = $(this).siblings();
-        console.log(siblings);
         for (var i in siblings) {
             if (siblings[i].tagName == "LABEL") {
                 siblings[i].className = "false";
@@ -76,12 +38,26 @@ $("input[type=radio]").change(function() {
         }
         $(this).nextAll("label")[0].className = "true";
     }
-
 });
 
 
 // changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
+
+    var prerequisites = {
+        "star-maths": 0,
+        "l3-maths": 0,
+        "differentiation": 0,
+        "integration": 0,
+        "l3-physics": 0,
+        "l3-chemistry": 0,
+        "l2-chemistry": 0,
+        "endorsement": 0
+    }
+
+    var new_rules = getRules()[0];
+    var new_semester_occurances = getRules()[1];
+
     var radio_btns = document.forms["radio-btns"].getElementsByTagName("input");
 
     for (var i in radio_btns) {
@@ -91,10 +67,12 @@ function adjustRules() {
         }
     }
 
+    console.log(prerequisites);
+
     if (prerequisites["star-maths"] == 1) {
         // change EMTH118 to EMTH210 and remove EMTH119
-        for (var i in rules) {
-            var subjects = rules[i];
+        for (var i in new_rules) {
+            var subjects = new_rules[i];
             var emth118_index = subjects.indexOf("EMTH118");
             if (emth118_index != -1) {
                 subjects[emth118_index] = "EMTH210";
@@ -105,55 +83,52 @@ function adjustRules() {
             }
         }
     } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["differentiation"] == 0) {
-        // change EMTH119 to MATH101
+        // add MATH101
         // add PHYS111
         // remove PHYS101 from semester 1
         // remove EMTH118 from semester 1
-        for (var i in rules) {
-            var subjects = rules[i];
-            var emth119_index = subjects.indexOf("EMTH119");
-            if (emth119_index != -1) {
-                subjects[emth119_index] = "MATH101";
-            }
+        // remove EMTH119 from semester 2
+        for (var i in new_rules) {
+            var subjects = new_rules[i];
+            subjects.push("MATH101");
             subjects.push("PHYS111");
         }
-        var phys101_index = semester_occurances["Semester 1"].indexOf("PHYS101");
-        semester_occurances["Semester 1"].splice(phys101_index, 1);
-        var emth118_index = semester_occurances["Semester 1"].indexOf("EMTH118");
-        semester_occurances["Semester 1"].splice(emth118_index, 1);
+        var phys101_index = new_semester_occurances["Semester 1"].indexOf("PHYS101");
+        new_semester_occurances["Semester 1"].splice(phys101_index, 1);
+        var emth118_index = new_semester_occurances["Semester 1"].indexOf("EMTH118");
+        new_semester_occurances["Semester 1"].splice(emth118_index, 1);
+        var emth119_index = new_semester_occurances["Semester 2"].indexOf("EMTH119");
+        new_semester_occurances["Semester 2"].splice(emth119_index, 1);
     }
 
     if (prerequisites["l3-physics"] == 0) {
         // add PHYS111
         // remove PHYS101 from semester 1
-        for (var i in rules) {
-            var subjects = rules[i];
+        for (var i in new_rules) {
+            var subjects = new_rules[i];
             var phys111_index = subjects.indexOf("PHYS111");
             if (phys111_index == -1) { // make sure PHYS111 hasn't already been added
                 subjects.push("PHYS111");
             }
         }
-        var phys101_index = semester_occurances["Semester 1"].indexOf("PHYS101");
+        var phys101_index = new_semester_occurances["Semester 1"].indexOf("PHYS101");
         if (phys101_index != -1) { // check PHYS101 hasn't already been removed
-            semester_occurances["Semester 1"].splice(phys101_index, 1);
+            new_semester_occurances["Semester 1"].splice(phys101_index, 1);
         }
     }
 
     if (prerequisites["l3-chemistry"] == 0) {
         // add CHEM114
         // remove CHEM111 from semester 1
-        for (var i in rules) {
-            var subjects = rules[i];
-            console.log(subjects);
+        for (var i in new_rules) {
+            var subjects = new_rules[i];
             var chem111_index = subjects.indexOf("CHEM111");
-                console.log("here");
             if (chem111_index != -1) { // if CHEM111 in list, add CHEM114
                 subjects.push("CHEM114");
-                console.log(subjects);
             }
         }
-        var chem111_index = semester_occurances["Semester 1"].indexOf("CHEM111");
-        semester_occurances["Semester 1"].splice(chem111_index, 1);
+        var chem111_index = new_semester_occurances["Semester 1"].indexOf("CHEM111");
+        new_semester_occurances["Semester 1"].splice(chem111_index, 1);
         if (prerequisites["l2-chemistry"] == 0) {
             // TODO note: summer recommended
          } else { //l2-chemistry == 1
@@ -165,40 +140,61 @@ function adjustRules() {
         // TODO note: talk to course advisors
     }
 
+    rules = new_rules;
+    semester_occurances = new_semester_occurances;
+
+    // get list of eng types from keys in dictionary
+    var eng_types = Object.keys(rules);
+
+    // clear existing checkboxes
+    var checkboxes = document.getElementById("eng_options");
+    checkboxes.innerHTML = "";
+
+    // generate check box for each engineering type
+    for (var i in eng_types) {
+        generateEngCheckBoxes(eng_types[i]);
+    }
+
+    // empty list of selected eng types to start with
+    var checked_eng_types = [];
+    // watch eng buttons for if clicked
+    watchEngCB(checked_eng_types);
     updateTable([]);
+
+    // display the semester planner part of the page
+    document.getElementsByClassName("sem-planner")[0].style.display = "block";
 }
 
 // function to store rules
-/*
-function getRules() {
-     Takes no input
-     Returns array of length 2 - [eng rules, semester occurances]
+
+function getRules(rules, semester_occurances) {
+     //Takes no input
+     //Returns array of length 2 - [eng rules, semester occurances]
 
     // Dictionary for eng rules, maps required subjects to eng type
     // NOTE: ENGR100 is hardcoded therefore not included in the dictionary
-    // Asterix in COSC121 and CHEM111 to indicate further information given underneath table
-    var rules = {
-        "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121*", "COSC122"],
-        "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-        "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-        "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121*"],
-        "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-        "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-        "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-        "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"],
-        "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111*"]
+    var orig_rules = {
+        "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
+        "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+        "Electrical and Electronic": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+        "Mechatronics": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
+        "Mechanical": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+        "Civil": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+        "Natural Resources": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+        "Forest": ["ENGR101", "ENGR102", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"],
+        "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
     }
 
     // Dictionary maps available subjects to semester
-    var semester_occurances = {
-        "Semester 1": ["ENGR101", "EMTH118", "MATH101", "PHYS111", "PHYS101", "COSC121*","CHEM114",  "CHEM111*"],
-        "Semester 2": ["ENGR102", "EMTH119", "EMTH171", "COSC121*", "CHEM111*", "MATH120", "COSC122"],
+    var orig_semester_occurances = {
+        "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121", "CHEM114",  "CHEM111"],
+        "Semester 2": ["ENGR102", "EMTH118", "EMTH119", "EMTH171", "PHYS101", "COSC121", "CHEM111", "MATH120", "COSC122"],
         "Summer School": ["ENGR102", "EMTH119", "COSC122"]
     }
 
-    return [rules, semester_occurances];
+    return [orig_rules, orig_semester_occurances];
 }
-*/
+
 
 
 // create checkboxes for each eng type individually
@@ -306,17 +302,26 @@ function semesterCount() {
         }
     }
 
-    // NOTE: no counter for summer school because not enough subjects in the rules for an overflow to exist
+    // get all buttons in the third column (summer school) and check if they are set to true
+    var summer_count = 0
+    var summer_buttons = document.getElementsByName("column-3");
+    for (var i = 0; i < summer_buttons.length; i++) {
+        if (summer_buttons[i].className.indexOf("true") != -1) {
+            summer_count += 1;
+        }
+    }
 
     // update classes of buttons depending on number in each semester just calculated
-    updateOverflowButtons(sem1_buttons, sem1_count);
-    updateOverflowButtons(sem2_buttons, sem2_count);
+    // last parameter is max number of subjects for that semester
+    updateOverflowButtons(sem1_buttons, sem1_count, 4);
+    updateOverflowButtons(sem2_buttons, sem2_count, 4);
+    updateOverflowButtons(summer_buttons, summer_count, 2);
 
 }
 
 
 // change class applied to each button depending on number of buttons clicked in given semester
-function updateOverflowButtons(button_list, count) {
+function updateOverflowButtons(button_list, count, threshold) {
     /* Input: list of buttons in the same column, the number set as true in that column
      * Output: none
      */
@@ -325,8 +330,8 @@ function updateOverflowButtons(button_list, count) {
     for (var i = 0; i < button_list.length; i++) {
         var current_class = button_list[i].className;
         var column = current_class.slice(-9);
-        if (count > 4) { //4 = reccommended number of subjects per semester
-            // if over 4, buttons should be coloured for overflow
+        if (count > threshold) {
+            // if over threshold, buttons should be coloured for overflow
             if (button_list[i].className.indexOf("true") != -1) {
                 button_list[i].className = "overflow true subject-button" + column;
             }
@@ -346,7 +351,7 @@ function updateReqSubjectList(checked_eng_types) {
      */
 
     // get rules for what subjects are required for each eng discipline
-    // var rules = getRules()[0];
+    var rules = getRules()[0];
 
     var required_subjects = [];
 
@@ -398,7 +403,8 @@ function updateTable(required_subjects) {
     subject_table.appendChild(table_row);
 
     // place all other subjects
-    // var semester_occurances = getRules()[1];
+
+    semester_occurances = getRules()[1];
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
@@ -431,7 +437,11 @@ function updateTable(required_subjects) {
         }
 
         if (semester_occurances["Summer School"].indexOf(subject) != -1) {
-            selected = false;
+            if (selected == true) {
+                selected = false;
+            } else {
+                selected = true;
+            }
             buildButton(table_row, subject, selected, " column-3");
         } else {
             table_row.appendChild(buildLabel(" column-3"));
@@ -502,7 +512,7 @@ function updateEngList() {
      */
 
     // get rules for what subjects are required for each eng discipline
-    //var rules = getRules()[0];
+    var rules = getRules()[0];
     var selected_eng = document.getElementsByClassName("selected-eng");
 
     // get selected subjects by class name
