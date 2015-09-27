@@ -258,8 +258,10 @@ function subjectButtonClick(subject) {
     var column = current_class.slice(-9);
 
     // if true is included in the class - i.e. was selected, now we are wanting to unselect it
+    // TODO remove row if unselected
     if (current_class.indexOf("true") != -1) {
-        subject.className = "false subject-button" + column;
+        var subject_row = subject.parentNode;
+        subject_row.parentNode.removeChild(subject_row); // remove the whole row
     // else must have been false - i.e. was unselected, now we are wanting to select it
     } else {
         // get siblings in div - i.e. objects in same row and if they are inputs, set them to false
@@ -272,9 +274,61 @@ function subjectButtonClick(subject) {
         }
         // set the clicked subject to true
         subject.className = "true subject-button" + column;
+
+        // subject pairs where order matters
+        var subject_clashes = {
+            "COSC121": "COSC122",
+            "COSC122": "COSC121",
+            "EMTH118": "EMTH119",
+            "EMTH119": "EMTH118"
+        }
+        //var clash_subject_keys = Object.keys(subject_clashes);
+        // TODO check both the subject and it's compliment are in the table
+        if (Object.keys(subject_clashes).indexOf(subject.value) != -1) { // subject where order matters
+            //checkSubjectOrder(subject, "COSC122"); // TODO this is only a test case, needs to send in dynamically
+            // find it's pair's name, check if also selected
+            var compliment_subject = subject_clashes[subject.value];
+            var compliment_row = document.getElementsByClassName(compliment_subject);
+            if (compliment_row.length > 0) { // compliment subject also in table
+                checkSubjectOrder(subject, compliment_subject);
+            }
+        }
     }
 }
 
+
+// TODO deal with overflow issue
+function checkSubjectOrder(shifted_subject, compliment_subject) {
+    var shifted_col = shifted_subject.name;
+    var compliment_options = [];
+
+    var compliment_row = document.getElementsByClassName(compliment_subject)[0].childNodes;
+    for (var i in compliment_row) {
+        if (compliment_row[i].className == undefined) { //undefined included in list by getElementsByClassName function
+            continue;
+        }
+        if (compliment_row[i].className.indexOf("true") != -1) {
+            var selected_compliment = compliment_row[i];
+            var compliment_col = compliment_row[i].name;
+        } else {
+            if (compliment_row[i].tagName == "INPUT") {
+                compliment_options.push(compliment_row[i]);
+            }
+        }
+    }
+
+    if (shifted_col == compliment_col) {
+        console.log("same");
+        // try and shift compliment subject
+        if (compliment_options.length == 0) {
+            // new colour for subject clash
+        } else { // it is able to be moved
+            compliment_options[0].className = compliment_options[0].className.replace(/false/i, "true");
+            selected_compliment.className = selected_compliment.className.replace(/true/i, "false");
+        }
+    }
+
+}
 
 // count subjects per semester
 function semesterCount() {
@@ -454,10 +508,10 @@ function updateTable(required_subjects) {
 
         // create new row
         var table_row = document.createElement("div");
-        table_row.className = "table-row";
 
         var subject = required_subjects[i];
         var selected = false;
+        table_row.className = subject + " table-row";
 
         // for each semester, builds button of label depending on whether the subject is avaliable in that semester
 
