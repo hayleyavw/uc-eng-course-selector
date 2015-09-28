@@ -5,7 +5,6 @@
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
-// TODO some subjects can't be taken at the same time
 // TODO deal with global variables
 
 rules = {
@@ -375,10 +374,17 @@ function semesterCount() {
 
     // update classes of buttons depending on number in each semester just calculated
     // last parameter is max number of subjects for that semester
-    updateOverflowButtons(sem1_buttons, sem1_count, 4);
-    updateOverflowButtons(sem2_buttons, sem2_count, 4);
-    updateOverflowButtons(summer_buttons, summer_count, 2);
+    var overflow = [];
+    overflow.push(updateOverflowButtons(sem1_buttons, sem1_count, 4));
+    overflow.push(updateOverflowButtons(sem2_buttons, sem2_count, 4));
+    overflow.push(updateOverflowButtons(summer_buttons, summer_count, 2));
     updateFreeSubjectInputs(sem1_count, sem2_count, 4);
+
+    if (overflow.indexOf(true) != -1) {
+        $("#key-overflow").animate({"font-size": "15px"}, 300);
+    } else {
+        $("#key-overflow").animate({"font-size": "10px"}, 300);
+    }
 
 }
 
@@ -386,7 +392,7 @@ function semesterCount() {
 // change class applied to each button depending on number of buttons clicked in given semester
 function updateOverflowButtons(button_list, count, threshold) {
     /* Input: list of buttons in the same column, the number set as true in that column
-     * Output: none
+     * Output: boolean value for it overflow true or false
      */
 
     if (button_list.length > 0) {
@@ -395,7 +401,6 @@ function updateOverflowButtons(button_list, count, threshold) {
 
         // change class to overflow if over threshold, else remove overflow class
         if (count > threshold) {
-            // TODO change key class
             for (var i = 0; i < button_list.length; i++) {
                 var current_class = button_list[i].className;
                 // if over threshold, buttons should be coloured for overflow
@@ -403,6 +408,7 @@ function updateOverflowButtons(button_list, count, threshold) {
                     button_list[i].className = "overflow true subject-button" + column;
                 }
             }
+            return true;
         } else {
             for (var i = 0; i < button_list.length; i++) {
                 var current_class = button_list[i].className;
@@ -410,6 +416,7 @@ function updateOverflowButtons(button_list, count, threshold) {
                     button_list[i].className = "true subject-button" + column;
                 }
             }
+            return false;
         }
     }
 }
