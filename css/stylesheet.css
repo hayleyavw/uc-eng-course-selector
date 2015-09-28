@@ -15,7 +15,6 @@ h1, h2, form {
     display: none;
 }
 
-
 .base {
     background: #7473A9;
     height: 100px;
@@ -178,11 +177,21 @@ input.submit {
     margin-bottom: 5px;
 }
 
+
 .column-1, .column-2, .column-3 {
     display: block;
     float: left;
     width: 30%;
     margin-right: 5px;
+}
+
+input.elective {
+    width: 25%;
+    height: 80%;
+    padding-right: 4%;
+    margin-left: auto;
+    margin-right: 1%;
+    color: #7473A9;
 }
 
 .header-box, .empty-place-holder, .place-holder, .subject-button {
