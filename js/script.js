@@ -297,12 +297,19 @@ function subjectButtonClick(subject) {
 }
 
 
-// TODO deal with overflow issue
+// checks if by clicking a subject, another has to be moved (e.g. COSC121 and COSC122 cannot be in the same semester)
 function checkSubjectOrder(shifted_subject, compliment_subject) {
-    var shifted_col = shifted_subject.name;
-    var compliment_options = [];
+    /* Input: the subject clicked, it's compliment subject, e.g. clicks EMTH118, compliment = EMTH119
+     * Output: none
+     */
 
+    // column the clicked subject is now in
+    var shifted_col = shifted_subject.name;
+
+    var compliment_options = [];
+    // all elements in the same row as the compliment subject
     var compliment_row = document.getElementsByClassName(compliment_subject)[0].childNodes;
+    // build list of possible columns to shift compliment subject
     for (var i in compliment_row) {
         if (compliment_row[i].className == undefined) { //undefined included in list by getElementsByClassName function
             continue;
@@ -317,14 +324,17 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
         }
     }
 
+    // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
-        console.log("same");
-        // try and shift compliment subject
+        // if the lenght of this list is 0, there are no other semesters that the subject occurs in
         if (compliment_options.length == 0) {
-            // new colour for subject clash
+            // TODO add colour for subject clash
         } else { // it is able to be moved
+            // shift the compliment to the first available column (that is not the same one as it is already in)
             compliment_options[0].className = compliment_options[0].className.replace(/false/i, "true");
+            // unselect the compliment subject in it's original semester
             selected_compliment.className = selected_compliment.className.replace(/true/i, "false");
+            selected_compliment.className = selected_compliment.className.replace(/overflow /i, "");
         }
     }
 
@@ -385,6 +395,7 @@ function updateOverflowButtons(button_list, count, threshold) {
 
         // change class to overflow if over threshold, else remove overflow class
         if (count > threshold) {
+            // TODO change key class
             for (var i = 0; i < button_list.length; i++) {
                 var current_class = button_list[i].className;
                 // if over threshold, buttons should be coloured for overflow
