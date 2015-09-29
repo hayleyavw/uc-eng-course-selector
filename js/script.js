@@ -7,6 +7,17 @@
 
 // TODO deal with global variables
 
+var prerequisites = {
+    "star-maths": 0,
+    "l3-maths": 0,
+    "differentiation": 0,
+    "integration": 0,
+    "l3-physics": 0,
+    "l3-chemistry": 0,
+    "l2-chemistry": 0,
+    "endorsement": 0
+}
+
 rules = {
     "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
     "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
@@ -43,16 +54,6 @@ $("input[type=radio]").change(function() {
 // changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
 
-    var prerequisites = {
-        "star-maths": 0,
-        "l3-maths": 0,
-        "differentiation": 0,
-        "integration": 0,
-        "l3-physics": 0,
-        "l3-chemistry": 0,
-        "l2-chemistry": 0,
-        "endorsement": 0
-    }
 
     var new_rules = getRules()[0];
     var new_semester_occurances = getRules()[1];
@@ -126,15 +127,13 @@ function adjustRules() {
         }
         var chem111_index = new_semester_occurances["Semester 1"].indexOf("CHEM111");
         new_semester_occurances["Semester 1"].splice(chem111_index, 1);
-        if (prerequisites["l2-chemistry"] == 0) {
-            // TODO note: summer recommended
-         } else { //l2-chemistry == 1
-            // TODO note: talk to student advisors
-         }
      }
 
     if (prerequisites["endorsement"] == 1) {
-        // TODO note: talk to course advisors
+        // note: talk to course advisors
+        document.getElementById("endorsement").style.display = "block";
+    } else {
+        document.getElementById("endorsement").style.display = "none";
     }
 
     rules = new_rules;
@@ -160,6 +159,7 @@ function adjustRules() {
 
     // display the semester planner part of the page
     document.getElementsByClassName("sem-planner")[0].style.display = "block";
+
 }
 
 // function to store rules
@@ -284,7 +284,6 @@ function subjectButtonClick(subject) {
         //var clash_subject_keys = Object.keys(subject_clashes);
         // TODO check both the subject and it's compliment are in the table
         if (Object.keys(subject_clashes).indexOf(subject.value) != -1) { // subject where order matters
-            //checkSubjectOrder(subject, "COSC122"); // TODO this is only a test case, needs to send in dynamically
             // find it's pair's name, check if also selected
             var compliment_subject = subject_clashes[subject.value];
             var compliment_row = document.getElementsByClassName(compliment_subject);
@@ -401,6 +400,11 @@ function updateOverflowButtons(button_list, count, threshold) {
 
         // change class to overflow if over threshold, else remove overflow class
         if (count > threshold) {
+            if (threshold == 4) { // i.e. semester 1 or 2
+                document.getElementById("semester-overflow").style.display = "block";
+            } else { //summer
+                document.getElementById("summer-overflow").style.display = "block";
+            }
             for (var i = 0; i < button_list.length; i++) {
                 var current_class = button_list[i].className;
                 // if over threshold, buttons should be coloured for overflow
@@ -415,6 +419,11 @@ function updateOverflowButtons(button_list, count, threshold) {
                 if (button_list[i].className.indexOf("overflow") != -1 && button_list[i].className.indexOf("true") != -1) {
                     button_list[i].className = "true subject-button" + column;
                 }
+            }
+            if (threshold == 4) { // i.e. semester 1 or 2
+                document.getElementById("semester-overflow").style.display = "none";
+            } else { //summer
+                document.getElementById("summer-overflow").style.display = "none";
             }
             return false;
         }
@@ -520,6 +529,29 @@ function updateTable(required_subjects) {
 
     // place all other subjects
 
+    if (required_subjects.indexOf("CHEM114") != -1) {
+        document.getElementById("chem114-special").style.display = "block";
+        if (prerequisites["l2-chemistry"] == 0) {
+            // note: summer recommended
+            document.getElementById("no-chemistry").style.display = "block";
+        } else {
+            document.getElementById("no-chemistry").style.display = "none";
+        }
+    } else {
+        document.getElementById("chem114-special").style.display = "none";
+        document.getElementById("no-chemistry").style.display = "none";
+    }
+
+    if (required_subjects.indexOf("CHEM111") != -1) {
+        // check is CHEM111 is in both semesters
+        if (semester_occurances["Semester 1"].indexOf("CHEM111") != -1) {
+            if (semester_occurances["Semester 2"].indexOf("CHEM111") != -1) {
+                document.getElementById("chem112-clash").style.display = "block";
+            }
+        }
+    } else {
+        document.getElementById("chem112-clash").style.display = "none";
+    }
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
@@ -566,22 +598,7 @@ function updateTable(required_subjects) {
 
     }
 
-    // gives message when course has prerequisites
-    // TODO hardcoded which subjects to check for - could be new dictionary instead
-    var message = document.getElementById("message");
-    message.innerHTML = "<p>*ENGR100 is an Academic Writing Assessment and is an EFTS free, zero-fee course.</p>";
-
-    // cosc122
-    if (required_subjects.indexOf("COSC122") != -1) {
-        var p = document.createElement("p");
-        p.innerHTML = "*COSC121 can be taken in either semester, but only if you are not taking COSC122.";
-        message.appendChild(p);
-    }
-    if (required_subjects.indexOf("CHEM111") != -1) {
-        var p = document.createElement("p");
-        p.innerHTML = "*CHEM111 can be taken in either semester, but only if you are not taking CHEM122.";
-        message.appendChild(p);
-    }
+    // TODO change which messages shown
 
     // count number of subjects in each semester and update the list of eng disciplines possible
     semesterCount();
@@ -626,7 +643,7 @@ function buildFreeSpace(column) {
     var input = document.createElement("input");
     input.type = "text";
     input.className = "elective" + column;
-    input.value = "Other elective";
+    input.value = "Elective";
     return input;
 }
 
