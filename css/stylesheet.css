@@ -15,10 +15,6 @@ a {
     color: #7473A9;
     text-decoration: none;
 }
-a:hover {
-    transition: all .3s ease-in-out;
-    transform: scale(1.2);
-}
 
 .sem-planner {
     display: none;
@@ -60,6 +56,7 @@ a:hover {
 }
 
 .arrow {
+    clear: both;
     display: block;
 }
 
@@ -164,13 +161,11 @@ input.submit {
     margin: 0px auto;
 }
 
-#checkboxes {
-    float: left;
-    width: 50%;
-}
 
 .eng-options {
-    margin-left: 15%;
+    float: left;
+    width: 40%;
+    margin-left: 8%;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -199,17 +194,11 @@ input.submit {
     opacity: 0;
 }
 
-#checkboxes p {
-    float: left;
-    margin-left: 16%;
-    padding-right: 15px;
-    font-size: 12px;
-}
 
 
 /* subject table */
-#subjects {
-    float: left;
+#subject-table {
+    float: right;
     margin-right: 5%;
     width: 45%;
 }
@@ -218,6 +207,7 @@ input.submit {
     display: block;
     height: 30px;
     margin-bottom: 5px;
+    text-align: center;
 }
 
 
@@ -282,13 +272,15 @@ label.true.place-holder {
     background-color: #FFE28A;
 }
 
-#message p {
+#message p:not(#ENGR100) {
     display: none;
 }
 
+
 #message {
-    margin-left: 8%;
-    margin-bottom: 50px;
+    float: left;
+    margin-left: 16%;
+    margin-bottom: 20px;
 }
 
 
@@ -300,34 +292,31 @@ label.true.place-holder {
 }
 
 @media only screen and (max-width: 800px) {
-    .eng-options, #subjects {
+    .eng-options, #subject-table {
         font-size: 16px;
     }
-    .eng-options {
-        margin-bottom: 200px;
-    }
-    #checkboxes, .eng-options {
+   .eng-options {
         width: 100%;
     }
-    #checkboxes p, .eng-options, #subjects {
+    .eng-options, #subject-table {
         margin-left: 6%;
     }
-    #subjects {
+    #subject-table {
         width: 94%;
     }
 }
 
 @media only screen and (max-width: 500px) {
-    .eng-options, #subjects {
+    .eng-options, #subject-table {
         font-size: 14px;
     }
 }
 
 @media only screen and (max-width: 400px) {
-    #subjects {
+    #subject-table {
         width: 100%;
     }
-    .eng-options, #subjects {
+    .eng-options, #subject-table {
         font-size: 12px;
     }
 }
