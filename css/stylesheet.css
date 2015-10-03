@@ -161,10 +161,12 @@ input.submit {
     margin: 0px auto;
 }
 
-
-.eng-options {
+#left {
     float: left;
     width: 40%;
+}
+
+.eng-options {
     margin-left: 8%;
     margin-bottom: 20px;
     text-align: center;
@@ -278,7 +280,6 @@ label.true.place-holder {
 
 
 #message {
-    float: left;
     margin-left: 16%;
     margin-bottom: 20px;
 }
