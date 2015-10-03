@@ -5,11 +5,9 @@ html {
 /* text formatting */
 body {
     font-family: geneva, arial, helvetica, sans-serif;
+    margin: 8%;
 }
 
-h1 {
-    margin-left: 8%;
-}
 
 a {
     color: #7473A9;
@@ -29,13 +27,11 @@ a {
 }
 
 .base {
-    margin-left: 10%;
     background: #7473A9;
     height: 100px;
     position: relative;
     width: 70px;
     transform: rotate(90deg);
-    font-style: bold;
     color: #FFF;
 }
 
@@ -58,6 +54,7 @@ a {
 .arrow {
     clear: both;
     display: block;
+    margin-left: 1.5%;
 }
 
 .base, .arrow h2 {
@@ -69,7 +66,6 @@ a {
 }
 
 form {
-    margin-left: 8%;
     margin-bottom: 50px;
 }
 
@@ -125,21 +121,6 @@ input.submit {
 }
 
 
-#note, p {
-    margin-left: 8%;
-    margin-right: 8%;
-}
-
-#note p {
-    margin-left :0px;
-    margin-bottom: 0px;
-}
-
-#note, #message {
-    font-size: 12px;
-}
-
-
 /* key */
 .key {
     margin: 30px;
@@ -163,11 +144,10 @@ input.submit {
 
 #left {
     float: left;
-    width: 40%;
+    width: 50%;
 }
 
 .eng-options {
-    margin-left: 8%;
     margin-bottom: 20px;
     text-align: center;
 }
@@ -197,18 +177,18 @@ input.submit {
 }
 
 
-
 /* subject table */
 #subject-table {
     float: right;
-    margin-right: 5%;
-    width: 45%;
+    width: 50%;
+    margin-right: 0px;
 }
 
 .header-row, .default-row, .table-row {
     display: block;
     height: 30px;
     margin-bottom: 5px;
+    margin-top: 5px;
     text-align: center;
 }
 
@@ -216,12 +196,12 @@ input.submit {
 .column-1, .column-2, .column-3 {
     display: block;
     float: left;
-    width: 30%;
+    width: 32%;
     margin-right: 5px;
 }
 
 input.elective {
-    width: 25%;
+    width: 27%;
     height: 80%;
     padding-right: 4%;
     margin-left: auto;
@@ -231,7 +211,7 @@ input.elective {
 
 .header-box, .empty-place-holder, .place-holder, .subject-button {
     height: 100%;
-    width: 30%;
+    width: 32%;
     border: none;
     line-height: 200%;
 }
@@ -280,8 +260,9 @@ label.true.place-holder {
 
 
 #message {
-    margin-left: 16%;
+    display: inline-block;
     margin-bottom: 20px;
+    font-size: 12px;
 }
 
 
@@ -292,18 +273,30 @@ label.true.place-holder {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1000px) {
+    body {
+        margin: 5%;
+    }
+}
+
+@media only screen and (max-width: 835px) {
     .eng-options, #subject-table {
         font-size: 16px;
     }
-   .eng-options {
+    #left {
         width: 100%;
     }
-    .eng-options, #subject-table {
-        margin-left: 6%;
+    .eng-options label {
+        width: 29%;
     }
     #subject-table {
-        width: 94%;
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 645px) {
+    .eng-options label {
+        width: 27%;
     }
 }
 
@@ -313,7 +306,22 @@ label.true.place-holder {
     }
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 440px) {
+    .eng-options label {
+        width: 26%;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .header-box, .empty-place-holder, .place-holder, .subject-button {
+        width: 31%
+    }
+    input.elective {
+        width: 26%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
     #subject-table {
         width: 100%;
     }
