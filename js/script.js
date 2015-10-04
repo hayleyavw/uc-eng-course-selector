@@ -36,6 +36,39 @@ semester_occurances = {
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
 
+// checks for change in page size
+$(document).ready(function() {
+    changeDivLayout();
+    window.addEventListener('resize', function(){ changeDivLayout() });
+});
+
+
+// changes layout of div for different page sizes
+function changeDivLayout() {
+
+    var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
+    var key_div = document.getElementById("key");
+    var eng_options_div = document.getElementById("eng-options");
+    var message_div = document.getElementById("message");
+    var subject_table_div = document.getElementById("subject-table");
+    var left_div = document.getElementById("left");
+
+    var tables_div = document.getElementById("tables");
+    // if page is less than 853 pixels wide, set lineary order of elements in sem-planner
+    if (self.innerWidth <= 835) {
+        tables_div.appendChild(eng_options_div);
+        tables_div.appendChild(key_div);
+        tables_div.appendChild(subject_table_div);
+        tables_div.appendChild(message_div);
+    } else {
+        //sem_planner_section.appendChild(key_div);
+        left_div.appendChild(eng_options_div);
+        left_div.appendChild(message_div);
+        tables_div.appendChild(left_div);
+        tables_div.appendChild(subject_table_div);
+        $("#key").insertBefore(tables_div);
+    }
+}
 
 // watches radio buttons for change
 $("input[type=radio]").change(function() {
@@ -53,7 +86,6 @@ $("input[type=radio]").change(function() {
 
 // changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
-
 
     var new_rules = getRules()[0];
     var new_semester_occurances = getRules()[1];
@@ -143,7 +175,7 @@ function adjustRules() {
     var eng_types = Object.keys(rules);
 
     // clear existing checkboxes
-    var checkboxes = document.getElementById("eng_options");
+    var checkboxes = document.getElementById("eng-options");
     checkboxes.innerHTML = "";
 
     // generate check box for each engineering type
@@ -216,7 +248,7 @@ function generateEngCheckBoxes(name) {
     label.appendChild(description);// add the description to the element
 
     // add the label element to the div (hard coded in html)
-    document.getElementById("eng_options").appendChild(label);
+    document.getElementById("eng-options").appendChild(label);
 
 }
 

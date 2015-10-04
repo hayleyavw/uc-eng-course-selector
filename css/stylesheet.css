@@ -5,7 +5,7 @@ html {
 /* text formatting */
 body {
     font-family: geneva, arial, helvetica, sans-serif;
-    margin: 8%;
+    margin: 4% 8% 8% 8%;
 }
 
 
@@ -122,14 +122,14 @@ input.submit {
 
 
 /* key */
-.key {
+.key, .ncea-key {
     margin: 30px;
     display: block;
     text-align: center;
     font-size: 10px;
 }
 
-#key-unselected, #key-selected, #key-overflow {
+#key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
     height: 30px;
     padding: 10px;
     border-radius: 5px;
@@ -236,7 +236,7 @@ label.true.place-holder {
     /*border: 3px solid #7473A9;*/
 }
 
-.true, #key-selected {
+.true, #key-selected, #ncea-key-selected {
     background-color: #A09FC7;
 }
 
@@ -245,12 +245,12 @@ label.true.place-holder {
     background-color: #4C4C55;
 }
 
-.false, #key-unselected  {
+.false, #key-unselected, #ncea-key-unselected  {
     background-color: #D1D3D4;
 }
 
 
-.overflow, #key-overflow {
+.overflow, #key-overflow, #ncea-key-overflow {
     background-color: #FFE28A;
 }
 
@@ -279,6 +279,12 @@ label.true.place-holder {
     }
 }
 
+@media only screen and (max-width: 900px) {
+    .question p {
+        width: 60%;
+    }
+}
+
 @media only screen and (max-width: 835px) {
     .eng-options, #subject-table {
         font-size: 16px;
@@ -292,11 +298,39 @@ label.true.place-holder {
     #subject-table {
         width: 100%;
     }
+    .key {
+        padding-top: 210px;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .question p {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .question p {
+        width: 75%;
+    }
 }
 
 @media only screen and (max-width: 645px) {
     .eng-options label {
         width: 27%;
+    }
+}
+
+@media only screen and (max-width: 612px) {
+    .question p {
+        width: 70%;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 510px) {
+    .question p {
+        width: 60%;
     }
 }
 
@@ -327,5 +361,29 @@ label.true.place-holder {
     }
     .eng-options, #subject-table {
         font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 385px) {
+    .question p {
+        width: 50%;
+    }
+    .eng-options label {
+        width: 25%;
+    }
+    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 385px) {
+    .eng-options label {
+        width: 23%;
+    }
+    .eng-options, #subject-table {
+        font-size: 10px;
+    }
+    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+        padding: 2px;
     }
 }
