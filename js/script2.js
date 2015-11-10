@@ -648,20 +648,21 @@ function buildButton(table_row, subject, selected, column) {
      * Output: none
      */
     if (selected == true) {
-        var button = document.createElement("input");
+        var button = document.createElement("div");
 
-        button.type = "Submit";
         button.name = column.slice(-8); //strip leading whitespace
         button.value = subject;
+        button.innerhtml="tesT";
         button.id = subject;
         button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
         button.draggable = true;
-        button.ondragstart = drag(event);
+        //button.ondragstart = drag(event);
+        button.setAttribute('ondragstart', 'drag(event)');
     } else {
         var button = document.createElement("div");
         button.id = "div1";
-        button.ondrop = drop(event);
-        button.ondragover = allowDrop(event);
+        button.setAttribute('ondrop', 'drop(event)');
+        button.setAttribute('ondragover', 'allowDrop(event)');
     }
 
     button.className = selected + " subject-button" + column;
@@ -674,19 +675,21 @@ function allowDrop(ev) {
 }
 
 function drag(ev) {
-    console.log(ev.target.id);
-    if (Object.keys(rules).indexOf(ev.target.id) != -1) {
+    if (Object.keys(rules).indexOf(ev.target.id) != -1) { // ignore eng buttons
         return;
     }
+    console.log(ev.target.id);
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
 function drop(ev) {
     ev.preventDefault();
-    if (Object.keys(rules).indexOf(ev.target.id) != -1) {
+    if (Object.keys(rules).indexOf(ev.target.id) != -1) { // ignore eng buttons
         return;
     }
+    console.log(ev.dataTransfer);
     var data = ev.dataTransfer.getData("text");
+    console.log(data);
     ev.target.appendChild(document.getElementById(data));
 }
 
