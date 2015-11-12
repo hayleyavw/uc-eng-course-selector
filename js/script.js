@@ -7,6 +7,7 @@
 
 // TODO deal with global variables
 
+
 var prerequisites = {
     "star-maths": 0,
     "l3-maths": 0,
@@ -242,10 +243,12 @@ function generateEngCheckBoxes(name) {
     checkbox.name = 1;             // give it a name we can check in watchEngCB()
     checkbox.value = name;         // make its value the name the subject
     checkbox.id = name;            // unique ID for each checkbox is the name of the subject
+    checkbox.draggable = false;
 
     label.className = "span-3";    // class is only be added to first button
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
+    label.draggable = false;
 
     // add the label element to the div (hard coded in html)
     document.getElementById("eng-options").appendChild(label);
@@ -258,6 +261,7 @@ function watchEngCB(checked_eng_types) {
     /* Input: list of eng_types that have been selected
      * Output: none
      */
+
 
     $("[name=1]").change(function() {
         var index = checked_eng_types.indexOf(this.value);
@@ -638,24 +642,72 @@ function updateTable(required_subjects) {
 }
 
 
-//build button element for table
+// build button element for table
 function buildButton(table_row, subject, selected, column) {
     /* Input: new table row element, subject name, column number
      * Output: none
      */
-    var button = document.createElement("input");
 
-    button.type = "Submit";
-    button.name = column.slice(-8); //strip leading whitespace
-    button.value = subject;
-    button.id = subject;
-    button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
-
+    var cell = document.createElement("div");
+    cell.id = "cell-" + subject + "-" + column.slice(1);
+    cell.className = "cell";
+    // create div
+    var button = document.createElement("div");
+    button.id = subject + "-" + column.slice(1);
     button.className = selected + " subject-button" + column;
-    table_row.appendChild(button);
+
+    if (selected == true) {
+        button.value = subject;
+        button.innerHTML = subject;
+        button.id = subject + "-" + column.slice(1);
+        button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
+        button.draggable = true;
+        button.setAttribute('ondragstart', 'drag(event)');
+    } else {
+        button.setAttribute('ondrop', 'drop(event)');
+        button.setAttribute('ondragover', 'allowDrop(event)');
+    }
+
+    // add the button to the cell
+    cell.appendChild(button);
+    // add the button to the table row
+    table_row.appendChild(cell);
 
 }
 
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+// saves data from div that is picked up
+function drag(ev) {
+    if (Object.keys(rules).indexOf(ev.target.id) != -1) { // ignore eng buttons
+        return;
+    }
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+// drop the selected subject into a different slot on the table
+function drop(ev) {
+    ev.preventDefault();
+    if (Object.keys(rules).indexOf(ev.target.id) != -1) { // ignore eng buttons
+        return;
+    }
+    var data = ev.dataTransfer.getData("text");
+
+    // find the element that was moved
+    var moved = document.getElementById(data);
+    // find the element that needs to be swapped with the moved div on drop
+    var swap_with = ev.target;
+    // get the parent div of the cell to be swapped
+    var swap_parent = swap_with.parentNode;
+
+    // now swap the divs!
+    // replace the divs on drop
+    moved.parentNode.replaceChild(swap_with, moved);
+    // place the swapped div under the moved div's parent
+    swap_parent.appendChild(moved);
+}
 
 // build label element for table
 function buildLabel(column) {
@@ -668,6 +720,7 @@ function buildLabel(column) {
 }
 
 
+// places input box for electives
 function buildFreeSpace(column) {
     /* Input: column number
      * Output: label element
