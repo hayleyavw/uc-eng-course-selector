@@ -184,6 +184,11 @@ input.submit {
     margin-right: 0px;
 }
 
+.cell {
+    display: inline;
+    width: 100%;
+}
+
 .header-row, .default-row, .table-row {
     display: block;
     height: 30px;
