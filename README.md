@@ -14,3 +14,4 @@ The webpage uses
 - jQuery
 - Code shared under the [Universal Licence](https://creativecommons.org/publicdomain/zero/1.0/)
 - normalize.css as used under the licence specified in the [LICENSE- normalize.md](LICENSE - normalize.md) file
+- trashcan icon used under the MIT Licence

@@ -630,6 +630,17 @@ function updateTable(required_subjects) {
             table_row.appendChild(buildLabel(" column-3"));
         }
 
+        // imsert trashcan image to end of row
+        var img = document.createElement("IMG");
+        img.src = "trashcan.png";
+        img.id = "delete-" + subject;
+        img.onclick = function(img) { removeSubject(img.path[0].id); };
+        var img_div = document.createElement("div");
+        img_div.className = "trashcan";
+        img_div.appendChild(img);
+        table_row.appendChild(img_div);
+
+        // add row to table
         subject_table.appendChild(table_row);
 
     }
@@ -639,6 +650,12 @@ function updateTable(required_subjects) {
     // count number of subjects in each semester and update the list of eng disciplines possible
     semesterCount();
     updateEngList();
+}
+
+
+// TODO remove subject from table
+function removeSubject(subject_id) {
+    console.log(subject_id);
 }
 
 

@@ -184,6 +184,22 @@ input.submit {
     margin-right: 0px;
 }
 
+.trashcan {
+    float: right;
+    display: inline;
+    vertical-align: middle;
+    width: 3%;
+}
+
+.trashcan img {
+    height: 20px;
+}
+
+.trashcan img:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+}
+
 .cell {
     display: inline;
     width: 100%;
@@ -201,7 +217,7 @@ input.submit {
 .column-1, .column-2, .column-3 {
     display: block;
     float: left;
-    width: 32%;
+    width: 31%;
     margin-right: 5px;
 }
 
@@ -216,7 +232,6 @@ input.elective {
 
 .header-box, .empty-place-holder, .place-holder, .subject-button {
     height: 100%;
-    width: 32%;
     border: none;
     line-height: 200%;
 }
