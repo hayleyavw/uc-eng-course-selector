@@ -687,7 +687,8 @@ function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
-// drop the selected subject into a different slot on the table
+
+// drop the selected subject into a different cell in the table
 function drop(ev) {
     ev.preventDefault();
     if (Object.keys(rules).indexOf(ev.target.id) != -1) { // ignore eng buttons
@@ -699,6 +700,11 @@ function drop(ev) {
     var moved = document.getElementById(data);
     // find the element that needs to be swapped with the moved div on drop
     var swap_with = ev.target;
+
+    // if the element is being placed in the wrong row, do nothing
+    if (swap_with.id.indexOf(data.slice(0, 7)) == -1) {
+        return;
+    }
     // get the parent div of the cell to be swapped
     var swap_parent = swap_with.parentNode;
 
@@ -707,6 +713,15 @@ function drop(ev) {
     moved.parentNode.replaceChild(swap_with, moved);
     // place the swapped div under the moved div's parent
     swap_parent.appendChild(moved);
+
+    //swap the coloumns in class and id
+    var moved_id = moved.id;
+    moved.id = swap_with.id;
+    swap_with.id = moved_id;
+    swap_with.className = swap_with.className.slice(0, -1) + swap_with.id.slice(-1);
+    moved.className = moved.className.slice(0, -1) + moved.id.slice(-1);
+
+
 }
 
 // build label element for table
