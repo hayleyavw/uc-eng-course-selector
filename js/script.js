@@ -6,7 +6,8 @@
  */
 
 // TODO deal with global variables
-
+// TODO split up functions
+// TODO deal with subject clashes (i.e. 121 and 122 cannot be taken in same semester)
 
 var prerequisites = {
     "star-maths": 0,
@@ -287,45 +288,23 @@ function subjectButtonClick(subject) {
      * Output: none
      */
 
-    // get class of subject that was clicked
-    var current_class = subject.className;
-    // last part of class is the column number
-    var column = current_class.slice(-9);
+    var subject_name = subject.id.slice(0, 7);
 
-    // if true is included in the class - i.e. was selected, now we are wanting to unselect it
-    // TODO remove row if unselected
-    if (current_class.indexOf("true") != -1) {
-        var subject_row = subject.parentNode;
-        subject_row.parentNode.removeChild(subject_row); // remove the whole row
-    // else must have been false - i.e. was unselected, now we are wanting to select it
-    } else {
-        // get siblings in div - i.e. objects in same row and if they are inputs, set them to false
-        var siblings = subject.closest("div").children;
-        for (var i = 0; i < siblings.length; i++) { // each sibling except the last
-            var tag = siblings[i];
-            if (tag.tagName == "INPUT") { // ignore labels
-                tag.className = "false subject-button" + column;
-            }
-        }
-        // set the clicked subject to true
-        subject.className = "true subject-button" + column;
+    // subject pairs where order matters
+    var subject_clashes = {
+        "COSC121": "COSC122",
+        "COSC122": "COSC121",
+        "EMTH118": "EMTH119",
+        "EMTH119": "EMTH118"
+    }
 
-        // subject pairs where order matters
-        var subject_clashes = {
-            "COSC121": "COSC122",
-            "COSC122": "COSC121",
-            "EMTH118": "EMTH119",
-            "EMTH119": "EMTH118"
-        }
-        //var clash_subject_keys = Object.keys(subject_clashes);
-        // TODO check both the subject and it's compliment are in the table
-        if (Object.keys(subject_clashes).indexOf(subject.value) != -1) { // subject where order matters
-            // find it's pair's name, check if also selected
-            var compliment_subject = subject_clashes[subject.value];
-            var compliment_row = document.getElementsByClassName(compliment_subject);
-            if (compliment_row.length > 0) { // compliment subject also in table
-                checkSubjectOrder(subject, compliment_subject);
-            }
+    //var clash_subject_keys = Object.keys(subject_clashes);
+    if (Object.keys(subject_clashes).indexOf(subject_name) != -1) { // subject where order matters
+        // find it's pair's name, check if also selected
+        var compliment_subject = subject_clashes[subject_name];
+        var compliment_row = document.getElementsByClassName(compliment_subject);
+        if (compliment_row.length > 0) { // compliment subject also in table
+            checkSubjectOrder(subject, compliment_subject);
         }
     }
 }
@@ -338,7 +317,7 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
      */
 
     // column the clicked subject is now in
-    var shifted_col = shifted_subject.name;
+    var shifted_col = shifted_subject.id.slice(8);
 
     var compliment_options = [];
     // all elements in the same row as the compliment subject
@@ -348,15 +327,20 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
         if (compliment_row[i].className == undefined) { //undefined included in list by getElementsByClassName function
             continue;
         }
-        if (compliment_row[i].className.indexOf("true") != -1) {
-            var selected_compliment = compliment_row[i];
-            var compliment_col = compliment_row[i].name;
-        } else {
-            if (compliment_row[i].tagName == "INPUT") {
-                compliment_options.push(compliment_row[i]);
+        var cell = compliment_row[i];
+        if (cell.className == "cell") {
+            var div = cell.childNodes[0];
+            if (div.className.indexOf("true") != -1) {
+                var selected_compliment = div;
+                var compliment_col = div.id.slice(-8);
+            } else {
+                if (div.tagName != "LABEL") {
+                    compliment_options.push(div);
+                }
             }
         }
     }
+
 
     // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
@@ -364,15 +348,23 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
         if (compliment_options.length == 0) {
             // TODO add colour for subject clash
         } else { // it is able to be moved
-            // shift the compliment to the first available column (that is not the same one as it is already in)
-            compliment_options[0].className = compliment_options[0].className.replace(/false/i, "true");
-            // unselect the compliment subject in it's original semester
-            selected_compliment.className = selected_compliment.className.replace(/true/i, "false");
-            selected_compliment.className = selected_compliment.className.replace(/overflow /i, "");
+            var selected_parent = selected_compliment.parentNode;
+            var compliment_parent = compliment_options[0].parentNode;
+            
+            var selected_id = selected_compliment.id;
+            selected_compliment.id = compliment_options[0].id;
+            compliment_options[0].id = selected_id;
+            selected_compliment.className = selected_compliment.className.slice(0, -1) + selected_compliment.id.slice(-1);
+            compliment_options[0].className = compliment_options[0].className.slice(0, -1) + compliment_options[0].id.slice(-1);
+
+            selected_parent.appendChild(compliment_options[0]);
+            compliment_parent.appendChild(selected_compliment);
+
         }
     }
 
 }
+
 
 // count subjects per semester
 function semesterCount() {
@@ -381,31 +373,17 @@ function semesterCount() {
      */
 
     // get all buttons in the first column (semester one) and check if they are set to true
-    var sem1_count = 0
-    var sem1_buttons = document.getElementsByName("column-1");
-    for (var i = 0; i < sem1_buttons.length; i++) {
-        if (sem1_buttons[i].className.indexOf("true") != -1) {
-            sem1_count += 1;
-        }
-    }
+    var sem1_buttons = document.getElementsByClassName("true subject-button column-1");
+    var sem1_count = sem1_buttons.length;
+
 
     // get all buttons in the second column (semester two) and check if they are set to true
-    var sem2_count = 0
-    var sem2_buttons = document.getElementsByName("column-2");
-    for (var i = 0; i < sem2_buttons.length; i++) {
-        if (sem2_buttons[i].className.indexOf("true") != -1) {
-            sem2_count += 1;
-        }
-    }
+    var sem2_buttons = document.getElementsByClassName("true subject-button column-2");
+    var sem2_count = sem2_buttons.length;
 
     // get all buttons in the third column (summer school) and check if they are set to true
-    var summer_count = 0
-    var summer_buttons = document.getElementsByName("column-3");
-    for (var i = 0; i < summer_buttons.length; i++) {
-        if (summer_buttons[i].className.indexOf("true") != -1) {
-            summer_count += 1;
-        }
-    }
+    var summer_buttons = document.getElementsByClassName("true subject-button column-3");
+    var summer_count = summer_buttons.length;
 
     // update classes of buttons depending on number in each semester just calculated
     // last parameter is max number of subjects for that semester
@@ -552,12 +530,12 @@ function updateTable(required_subjects) {
     var col1_label = document.createElement("label");
     col1_label.className = "true place-holder column-1";
     col1_label.innerHTML = "ENGR100*";
-    table_row.appendChild(col1_label)
+    table_row.appendChild(col1_label);
 
     var col2_label = document.createElement("label");
     col2_label.className = "true place-holder column-2";
     col2_label.innerHTML = "ENGR100*";
-    table_row.appendChild(col2_label)
+    table_row.appendChild(col2_label);
     table_row.appendChild(buildLabel(" column-3"));
 
     // add new row to the table
@@ -645,17 +623,18 @@ function updateTable(required_subjects) {
 
     }
 
-    // TODO change which messages shown
-
     // count number of subjects in each semester and update the list of eng disciplines possible
     semesterCount();
     updateEngList();
 }
 
 
-// TODO remove subject from table
+// remove subject from table
 function removeSubject(subject_id) {
-    console.log(subject_id);
+    var subject_row = document.getElementsByClassName(subject_id.slice(7) + " table-row")[0];
+    subject_row.parentNode.removeChild(subject_row);
+    semesterCount();
+    updateEngList();
 }
 
 
@@ -677,7 +656,6 @@ function buildButton(table_row, subject, selected, column) {
         button.value = subject;
         button.innerHTML = subject;
         button.id = subject + "-" + column.slice(1);
-        button.onclick = function() { subjectButtonClick(button); semesterCount(); updateEngList(); };
         button.draggable = true;
         button.setAttribute('ondragstart', 'drag(event)');
     } else {
@@ -737,6 +715,10 @@ function drop(ev) {
     swap_with.id = moved_id;
     swap_with.className = swap_with.className.slice(0, -1) + swap_with.id.slice(-1);
     moved.className = moved.className.slice(0, -1) + moved.id.slice(-1);
+
+    subjectButtonClick(moved);
+    semesterCount();
+    updateEngList();
 
 
 }
