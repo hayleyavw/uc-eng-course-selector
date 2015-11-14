@@ -9,6 +9,7 @@
 // TODO split up functions
 // TODO deal with subjects that have prerequisites that aren't common subjects
 // TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
+// TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
 var prerequisites = {
     "star-maths": 0,
@@ -253,7 +254,6 @@ function generateEngCheckBoxes(name) {
     checkbox.id = name;            // unique ID for each checkbox is the name of the subject
     checkbox.draggable = false;
 
-    label.className = "span-3";    // class is only be added to first button
     label.appendChild(checkbox);   // add the box to the element
     label.appendChild(description);// add the description to the element
     label.draggable = false;
@@ -269,7 +269,6 @@ function watchEngCB(checked_eng_types) {
     /* Input: list of eng_types that have been selected
      * Output: none
      */
-
 
     $("[name=1]").change(function() {
         var index = checked_eng_types.indexOf(this.value);
@@ -446,7 +445,7 @@ function removeExistingElectiveRows(elective_inputs) {
         elective_inputs[0].parentNode.removeChild(elective_inputs[0]); // remove the whole row
         removeExistingElectiveRows(document.getElementsByClassName("elective-row")); // call the function again with the remaining elective spaces
     }
-    return
+    return;
 }
 
 function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
@@ -480,18 +479,16 @@ function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
 }
 
 
-// update list of required subjects depending on which checkboxes are clicked
+// update list of required subjects depending on which eng checkboxes are clicked
 function updateReqSubjectList(checked_eng_types) {
     /* Input: list of selected eng types
-     * Output: none
+     * Output: none - calls updateTable function
      */
-
-    // get rules for what subjects are required for each eng discipline
-
     var required_subjects = [];
 
-    // for each selected eng type, get the required subjects and add them to the lsit
+    // for each selected eng type, get the required subjects and add them to the list
     for (var i in checked_eng_types) {
+        // get rules for what subjects are required for each eng discipline
         subject_list = rules[checked_eng_types[i]];
         for (var j in subject_list) {
             // add subject to list of required subjects if it is not already there
@@ -532,6 +529,8 @@ function updateTable(required_subjects) {
 
     // place all other subjects
 
+
+    // rules that need to be displayed to user
     if (required_subjects.indexOf("CHEM114") != -1) {
         document.getElementById("chem114-special").style.display = "block";
         if (prerequisites["l2-chemistry"] == 0) {
@@ -694,8 +693,7 @@ function drop(ev) {
     }
 
     swapDivs(moved, swap_with);
-
-    checkSubjectPrerequisites(moved);
+    //checkSubjectPrerequisites(moved);
     semesterCount();
     updateEngList();
 }
@@ -705,11 +703,15 @@ function drop(ev) {
 // used to move a subject to a different semester
 function swapDivs(div_a, div_b) {
 
-    // get the parent div of the cell to be swapped
-    var div_a_parent = div_a.parentNode;
+    console.log(div_a.parentNode);
+    console.log(div_b.parentNode);
+
 
     div_b.parentNode.replaceChild(div_a, div_b);
-    div_a_parent.appendChild(div_b);
+    div_a.parentNode.appendChild(div_b);
+
+    console.log(div_a.parentNode);
+    console.log(div_b.parentNode);
 
     //swap the coloumns in class and id
     var div_b_id = div_b.id;
@@ -744,7 +746,6 @@ function buildFreeSpace(column) {
 }
 
 
-// TODO Bug: some eng types removed when still possible
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
     /* Input: none
@@ -753,6 +754,7 @@ function updateEngList() {
 
     // get rules for what subjects are required for each eng discipline
     var selected_eng = document.getElementsByClassName("selected-eng");
+
 
     // get selected subjects by class name
     var selected_subjects = document.getElementsByClassName("true subject-button");
@@ -769,8 +771,8 @@ function updateEngList() {
         }
     }
 
-    var possible_eng = [];
-    var possible_eng_names = [];
+    var possible_eng = []; // element
+    var possible_eng_names = []; // just the element's value
 
     // for each of the selected eng types, check if all the required subjects have been selected
     for (var i in selected_eng) {
@@ -787,9 +789,6 @@ function updateEngList() {
             }
         }
 
-        /* get list of eng types possible
-         * remove excess subjects
-         */
         var element = document.getElementById(selected_eng[i].innerText).closest("label");
         if (element.className == "selected-eng") {
             if (req_subjects.length == count) {
@@ -797,28 +796,10 @@ function updateEngList() {
                 possible_eng_names.push(selected_eng[i].childNodes[0].id);
             }
         }
-
-        /*
-        // change class for eng type if it available depending on subject selection
-        var element = document.getElementById(selected_eng[i].innerText).closest("label");
-        if (element.className == "selected-eng") {
-            if (req_subjects.length != count) {
-                element.className = "";
-            }
-        } else if (req_subjects.length == count) {
-            element.className = "selected-eng";
-            updateTable(subjects);
-        } else {
-            element.className = "";
-        }
-        */
         
     }
 
-    // now have list of eng types that are possible
-    // remove any excess subjects from the table
-
-
+    // change class for eng type if it is available depending on subject selection
     var eng_elements = document.getElementById("eng-options").childNodes;
 
     for (var i = 0; i < eng_elements.length - 1; i++) {
@@ -829,21 +810,23 @@ function updateEngList() {
         }
     }
 
+    updateReqSubjectList(possible_eng_names);
 
+    // var required_subjects = [];
 
-    // get new list of required subjects
-    // remove extra subjects
-    if (possible_eng.length >= 1) {
-        var required_subjects = [];
-        for (var i in possible_eng) {
-            var subjects_required_for_eng = rules[possible_eng[i].childNodes[0].id];
-            for (var j in subjects_required_for_eng) {
-                if (required_subjects.indexOf(subjects_required_for_eng[j]) == -1) {
-                    required_subjects.push(subjects_required_for_eng[j]);
-                }
-            }
-        }
-    }
+    // // we have list of eng types that are possible
+    // // remove any excess subjects from the table
+    // if (possible_eng.length >= 1) {
+    //     for (var i in possible_eng) {
+    //         var subjects_required_for_eng = rules[possible_eng[i].childNodes[0].id];
+    //         for (var j in subjects_required_for_eng) {
+    //             if (required_subjects.indexOf(subjects_required_for_eng[j]) == -1) {
+    //                 required_subjects.push(subjects_required_for_eng[j]);
+    //             }
+    //         }
+    //     }
+    // }
 
-    updateTable(required_subjects);
+    // console.log(required_subjects);
+    // updateTable(required_subjects);
 }
