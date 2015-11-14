@@ -283,7 +283,7 @@ function watchEngCB(checked_eng_types) {
 
 
 // react to subject button click
-function subjectButtonClick(subject) {
+function checkSubjectPrerequisites(subject) {
     /* Input: subject button object
      * Output: none
      */
@@ -348,18 +348,7 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
         if (compliment_options.length == 0) {
             // TODO add colour for subject clash
         } else { // it is able to be moved
-            var selected_parent = selected_compliment.parentNode;
-            var compliment_parent = compliment_options[0].parentNode;
-            
-            var selected_id = selected_compliment.id;
-            selected_compliment.id = compliment_options[0].id;
-            compliment_options[0].id = selected_id;
-            selected_compliment.className = selected_compliment.className.slice(0, -1) + selected_compliment.id.slice(-1);
-            compliment_options[0].className = compliment_options[0].className.slice(0, -1) + compliment_options[0].id.slice(-1);
-
-            selected_parent.appendChild(compliment_options[0]);
-            compliment_parent.appendChild(selected_compliment);
-
+            swapDivs(selected_compliment, compliment_options[0]);
         }
     }
 
@@ -670,9 +659,11 @@ function buildButton(table_row, subject, selected, column) {
 
 }
 
+
 function allowDrop(ev) {
     ev.preventDefault();
 }
+
 
 // saves data from div that is picked up
 function drag(ev) {
@@ -700,27 +691,32 @@ function drop(ev) {
     if (swap_with.id.indexOf(data.slice(0, 7)) == -1) {
         return;
     }
-    // get the parent div of the cell to be swapped
-    var swap_parent = swap_with.parentNode;
 
-    // now swap the divs!
-    // replace the divs on drop
-    moved.parentNode.replaceChild(swap_with, moved);
-    // place the swapped div under the moved div's parent
-    swap_parent.appendChild(moved);
+    swapDivs(moved, swap_with);
 
-    //swap the coloumns in class and id
-    var moved_id = moved.id;
-    moved.id = swap_with.id;
-    swap_with.id = moved_id;
-    swap_with.className = swap_with.className.slice(0, -1) + swap_with.id.slice(-1);
-    moved.className = moved.className.slice(0, -1) + moved.id.slice(-1);
-
-    subjectButtonClick(moved);
+    checkSubjectPrerequisites(moved);
     semesterCount();
     updateEngList();
+}
+    
 
+// swap two divs with each other
+// used to move a subject to a different semester
+function swapDivs(div_a, div_b) {
 
+    // get the parent div of the cell to be swapped
+    var div_a_parent = div_a.parentNode;
+
+    div_b.parentNode.replaceChild(div_a, div_b);
+    div_a_parent.appendChild(div_b);
+
+    //swap the coloumns in class and id
+    var div_b_id = div_b.id;
+    div_b.id = div_a.id;
+    div_a.id = div_b_id;
+    div_a.className = div_a.className.slice(0, -1) + div_a.id.slice(-1);
+    div_b.className = div_b.className.slice(0, -1) + div_b.id.slice(-1);
+    
 }
 
 // build label element for table
