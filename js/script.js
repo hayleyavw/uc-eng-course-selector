@@ -8,6 +8,7 @@
 // TODO deal with global variables
 // TODO split up functions
 // TODO deal with subjects that have prerequisites that aren't common subjects
+// TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
 
 var prerequisites = {
     "star-maths": 0,
@@ -597,7 +598,6 @@ function updateTable(required_subjects) {
         }
 
         // imsert trashcan image to end of row
-        console.log(subject);
         if (common_subjects.indexOf(subject) == -1) {
             var img = document.createElement("IMG");
             img.src = "trashcan.png";
@@ -615,7 +615,7 @@ function updateTable(required_subjects) {
 
     // count number of subjects in each semester and update the list of eng disciplines possible
     semesterCount();
-    updateEngList();
+
 }
 
 
@@ -769,6 +769,9 @@ function updateEngList() {
         }
     }
 
+    var possible_eng = [];
+    var possible_eng_names = [];
+
     // for each of the selected eng types, check if all the required subjects have been selected
     for (var i in selected_eng) {
         if (selected_eng[i].innerText == undefined) {
@@ -783,6 +786,19 @@ function updateEngList() {
                 count ++;
             }
         }
+
+        /* get list of eng types possible
+         * remove excess subjects
+         */
+        var element = document.getElementById(selected_eng[i].innerText).closest("label");
+        if (element.className == "selected-eng") {
+            if (req_subjects.length == count) {
+                possible_eng.push(selected_eng[i]);
+                possible_eng_names.push(selected_eng[i].childNodes[0].id);
+            }
+        }
+
+        /*
         // change class for eng type if it available depending on subject selection
         var element = document.getElementById(selected_eng[i].innerText).closest("label");
         if (element.className == "selected-eng") {
@@ -795,5 +811,39 @@ function updateEngList() {
         } else {
             element.className = "";
         }
+        */
+        
     }
+
+    // now have list of eng types that are possible
+    // remove any excess subjects from the table
+
+
+    var eng_elements = document.getElementById("eng-options").childNodes;
+
+    for (var i = 0; i < eng_elements.length - 1; i++) {
+        if (possible_eng_names.indexOf(eng_elements[i].childNodes[0].value) != -1) {
+            eng_elements[i].className = "selected-eng";
+        } else {
+            eng_elements[i].className = "";
+        }
+    }
+
+
+
+    // get new list of required subjects
+    // remove extra subjects
+    if (possible_eng.length >= 1) {
+        var required_subjects = [];
+        for (var i in possible_eng) {
+            var subjects_required_for_eng = rules[possible_eng[i].childNodes[0].id];
+            for (var j in subjects_required_for_eng) {
+                if (required_subjects.indexOf(subjects_required_for_eng[j]) == -1) {
+                    required_subjects.push(subjects_required_for_eng[j]);
+                }
+            }
+        }
+    }
+
+    updateTable(required_subjects);
 }
