@@ -209,8 +209,24 @@ input.submit {
     display: block;
     height: 30px;
     margin-bottom: 5px;
-    margin-top: 5px;
     text-align: center;
+}
+
+.long-place-holder {
+    display: block;
+    width: 93%;
+    margin-right: 5px;
+    float: left;
+    height: 100%;
+    border: none;
+    line-height: 200%;
+    border-left: solid #A09FC7 5px;
+    border-right: solid #A09FC7 5px;
+}
+
+.long-place-holder p {
+    line-height: 0px;
+    font-size: 10px;
 }
 
 
@@ -234,6 +250,7 @@ input.elective {
     height: 100%;
     border: none;
     line-height: 200%;
+    margin-bottom: 5px
 }
 
 

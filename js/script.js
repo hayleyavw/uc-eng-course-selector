@@ -516,16 +516,9 @@ function updateTable(required_subjects) {
     table_row.className = "table-row";
 
     // build each column and attach to row
-    var col1_label = document.createElement("label");
-    col1_label.className = "true place-holder column-1";
-    col1_label.innerHTML = "ENGR100*";
-    table_row.appendChild(col1_label);
-
-    var col2_label = document.createElement("label");
-    col2_label.className = "true place-holder column-2";
-    col2_label.innerHTML = "ENGR100*";
-    table_row.appendChild(col2_label);
-    table_row.appendChild(buildLabel(" column-3"));
+    var table_row = document.createElement("label");
+    table_row.className = "table-row true long-place-holder";
+    table_row.innerHTML = "ENGR100 <p>(compulsory no-credit, no-fees course for Academic Writing Assessment purposes only)</p>";
 
     // add new row to the table
     subject_table.appendChild(table_row);
