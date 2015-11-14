@@ -7,7 +7,7 @@
 
 // TODO deal with global variables
 // TODO split up functions
-// TODO deal with subject clashes (i.e. 121 and 122 cannot be taken in same semester)
+// TODO deal with subjects that have prerequisites that aren't common subjects
 
 var prerequisites = {
     "star-maths": 0,
@@ -37,6 +37,8 @@ semester_occurances = {
     "Semester 2": ["ENGR102", "EMTH118", "EMTH119", "EMTH171", "PHYS101", "COSC121", "CHEM111", "MATH120", "COSC122"],
     "Summer School": ["ENGR102", "EMTH119", "COSC122"]
 }
+
+common_subjects = ["ENGR101", "PHYS101", "EMTH118", "EMTH119"];
 
 // checks for change in page size
 $(document).ready(function() {
@@ -124,6 +126,9 @@ function adjustRules() {
             var subjects = new_rules[i];
             subjects.push("MATH101");
             subjects.push("PHYS111");
+            // add to common subjects since prerequisites for other subjects
+            common_subjects.push("MATH101");
+            common_subjects.push("PHYS111");
         }
         var phys101_index = new_semester_occurances["Semester 1"].indexOf("PHYS101");
         new_semester_occurances["Semester 1"].splice(phys101_index, 1);
@@ -141,6 +146,7 @@ function adjustRules() {
             var phys111_index = subjects.indexOf("PHYS111");
             if (phys111_index == -1) { // make sure PHYS111 hasn't already been added
                 subjects.push("PHYS111");
+                common_subjects.push("PHYS111");
             }
         }
         var phys101_index = new_semester_occurances["Semester 1"].indexOf("PHYS101");
@@ -591,15 +597,17 @@ function updateTable(required_subjects) {
         }
 
         // imsert trashcan image to end of row
-        var img = document.createElement("IMG");
-        img.src = "trashcan.png";
-        img.id = "delete-" + subject;
-        img.onclick = function(img) { removeSubject(img.path[0].id); };
-        var img_div = document.createElement("div");
-        img_div.className = "trashcan";
-        img_div.appendChild(img);
-        table_row.appendChild(img_div);
-
+        console.log(subject);
+        if (common_subjects.indexOf(subject) == -1) {
+            var img = document.createElement("IMG");
+            img.src = "trashcan.png";
+            img.id = "delete-" + subject;
+            img.onclick = function(img) { removeSubject(img.path[0].id); };
+            var img_div = document.createElement("div");
+            img_div.className = "trashcan";
+            img_div.appendChild(img);
+            table_row.appendChild(img_div);
+        }
         // add row to table
         subject_table.appendChild(table_row);
 
