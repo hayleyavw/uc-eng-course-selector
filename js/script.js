@@ -693,9 +693,8 @@ function drop(ev) {
     }
 
     swapDivs(moved, swap_with);
-    //checkSubjectPrerequisites(moved);
+    checkSubjectPrerequisites(moved);
     semesterCount();
-    updateEngList();
 }
     
 
@@ -703,22 +702,20 @@ function drop(ev) {
 // used to move a subject to a different semester
 function swapDivs(div_a, div_b) {
 
-    console.log(div_a.parentNode);
-    console.log(div_b.parentNode);
-
-
+    // get the parent div of the cell to be swapped
+    var div_a_parent = div_a.parentNode;
+ 
     div_b.parentNode.replaceChild(div_a, div_b);
-    div_a.parentNode.appendChild(div_b);
-
-    console.log(div_a.parentNode);
-    console.log(div_b.parentNode);
+    div_a_parent.appendChild(div_b);
 
     //swap the coloumns in class and id
+    
     var div_b_id = div_b.id;
     div_b.id = div_a.id;
     div_a.id = div_b_id;
     div_a.className = div_a.className.slice(0, -1) + div_a.id.slice(-1);
     div_b.className = div_b.className.slice(0, -1) + div_b.id.slice(-1);
+    
     
 }
 
@@ -754,7 +751,6 @@ function updateEngList() {
 
     // get rules for what subjects are required for each eng discipline
     var selected_eng = document.getElementsByClassName("selected-eng");
-
 
     // get selected subjects by class name
     var selected_subjects = document.getElementsByClassName("true subject-button");
