@@ -618,6 +618,11 @@ function updateTable(required_subjects) {
 
     }
 
+    var num_electives = document.getElementsByClassName("elective").length;
+    if (num_electives == 0) {
+        document.getElementById("semester-elective").style.display = "none";
+    }
+
     // count number of subjects in each semester and update the list of eng disciplines possible
     semesterCount();
 
@@ -654,6 +659,7 @@ function buildButton(table_row, subject, selected, column) {
         button.draggable = true;
         button.setAttribute('ondragstart', 'drag(event)');
     } else {
+        button.innerHTML = "Alternative Semester";
         button.setAttribute('ondrop', 'drop(event)');
         button.setAttribute('ondragover', 'allowDrop(event)');
     }
@@ -739,6 +745,10 @@ function buildFreeSpace(column) {
     /* Input: column number
      * Output: label element
      */
+
+    // add note under Plan Advice for picking elective subjects
+    document.getElementById("semester-elective").style.display = "block";
+
     var input = document.createElement("input");
     input.type = "text";
     input.className = "elective" + column;
@@ -788,7 +798,6 @@ function updateEngList() {
             }
         }
 
-
         var element = document.getElementById(selected_eng[i].innerText).closest("label");
         if (element.className == "selected-eng") {
             if (req_subjects.length == count) {
@@ -797,7 +806,6 @@ function updateEngList() {
             }
         }   
     }
-
     
     // change class for eng type if it is available depending on subject selection
     var eng_elements = document.getElementById("eng-options").childNodes;
@@ -808,7 +816,6 @@ function updateEngList() {
             eng_elements[i].className = "";
         }
     }
-
 
     updateReqSubjectList(possible_eng_names);
 
