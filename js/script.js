@@ -196,7 +196,7 @@ function adjustRules() {
     // empty list of selected eng types to start with
     var checked_eng_types = [];
     // watch eng buttons for if clicked
-    watchEngCB(checked_eng_types);
+    watchEngCB();
     updateTable([]);
 
     // display the semester planner part of the page
@@ -265,12 +265,17 @@ function generateEngCheckBoxes(name) {
 
 
 // watch the engineering checkboxes for change
-function watchEngCB(checked_eng_types) {
+function watchEngCB() {
     /* Input: list of eng_types that have been selected
      * Output: none
      */
 
     $("[name=1]").change(function() {
+        var selected_eng = document.getElementsByClassName("selected-eng");
+        var checked_eng_types = [];
+        for (var i = 0; i < selected_eng.length; i++) {
+            checked_eng_types.push(selected_eng[i].childNodes[0].id);
+        }
         var index = checked_eng_types.indexOf(this.value);
         // if selected then add to list of checked eng types and update the class
         if (this.closest("label").className != "selected-eng") {
@@ -281,8 +286,7 @@ function watchEngCB(checked_eng_types) {
             checked_eng_types.splice(index, 1);
             this.closest("label").className = "";
         }
-4
-        console.log(checked_eng_types);
+
         // update list of required subjects
         updateReqSubjectList(checked_eng_types);
         //updateEngList();
@@ -749,7 +753,6 @@ function updateEngList() {
      * Output: none
      */
 
-    // get rules for what subjects are required for each eng discipline
     var selected_eng = document.getElementsByClassName("selected-eng");
 
     // get selected subjects by class name
