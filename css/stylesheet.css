@@ -286,6 +286,10 @@ label.true.place-holder {
     background-color: #4C4C55;
 }
 
+.empty-place-holder.column-3 {
+    background-color: white;
+}
+
 .false, #key-unselected, #ncea-key-unselected  {
     background-color: #D1D3D4;
 }
