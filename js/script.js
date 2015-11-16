@@ -281,9 +281,11 @@ function watchEngCB(checked_eng_types) {
             checked_eng_types.splice(index, 1);
             this.closest("label").className = "";
         }
-
+4
+        console.log(checked_eng_types);
         // update list of required subjects
         updateReqSubjectList(checked_eng_types);
+        //updateEngList();
     });
 }
 
@@ -489,7 +491,7 @@ function updateReqSubjectList(checked_eng_types) {
     // for each selected eng type, get the required subjects and add them to the list
     for (var i in checked_eng_types) {
         // get rules for what subjects are required for each eng discipline
-        subject_list = rules[checked_eng_types[i]];
+        var subject_list = rules[checked_eng_types[i]];
         for (var j in subject_list) {
             // add subject to list of required subjects if it is not already there
             if (required_subjects.indexOf(subject_list[j]) == -1) {
@@ -618,7 +620,7 @@ function updateTable(required_subjects) {
 }
 
 
-// remove subject from table
+// remove subject from table when trashcan icon clicked
 function removeSubject(subject_id) {
     var subject_row = document.getElementsByClassName(subject_id.slice(7) + " table-row")[0];
     subject_row.parentNode.removeChild(subject_row);
@@ -709,15 +711,13 @@ function swapDivs(div_a, div_b) {
     div_a_parent.appendChild(div_b);
 
     //swap the coloumns in class and id
-    
     var div_b_id = div_b.id;
     div_b.id = div_a.id;
     div_a.id = div_b_id;
     div_a.className = div_a.className.slice(0, -1) + div_a.id.slice(-1);
     div_b.className = div_b.className.slice(0, -1) + div_b.id.slice(-1);
-    
-    
 }
+
 
 // build label element for table
 function buildLabel(column) {
@@ -785,20 +785,20 @@ function updateEngList() {
             }
         }
 
+
         var element = document.getElementById(selected_eng[i].innerText).closest("label");
         if (element.className == "selected-eng") {
             if (req_subjects.length == count) {
                 possible_eng.push(selected_eng[i]);
                 possible_eng_names.push(selected_eng[i].childNodes[0].id);
             }
-        }
-        
+        }   
     }
 
+    
     // change class for eng type if it is available depending on subject selection
     var eng_elements = document.getElementById("eng-options").childNodes;
-
-    for (var i = 0; i < eng_elements.length - 1; i++) {
+    for (var i = 0; i < eng_elements.length; i++) {
         if (possible_eng_names.indexOf(eng_elements[i].childNodes[0].value) != -1) {
             eng_elements[i].className = "selected-eng";
         } else {
@@ -806,23 +806,7 @@ function updateEngList() {
         }
     }
 
+
     updateReqSubjectList(possible_eng_names);
 
-    // var required_subjects = [];
-
-    // // we have list of eng types that are possible
-    // // remove any excess subjects from the table
-    // if (possible_eng.length >= 1) {
-    //     for (var i in possible_eng) {
-    //         var subjects_required_for_eng = rules[possible_eng[i].childNodes[0].id];
-    //         for (var j in subjects_required_for_eng) {
-    //             if (required_subjects.indexOf(subjects_required_for_eng[j]) == -1) {
-    //                 required_subjects.push(subjects_required_for_eng[j]);
-    //             }
-    //         }
-    //     }
-    // }
-
-    // console.log(required_subjects);
-    // updateTable(required_subjects);
 }
