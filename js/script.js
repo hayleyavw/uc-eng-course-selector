@@ -1,6 +1,6 @@
 /*
  * Author: Hayley van Waas, University of Canterbury
- * Date: September 2015
+ * Date: November 2015
  *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
@@ -605,8 +605,7 @@ function updateTable(required_subjects) {
             img.src = "trashcan.png";
             img.id = "delete-" + subject;
             img.onclick = function(img) {
-                console.log(img.srcElement.id);
-                removeSubject(img.srcElement.id); };
+                removeSubject(img.target.id); };
             var img_div = document.createElement("div");
             img_div.className = "trashcan";
             img_div.appendChild(img);
