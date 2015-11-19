@@ -77,6 +77,20 @@ function changeDivLayout() {
 }
 
 
+// watches radio buttons for change
+$("input[type=radio]").change(function() {
+    if (this.checked == true) {
+        siblings = $(this).siblings();
+        for (var i in siblings) {
+            if (siblings[i].tagName == "LABEL") {
+                siblings[i].className = "false";
+            }
+        }
+        $(this).nextAll("label")[0].className = "true";
+    }
+});
+
+
 // changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
 
