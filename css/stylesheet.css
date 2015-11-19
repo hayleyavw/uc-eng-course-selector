@@ -31,8 +31,10 @@ a {
     height: 100px;
     position: relative;
     width: 70px;
-    transform: rotate(90deg);
     color: #FFF;
+    -webkit-transform: rotate(90deg); /* Chrome and Safari */
+    -ms-transform:rotate(90deg); /* IE 9 */
+    -moz-transform:rotate(90deg); /* Firefox */
 }
 
 .base:before {
@@ -48,7 +50,9 @@ a {
 }
 
 .base p {
-    transform: rotate(-90deg) !important;
+    -webkit-transform: rotate(-90deg); /* Chrome and Safari */
+    -ms-transform:rotate(-90deg); /* IE 9 */
+    -moz-transform:rotate(-90deg); /* Firefox */
 }
 
 .arrow {
@@ -131,6 +135,7 @@ input.submit {
 
 .key p {
     font-size: 14px;
+    line-height: 100%;
 }
 
 #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
@@ -242,7 +247,7 @@ input.submit {
 }
 
 input.elective {
-    width: 27%;
+    width: 26%;
     height: 80%;
     padding-right: 4%;
     margin-left: auto;
@@ -299,12 +304,18 @@ label.true.place-holder {
     background-color: #FFE28A;
 }
 
-#message p {
+.message-text {
     display: none;
 }
 
+hr {
+    border-top: 1px solid #D1D3D4;
+}
+
+
 #message {
     display: inline-block;
+    width: 90%;
     margin-bottom: 20px;
     font-size: 12px;
 }
@@ -334,7 +345,7 @@ label.true.place-holder {
         width: 60%;
     }
     .false.subject-button {
-        line-height: 100%;   
+        line-height: 100%;
     }
 }
 
@@ -356,7 +367,7 @@ label.true.place-holder {
     }
     .false.subject-button {
         line-height: 200%;
-        font-size: 14px;   
+        font-size: 14px;
     }
 }
 
@@ -390,7 +401,7 @@ label.true.place-holder {
         width: 60%;
     }
     .false.subject-button {
-        line-height: 100%;   
+        line-height: 100%;
     }
 }
 

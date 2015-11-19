@@ -76,19 +76,6 @@ function changeDivLayout() {
     }
 }
 
-// watches radio buttons for change
-$("input[type=radio]").change(function() {
-    if (this.checked == true) {
-        siblings = $(this).siblings();
-        for (var i in siblings) {
-            if (siblings[i].tagName == "LABEL") {
-                siblings[i].className = "false";
-            }
-        }
-        $(this).nextAll("label")[0].className = "true";
-    }
-});
-
 
 // changes the rules based on ncea background when user clicks "save" button
 function adjustRules() {
@@ -409,17 +396,27 @@ function updateOverflowButtons(button_list, count, threshold) {
      * Output: boolean value for it overflow true or false
      */
 
+    // check which overflow message to hide/show
+    if (count > threshold) {
+        if (threshold == 4) { // i.e. semester 1 or 2
+            document.getElementById("semester-overflow").style.display = "block";
+        } else { //summer
+            document.getElementById("summer-overflow").style.display = "block";
+        }
+    } else {
+        if (threshold == 4) { // i.e. semester 1 or 2
+            document.getElementById("semester-overflow").style.display = "none";
+        } else { //summer
+            document.getElementById("summer-overflow").style.display = "none";
+        }
+    }
+
     if (button_list.length > 0) {
         var current_class = button_list[0].className;
         var column = current_class.slice(-9);
 
         // change class to overflow if over threshold, else remove overflow class
         if (count > threshold) {
-            if (threshold == 4) { // i.e. semester 1 or 2
-                document.getElementById("semester-overflow").style.display = "block";
-            } else { //summer
-                document.getElementById("summer-overflow").style.display = "block";
-            }
             for (var i = 0; i < button_list.length; i++) {
                 var current_class = button_list[i].className;
                 // if over threshold, buttons should be coloured for overflow
@@ -607,7 +604,9 @@ function updateTable(required_subjects) {
             var img = document.createElement("IMG");
             img.src = "trashcan.png";
             img.id = "delete-" + subject;
-            img.onclick = function(img) { removeSubject(img.path[0].id); };
+            img.onclick = function(img) {
+                console.log(img.srcElement.id);
+                removeSubject(img.srcElement.id); };
             var img_div = document.createElement("div");
             img_div.className = "trashcan";
             img_div.appendChild(img);
@@ -708,7 +707,7 @@ function drop(ev) {
     checkSubjectPrerequisites(moved);
     semesterCount();
 }
-    
+
 
 // swap two divs with each other
 // used to move a subject to a different semester
@@ -716,7 +715,7 @@ function swapDivs(div_a, div_b) {
 
     // get the parent div of the cell to be swapped
     var div_a_parent = div_a.parentNode;
- 
+
     div_b.parentNode.replaceChild(div_a, div_b);
     div_a_parent.appendChild(div_b);
 
@@ -753,9 +752,26 @@ function buildFreeSpace(column) {
     input.type = "text";
     input.className = "elective" + column;
     input.value = "Elective";
+    input.setAttribute('onFocus', 'onFocus(this)');
+    input.setAttribute('onBlur', 'onBlur(this)');
     return input;
 }
 
+
+// clear the default text from the elective box when clicked
+function onFocus(elective_box) {
+    if (elective_box.value == "Elective") {
+        elective_box.value = "";
+    }
+}
+
+
+// put default text back in elective box
+function onBlur(elective_box) {
+    if (elective_box.value == "") {
+        elective_box.value = "Elective";
+    }
+}
 
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
@@ -804,9 +820,9 @@ function updateEngList() {
                 possible_eng.push(selected_eng[i]);
                 possible_eng_names.push(selected_eng[i].childNodes[0].id);
             }
-        }   
+        }
     }
-    
+
     // change class for eng type if it is available depending on subject selection
     var eng_elements = document.getElementById("eng-options").childNodes;
     for (var i = 0; i < eng_elements.length; i++) {
