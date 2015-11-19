@@ -7,7 +7,6 @@
 
 // TODO deal with global variables
 // TODO split up functions
-// TODO deal with subjects that have prerequisites that aren't common subjects
 // TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
 // TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
