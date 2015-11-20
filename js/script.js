@@ -10,6 +10,7 @@
 // TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
 // TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
+// these are each of the Yes/No questions at top of page
 var prerequisites = {
     "star-maths": 0,
     "l3-maths": 0,
@@ -21,6 +22,7 @@ var prerequisites = {
     "endorsement": 0
 }
 
+// subjects required for each engineering type
 rules = {
     "Software":  ["ENGR101", "EMTH118", "EMTH119", "MATH120",  "PHYS101", "COSC121", "COSC122"],
     "Computer": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "COSC121"],
@@ -33,6 +35,7 @@ rules = {
     "Chemical and Process": ["ENGR101", "EMTH171", "EMTH118", "EMTH119", "PHYS101", "CHEM111"]
 }
 
+// lists which subjects are available in each semester
 semester_occurances = {
     "Semester 1": ["ENGR101", "EMTH118", "MATH101", "EMTH210", "PHYS111", "PHYS101", "COSC121", "CHEM114",  "CHEM111"],
     "Semester 2": ["ENGR102", "EMTH118", "EMTH119", "EMTH171", "PHYS101", "COSC121", "CHEM111", "MATH120", "COSC122"],
@@ -48,8 +51,11 @@ $(document).ready(function() {
 });
 
 
-// changes layout of div for different page sizes
+// changes layout of divs for different page sizes (i.e. shifts key and tables to different order on smaller page size)
 function changeDivLayout() {
+    /* Input: none
+     * Output: none
+     */
 
     var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
     var key_div = document.getElementById("key");
@@ -76,8 +82,11 @@ function changeDivLayout() {
 }
 
 
-// watches radio buttons for change
+// watches radio buttons for change (prerequisite Yes/No questions are radio buttons)
 $("input[type=radio]").change(function() {
+    /* Input: none
+     * Output: none
+     */
     if (this.checked == true) {
         siblings = $(this).siblings();
         for (var i in siblings) {
@@ -90,8 +99,12 @@ $("input[type=radio]").change(function() {
 });
 
 
-// changes the rules based on ncea background when user clicks "save" button
+// changes the rules based on NCEA background when user clicks "save" button
+//NOTE: for a different background to NCEA, this function should be rewritten
 function adjustRules() {
+    /* Input: none
+     * Output: none
+     */
 
     var new_rules = getRules()[0];
     var new_semester_occurances = getRules()[1];
@@ -204,11 +217,12 @@ function adjustRules() {
 
 }
 
-// function to store rules
 
+// function to store rules
 function getRules(rules, semester_occurances) {
-     //Takes no input
-     //Returns array of length 2 - [eng rules, semester occurances]
+     /* Input: dictionary of rules and semester occurances as input
+      * Output: array of length 2 - [eng rules, semester occurances]
+      */
 
     // Dictionary for eng rules, maps required subjects to eng type
     // NOTE: ENGR100 is hardcoded therefore not included in the dictionary
@@ -266,7 +280,7 @@ function generateEngCheckBoxes(name) {
 
 // watch the engineering checkboxes for change
 function watchEngCB() {
-    /* Input: list of eng_types that have been selected
+    /* Input: none
      * Output: none
      */
 
@@ -289,7 +303,6 @@ function watchEngCB() {
 
         // update list of required subjects
         updateReqSubjectList(checked_eng_types);
-        //updateEngList();
     });
 }
 
@@ -324,7 +337,7 @@ function checkSubjectPrerequisites(subject) {
 
 // checks if by clicking a subject, another has to be moved (e.g. COSC121 and COSC122 cannot be in the same semester)
 function checkSubjectOrder(shifted_subject, compliment_subject) {
-    /* Input: the subject clicked, it's compliment subject, e.g. clicks EMTH118, compliment = EMTH119
+    /* Input: the subject clicked, it's compliment subject, e.g. EMTH118 compliment = EMTH119
      * Output: none
      */
 
@@ -352,7 +365,6 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
             }
         }
     }
-
 
     // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
@@ -405,8 +417,8 @@ function semesterCount() {
 
 // change class applied to each button depending on number of buttons clicked in given semester
 function updateOverflowButtons(button_list, count, threshold) {
-    /* Input: list of buttons in the same column, the number set as true in that column
-     * Output: boolean value for it overflow true or false
+    /* Input: list of buttons in the same column, the number set as true in that column and the number of subjects allowed before overflow is reached
+     * Output: boolean value for if overflow is true or false
      */
 
     // check which overflow message to hide/show
@@ -457,6 +469,9 @@ function updateOverflowButtons(button_list, count, threshold) {
 
 // recursively deletes all free elective spaces
 function removeExistingElectiveRows(elective_inputs) {
+    /* Input: remaining elective input boxes
+     * Output: none
+     */
     if (elective_inputs.length > 0) { // if there are actually more electives to delete
         elective_inputs[0].parentNode.removeChild(elective_inputs[0]); // remove the whole row
         removeExistingElectiveRows(document.getElementsByClassName("elective-row")); // call the function again with the remaining elective spaces
@@ -464,7 +479,11 @@ function removeExistingElectiveRows(elective_inputs) {
     return;
 }
 
+// place elective input boxes
 function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
+    /* Input: number of sem1 subjects, number of sem2 subjects, number of subjects allowed before overflow is reached
+     * Output: none
+     */
 
     // clear the existing rows with free elective spaces
     removeExistingElectiveRows(document.getElementsByClassName("elective-row"));
@@ -498,7 +517,7 @@ function updateFreeSubjectInputs(sem1_count, sem2_count, threshold) {
 // update list of required subjects depending on which eng checkboxes are clicked
 function updateReqSubjectList(checked_eng_types) {
     /* Input: list of selected eng types
-     * Output: none - calls updateTable function
+     * Output: none
      */
     var required_subjects = [];
 
@@ -530,7 +549,7 @@ function updateTable(required_subjects) {
 
     // rebuild table
 
-    // ENGR100 placed separately - spans two columns, set as a place holder
+    // ENGR100 placed separately - spans two columns, set as a long place holder
     //  create div for new row
     var table_row = document.createElement("div");
     table_row.className = "table-row";
@@ -642,6 +661,9 @@ function updateTable(required_subjects) {
 
 // remove subject from table when trashcan icon clicked
 function removeSubject(subject_id) {
+    /* Input: id of subject that needs to be removed from the table
+     * Output: none
+     */
     var subject_row = document.getElementsByClassName(subject_id.slice(7) + " table-row")[0];
     subject_row.parentNode.removeChild(subject_row);
     semesterCount();
@@ -682,7 +704,7 @@ function buildButton(table_row, subject, selected, column) {
 
 }
 
-
+// stop default action when subject button clicked and dragged
 function allowDrop(ev) {
     ev.preventDefault();
 }
@@ -724,6 +746,9 @@ function drop(ev) {
 // swap two divs with each other
 // used to move a subject to a different semester
 function swapDivs(div_a, div_b) {
+    /* Input: two divs that need to be swapped
+     * Output: none
+     */
 
     // get the parent div of the cell to be swapped
     var div_a_parent = div_a.parentNode;
@@ -772,6 +797,9 @@ function buildFreeSpace(column) {
 
 // clear the default text from the elective box when clicked
 function onFocus(elective_box) {
+    /* Input: elective input box that needs default text removed
+     * Output: none
+     */
     if (elective_box.value == "Elective") {
         elective_box.value = "";
     }
@@ -780,10 +808,14 @@ function onFocus(elective_box) {
 
 // put default text back in elective box
 function onBlur(elective_box) {
+    /* Input: elective input box that needs default text added
+     * Output: none
+     */
     if (elective_box.value == "") {
         elective_box.value = "Elective";
     }
 }
+
 
 // determine which eng types are possible based on subjects currently in table
 function updateEngList() {
