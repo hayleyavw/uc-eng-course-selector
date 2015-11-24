@@ -131,7 +131,7 @@ function adjustRules() {
                 subjects.splice(emth119_index, 1);
             }
         }
-    } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["differentiation"] == 0) {
+    } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["integration"] == 0) {
         // add MATH101
         // add PHYS111
         // remove PHYS101 from semester 1
