@@ -1,0 +1,466 @@
+/*
+ * Author: Hayley van Waas, University of Canterbury
+ * Date: November 2015
+ *
+ */
+
+html {
+    width: 100%;
+}
+
+/* text formatting */
+body {
+    font-family: geneva, arial, helvetica, sans-serif;
+    margin: 4% 8% 8% 8%;
+}
+
+
+a {
+    color: #7473A9;
+    text-decoration: none;
+}
+
+.sem-planner {
+    display: none;
+}
+
+#note {
+    font-size: 10px;
+}
+
+.base {
+    margin-top: 0px;
+}
+
+.base {
+    background: #7473A9;
+    height: 100px;
+    position: relative;
+    width: 70px;
+    color: #FFF;
+    -webkit-transform: rotate(90deg); /* Chrome and Safari */
+    -ms-transform:rotate(90deg); /* IE 9 */
+    -moz-transform:rotate(90deg); /* Firefox */
+}
+
+.base:before {
+    border-bottom: 30px solid #7473A9;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    content: "";
+    height: 0;
+    left: 0;
+    position: absolute;
+    top: -30px;
+    width: 0;
+}
+
+.base p {
+    -webkit-transform: rotate(-90deg); /* Chrome and Safari */
+    -ms-transform:rotate(-90deg); /* IE 9 */
+    -moz-transform:rotate(-90deg); /* Firefox */
+}
+
+.arrow {
+    clear: both;
+    display: block;
+    margin-left: 1.5%;
+}
+
+.base, .arrow h2 {
+    display: inline-block;
+}
+
+.arrow h2 {
+    margin-left: 14%;
+}
+
+form {
+    margin-bottom: 50px;
+}
+
+form input.submit {
+    float: right;
+    margin: 0 60%;
+    width: 100px;
+}
+
+form input.submit:hover {
+    transition: all .1s ease-in-out;
+    transform: scale(1.1);
+}
+
+form input.submit:active {
+    background-color: #a09fc7;
+}
+
+.question label:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+}
+
+.question {
+    display: block;
+}
+
+.question p {
+    margin: 10px;
+    width: 50%;
+    display: inline-block;
+}
+
+.question label.true {
+    background-color: #A09FC7;
+}
+
+input.submit {
+    background-color: #D1D3D4;
+    border: none;
+    border-radius: 5px;
+}
+
+.question input {
+    opacity: 0;
+}
+
+.question label { /* labels for radiobuttons */
+    display: inline-block;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #D1D3D4;
+}
+
+
+/* key */
+.key, .ncea-key {
+    margin: 30px;
+    display: block;
+    text-align: center;
+    font-size: 10px;
+}
+
+.key p {
+    font-size: 14px;
+    line-height: 100%;
+}
+
+#key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+    height: 30px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+/* eng boxes */
+
+#tables {
+    margin: 0px auto;
+}
+
+#left {
+    float: left;
+    width: 50%;
+}
+
+.eng-options {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.eng-options label {
+    padding-right: 15px;
+    display: block;
+    float: left;
+    background-color: #D1D3D4;
+    border-radius: 5px;
+    margin: 5px;
+    width: 25%;
+    height: 50px;
+}
+
+.eng-options label:hover {
+    transition: all .1s ease-in-out;
+    transform: scale(1.1);
+}
+
+.eng-options .selected-eng {
+    background-color: #A09FC7;
+}
+
+.eng-options input {
+    opacity: 0;
+}
+
+
+/* subject table */
+#subject-table {
+    float: right;
+    width: 50%;
+    margin-right: 0px;
+}
+
+.trashcan {
+    float: right;
+    display: inline;
+    vertical-align: middle;
+    width: 3%;
+}
+
+.trashcan img {
+    height: 20px;
+}
+
+.trashcan img:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.2);
+}
+
+.cell {
+    display: inline;
+    width: 100%;
+}
+
+.header-row, .default-row, .table-row {
+    display: block;
+    height: 30px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.long-place-holder {
+    display: block;
+    width: 93%;
+    margin-right: 5px;
+    float: left;
+    height: 100%;
+    border: none;
+    line-height: 200%;
+    border-left: solid #A09FC7 5px;
+    border-right: solid #A09FC7 5px;
+}
+
+.long-place-holder p {
+    line-height: 100%;
+    font-size: 10px;
+}
+
+
+.column-1, .column-2, .column-3 {
+    display: block;
+    float: left;
+    width: 31%;
+    margin-right: 5px;
+}
+
+input.elective {
+    width: 26%;
+    height: 80%;
+    padding-right: 4%;
+    margin-left: auto;
+    margin-right: 1%;
+    color: #7473A9;
+}
+
+.header-box, .empty-place-holder, .place-holder, .subject-button {
+    height: 100%;
+    border: none;
+    line-height: 200%;
+    margin-bottom: 5px
+}
+
+
+.subject-button {
+    border-radius: 6px;
+}
+
+.subject-button:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+}
+
+.header-box {
+    background-color: #7473A9;
+    color: #FFF;
+}
+
+label.true.place-holder {
+    background-color: #A09FC7;
+    /*border: 3px solid #7473A9;*/
+}
+
+.true, #key-selected, #ncea-key-selected {
+    background-color: #A09FC7;
+}
+
+
+.empty-place-holder {
+    background-color: #4C4C55;
+}
+
+.empty-place-holder.column-3 {
+    background-color: white;
+}
+
+.false, #key-unselected, #ncea-key-unselected  {
+    background-color: #D1D3D4;
+}
+
+
+.overflow, #key-overflow, #ncea-key-overflow {
+    background-color: #FFE28A;
+}
+
+.message-text {
+    display: none;
+}
+
+hr {
+    border-top: 1px solid #D1D3D4;
+}
+
+
+#message {
+    display: inline-block;
+    width: 90%;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+
+
+@media only screen and (max-width: 1350px) {
+    .false.subject-button {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+    .eng-options, #subjects, .false.subject-button {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    body {
+        margin: 5%;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .question p {
+        width: 60%;
+    }
+    .false.subject-button {
+        line-height: 100%;
+    }
+}
+
+@media only screen and (max-width: 835px) {
+    .eng-options, #subject-table {
+        font-size: 16px;
+    }
+    #left {
+        width: 100%;
+    }
+    .eng-options label {
+        width: 29%;
+    }
+    #subject-table {
+        width: 100%;
+    }
+    .key {
+        padding-top: 210px;
+    }
+    .false.subject-button {
+        line-height: 200%;
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    .question p {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .question p {
+        width: 75%;
+    }
+}
+
+@media only screen and (max-width: 645px) {
+    .eng-options label {
+        width: 27%;
+    }
+}
+
+@media only screen and (max-width: 612px) {
+    .question p {
+        width: 70%;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 510px) {
+    .question p {
+        width: 60%;
+    }
+    .false.subject-button {
+        line-height: 100%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .eng-options, #subject-table {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 440px) {
+    .eng-options label {
+        width: 26%;
+    }
+}
+
+@media only screen and (max-width: 415px) {
+    .header-box, .empty-place-holder, .place-holder, .subject-button {
+        width: 31%
+    }
+    input.elective {
+        width: 26%;
+    }
+}
+
+@media only screen and (max-width: 410px) {
+    #subject-table {
+        width: 100%;
+    }
+    .eng-options, #subject-table {
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 385px) {
+    .question p {
+        width: 50%;
+    }
+    .eng-options label {
+        width: 25%;
+    }
+    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 385px) {
+    .eng-options label {
+        width: 23%;
+    }
+    .eng-options, #subject-table {
+        font-size: 10px;
+    }
+    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+        padding: 2px;
+    }
+}

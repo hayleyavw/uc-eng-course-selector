@@ -140,10 +140,8 @@ function adjustRules() {
         for (var i in new_rules) {
             var subjects = new_rules[i];
             subjects.push("MATH101");
-            subjects.push("PHYS111");
             // add to common subjects since prerequisites for other subjects
             common_subjects.push("MATH101");
-            common_subjects.push("PHYS111");
         }
         var phys101_index = new_semester_occurances["Semester 1"].indexOf("PHYS101");
         new_semester_occurances["Semester 1"].splice(phys101_index, 1);
