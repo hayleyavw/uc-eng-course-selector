@@ -1,6 +1,8 @@
 /*
  * Author: Hayley van Waas, University of Canterbury
  * Date: November 2015
+ * Minor Edits by Conan Fee, UNiversity of Canterbury
+ * Date: November 2015
  *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
@@ -133,7 +135,6 @@ function adjustRules() {
         }
     } else if (prerequisites["l3-maths"] == 0 || prerequisites["differentiation"] == 0 || prerequisites["integration"] == 0) {
         // add MATH101
-        // add PHYS111
         // remove PHYS101 from semester 1
         // remove EMTH118 from semester 1
         // remove EMTH119 from semester 2
@@ -149,6 +150,8 @@ function adjustRules() {
         new_semester_occurances["Semester 1"].splice(emth118_index, 1);
         var emth119_index = new_semester_occurances["Semester 2"].indexOf("EMTH119");
         new_semester_occurances["Semester 2"].splice(emth119_index, 1);
+        var engr102_index = new_semester_occurances["Semester 2"].indexOf("ENGR102");
+        new_semester_occurances["Semester 2"].splice(engr102_index, 1);        
     }
 
     if (prerequisites["l3-physics"] == 0) {
@@ -366,7 +369,7 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
 
     // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
-        // if the lenght of this list is 0, there are no other semesters that the subject occurs in
+        // if the length of this list is 0, there are no other semesters that the subject occurs in
         if (compliment_options.length == 0) {
             // TODO add colour for subject clash
         } else { // it is able to be moved
@@ -576,7 +579,7 @@ function updateTable(required_subjects) {
         document.getElementById("chem114-special").style.display = "none";
         document.getElementById("no-chemistry").style.display = "none";
     }
-
+    
     if (required_subjects.indexOf("CHEM111") != -1) {
         // check is CHEM111 is in both semesters
         if (semester_occurances["Semester 1"].indexOf("CHEM111") != -1) {
