@@ -21,15 +21,14 @@
 
         <h1>Planning Your Intermediate Engineering Year</h1>
     	<h3>Compatible with Chrome, Safari and Firefox Browsers</h3>
-    	<h3>We are working on an iOS version for mobile devices but this is not currently functional</h3>
-        <h3>Caution: Do not use with Internet Explorer (will give incorrect advice!)</h3>
+    	<h3>Caution: Do not use with Internet Explorer (may give incorrect advice)</h3>
 
         <section class="background-info">
             <div class="arrow">
-                <div class="base"><p>START HERE</p></div><h2>Cambridge International Examinations (CIE) Background</h2>
+                <div class="base"><p>START HERE</p></div><h2>NCEA Background</h2>
             </div>
 
-            <p>Help us personalise your semester plan by letting us know your CIE background.</p>
+            <p>Help us personalise your semester plan by letting us know your NCEA background.</p>
 
             <div class="ncea-key">
                 <label id="ncea-key-selected">Selected</label>
@@ -47,7 +46,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Maths?
+                        Are you doing at least 14 credits in NCEA L3 Maths?
                     </p>
                     <input type="radio" name="l3-maths" id="l3-maths-yes" value=1 />
                     <label for="l3-maths-yes">Yes</label>
@@ -56,7 +55,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Did you study Differentiation?
+                        Including Differentiation (NCEA Achievement Standard 91578)?
                     </p>
                     <input type="radio" name="differentiation" id="differentiation-yes" value=1 />
                     <label for="differentiation-yes">Yes</label>
@@ -65,7 +64,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Did you study Integration?
+                        Including Integration (NCEA Achievement Standard 91579)?
                     </p>
                     <input type="radio" name="integration" id="integration-yes" value=1 />
                     <label for="integration-yes">Yes</label>
@@ -74,7 +73,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Physics?
+                        Are you doing at least 14 credits in NCEA L3 Physics?
                     </p>
                     <input type="radio" name="l3-physics" id="l3-physics-yes" value=1 />
                     <label for="l3-physics-yes">Yes</label>
@@ -83,7 +82,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Chemistry?
+                        Are you doing at least 14 credits in NCEA L3 Chemistry?
                     </p>
                     <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value=1 />
                     <label for="l3-chemistry-yes">Yes</label>
@@ -92,7 +91,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Did you take AS level Chemistry?
+                        Did you complete NCEA L2 Chemistry?
                     </p>
                     <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value=1 />
                     <label for="l2-chemistry-yes">Yes</label>
@@ -101,7 +100,7 @@
                 </div>
                 <div class="question">
                     <p class="q-text">
-                        Do you expect to achieve an A or A* at A Level in Maths, Physics or Chemistry?
+                        Do you expect Excellence Endorsement in any subject?
                     </p>
                     <input type="radio" name="endorsement" id="endorsement-yes" value=1 />
                     <label for="endorsement-yes">Yes</label>
@@ -171,25 +170,19 @@
                         </div>
                         <div id="endorsement" class="message-text">
                             <p>
-                                OPPORTUNITY: Consult Student Advisors. Excellent results in CIE means that you may be eligible for a Modified Intermediate, quaranteed entry to your first choice of engineering discipline, or even Direct Entry to the 1st Professional (2nd) Year of Engineering.
+                                OPPORTUNITY: Consult Student Advisors. Excellence endorsement in NCEA means that you may be eligible for a Modified Intermediate, quaranteed entry to your first choice of engineering discipline, or even Direct Entry to the 1st Professional Year of Engineering.
                             </p>
                             <hr>
                         </div>
                         <div id="no-chemistry" class="message-text">
                             <p>
-                                Because you did not do Chemistry at least to AS Level, enrolment in Headstart Chemistry during the previous summer is strongly advised.
+                                Because you did not do Chemistry at Level 2, enrolment in Headstart Chemistry during the previous summer is strongly advised.
                             </p>
                             <hr>
                         </div>
                         <div id="chem114-special" class="message-text">
                             <p>
                                 CHEM114 NOTE: Consult Student Advisors regarding your need to do Chemistry. Special allowances may apply in 2015/2016 if you have not done Chemistry at high school.
-                            </p>
-                            <hr>
-                        </div>
-                        <div id="engr102-order" class="message-text">
-                            <p>
-                                ENGR102 NOTE: We strongly advise that you plan to take ENGR102 AFTER COMPLETING EMTH118. Permission to take ENGR102 at the same time as EMTH118 will only be given if you achieve an 'A' grade or better in MATH101.
                             </p>
                             <hr>
                         </div>
@@ -211,10 +204,12 @@
                 <div class="base"><p>Next</p></div>
                 <h2>Final Steps</h2>
                     <div id="final-steps">
-                        <p><a href="mailto:engdegreeadvice@canterbury.ac.nz">Consult student Advisers</a> if instructed to do so, otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
+                        <p><a href="mailto:conan.fee@canterbury.ac.nz?subject=testing out mailto&body=Just testing"+endorsement+>Consult Conan Fee</a> if instructed to do so, otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
                         </p>
                     </div>
             </div>
+            
+            <a href="#" onclick="javascript:window.location='mailto:conan.fee@canterbury.ac.nz?subject=checking this out&body='+endorsement">Email</a>
 
         </section>
 
