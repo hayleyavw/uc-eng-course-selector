@@ -685,6 +685,11 @@ function buildButton(table_row, subject, selected, column) {
     var button = document.createElement("div");
     button.id = subject + "-" + column.slice(1);
     button.className = selected + " subject-button" + column;
+    button.onclick = function() {
+        subjectButtonClick(button);
+        semesterCount();
+        updateEngList();
+    };
 
     if (selected == true) {
         button.value = subject;
@@ -878,6 +883,43 @@ function updateEngList() {
         }
     }
 
-    updateReqSubjectList(possible_eng_names);
+    //updateReqSubjectList(possible_eng_names);
 
+}
+
+
+// react to subject button click
+function subjectButtonClick(subject) {
+    /* Input: subject button object
+     * Output: none
+     */
+
+    console.log(subject);
+
+    // get class of subject that was clicked
+    var current_class = subject.className;
+    // last part of class is the column number
+    var column = current_class.slice(-9);
+
+    console.log(current_class);
+
+    // if subject was unselected, we now want to select it
+    if (current_class.indexOf("false") != -1) {
+        // get siblings in div - i.e. objects in same row, change their class to false
+        var sibling_elements = subject.parentNode.parentNode.children;
+        for (var i = 0; i < sibling_elements.length; i++) { // every element except last (undefined)
+            console.log(sibling_elements[i].id);
+            if (sibling_elements[i].id.indexOf("cell") != -1) { // if it is a cell, i.e. has a subject button in it
+                var sibling_button = sibling_elements[i].children[0]; // get the button element
+                if (sibling_button != subject) { // if it is not subject that was clicked, change it's class
+                    var sibling_button_column = sibling_button.className.slice(-9);
+                    sibling_button.className = "false subject-button" + sibling_button_column;
+                }
+            }
+        }
+        // change clicked button's class to true
+        subject.className = "true subject-button" + column;
+
+        checkSubjectPrerequisites(subject);
+    }
 }
