@@ -138,6 +138,7 @@ function adjustRules() {
         // remove PHYS101 from semester 1
         // remove EMTH118 from semester 1
         // remove EMTH119 from semester 2
+        // remove ENGR102 from semester 2
         for (var i in new_rules) {
             var subjects = new_rules[i];
             subjects.push("MATH101");
@@ -151,7 +152,7 @@ function adjustRules() {
         var emth119_index = new_semester_occurances["Semester 2"].indexOf("EMTH119");
         new_semester_occurances["Semester 2"].splice(emth119_index, 1);
         var engr102_index = new_semester_occurances["Semester 2"].indexOf("ENGR102");
-        new_semester_occurances["Semester 2"].splice(engr102_index, 1);        
+        new_semester_occurances["Semester 2"].splice(engr102_index, 1);
     }
 
     if (prerequisites["l3-physics"] == 0) {
@@ -317,11 +318,14 @@ function checkSubjectPrerequisites(subject) {
     var subject_name = subject.id.slice(0, 7);
 
     // subject pairs where order matters
+    // TODO could be tuples instead?
     var subject_clashes = {
         "COSC121": "COSC122",
         "COSC122": "COSC121",
         "EMTH118": "EMTH119",
-        "EMTH119": "EMTH118"
+        "EMTH119": "EMTH118",
+        "EMTH118": "ENGR102",
+        "ENGR102": "EMTH118"
     }
 
     //var clash_subject_keys = Object.keys(subject_clashes);
@@ -366,6 +370,7 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
             }
         }
     }
+    console.log(shifted_col, compliment_col);
 
     // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
@@ -579,7 +584,7 @@ function updateTable(required_subjects) {
         document.getElementById("chem114-special").style.display = "none";
         document.getElementById("no-chemistry").style.display = "none";
     }
-    
+
     if (required_subjects.indexOf("CHEM111") != -1) {
         // check is CHEM111 is in both semesters
         if (semester_occurances["Semester 1"].indexOf("CHEM111") != -1) {
@@ -753,7 +758,7 @@ function drop(ev) {
 // used to move a subject to a different semester
 function swapDivs(div_a, div_b) {
     /* Input: two divs that need to be swapped
-     * Output: none
+     * Output: the first div
      */
 
     // get the parent div of the cell to be swapped
@@ -768,6 +773,9 @@ function swapDivs(div_a, div_b) {
     div_a.id = div_b_id;
     div_a.className = div_a.className.slice(0, -1) + div_a.id.slice(-1);
     div_b.className = div_b.className.slice(0, -1) + div_b.id.slice(-1);
+
+    // return for the case where the new column number is needed for checking subject collisions
+    return div_b;
 }
 
 
@@ -894,32 +902,24 @@ function subjectButtonClick(subject) {
      * Output: none
      */
 
-    console.log(subject);
-
     // get class of subject that was clicked
     var current_class = subject.className;
-    // last part of class is the column number
-    var column = current_class.slice(-9);
 
-    console.log(current_class);
-
-    // if subject was unselected, we now want to select it
+    // find the button that is currently selected and swap it with the clicked button
     if (current_class.indexOf("false") != -1) {
-        // get siblings in div - i.e. objects in same row, change their class to false
         var sibling_elements = subject.parentNode.parentNode.children;
         for (var i = 0; i < sibling_elements.length; i++) { // every element except last (undefined)
-            console.log(sibling_elements[i].id);
             if (sibling_elements[i].id.indexOf("cell") != -1) { // if it is a cell, i.e. has a subject button in it
                 var sibling_button = sibling_elements[i].children[0]; // get the button element
-                if (sibling_button != subject) { // if it is not subject that was clicked, change it's class
-                    var sibling_button_column = sibling_button.className.slice(-9);
-                    sibling_button.className = "false subject-button" + sibling_button_column;
+                if (sibling_button != subject) { // if it is not subject that was clicked, check it's class
+                    if (sibling_button.className.indexOf("true") != -1) {
+                        var moved_subject = swapDivs(subject,  sibling_button);
+                        checkSubjectPrerequisites(moved_subject);
+                        semesterCount();
+                        return;
+                    }
                 }
             }
         }
-        // change clicked button's class to true
-        subject.className = "true subject-button" + column;
-
-        checkSubjectPrerequisites(subject);
     }
 }
