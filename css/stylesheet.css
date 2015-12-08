@@ -20,7 +20,8 @@ a {
     text-decoration: none;
 }
 
-.sem-planner {
+
+.background-info-ncea, .background-info-ib, .background-info-cie, .sem-planner {
     display: none;
 }
 
@@ -75,6 +76,12 @@ a {
     margin-left: 14%;
 }
 
+.question button {
+    border: none;
+    width: 60px;
+    margin: 5px;
+}
+
 form {
     margin-bottom: 50px;
 }
@@ -109,7 +116,7 @@ form input.submit:active {
     display: inline-block;
 }
 
-.question label.true {
+.question label.true, .question button.true {
     background-color: #A09FC7;
 }
 
@@ -123,7 +130,7 @@ input.submit {
     opacity: 0;
 }
 
-.question label { /* labels for radiobuttons */
+.question label, .question button { /* labels for radiobuttons */
     display: inline-block;
     border-radius: 5px;
     padding: 5px;

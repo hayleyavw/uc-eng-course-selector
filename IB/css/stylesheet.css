@@ -75,6 +75,11 @@ a {
     margin-left: 14%;
 }
 
+
+button {
+    background-color: blue;
+}
+
 form {
     margin-bottom: 50px;
 }

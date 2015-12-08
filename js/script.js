@@ -90,6 +90,10 @@ $("input[type=radio]").change(function() {
      * Output: none
      */
     if (this.checked == true) {
+        // check if user has selected different school background
+        if(this.name == "background") {
+            showBackgroundQuestions(this.id);
+        }
         siblings = $(this).siblings();
         for (var i in siblings) {
             if (siblings[i].tagName == "LABEL") {
@@ -99,6 +103,27 @@ $("input[type=radio]").change(function() {
         $(this).nextAll("label")[0].className = "true";
     }
 });
+
+
+// hide/show different background questions depening on which type clicked
+function showBackgroundQuestions(background_type) {
+    /* Imput: string for background type (e.g. NCEA, IB or CIE")
+     * Output: none
+     */
+    if (background_type == "NCEA") {
+        document.getElementsByClassName("background-info-ncea")[0].style.display = "block";
+        document.getElementsByClassName("background-info-ib")[0].style.display = "none";
+        document.getElementsByClassName("background-info-cie")[0].style.display = "none";
+    } else if (background_type == "IB") {
+        document.getElementsByClassName("background-info-ncea")[0].style.display = "none";
+        document.getElementsByClassName("background-info-ib")[0].style.display = "block";
+        document.getElementsByClassName("background-info-cie")[0].style.display = "none";
+    } else {
+        document.getElementsByClassName("background-info-ncea")[0].style.display = "none";
+        document.getElementsByClassName("background-info-ib")[0].style.display = "none";
+        document.getElementsByClassName("background-info-cie")[0].style.display = "block";
+    }
+}
 
 
 // changes the rules based on NCEA background when user clicks "save" button
@@ -138,6 +163,7 @@ function adjustRules() {
         // remove PHYS101 from semester 1
         // remove EMTH118 from semester 1
         // remove EMTH119 from semester 2
+        // remove ENGR102 from semester 2
         for (var i in new_rules) {
             var subjects = new_rules[i];
             subjects.push("MATH101");
@@ -151,7 +177,7 @@ function adjustRules() {
         var emth119_index = new_semester_occurances["Semester 2"].indexOf("EMTH119");
         new_semester_occurances["Semester 2"].splice(emth119_index, 1);
         var engr102_index = new_semester_occurances["Semester 2"].indexOf("ENGR102");
-        new_semester_occurances["Semester 2"].splice(engr102_index, 1);        
+        new_semester_occurances["Semester 2"].splice(engr102_index, 1);
     }
 
     if (prerequisites["l3-physics"] == 0) {
@@ -315,22 +341,28 @@ function checkSubjectPrerequisites(subject) {
      */
 
     var subject_name = subject.id.slice(0, 7);
+    console.log(subject_name);
 
     // subject pairs where order matters
+    // TODO could be tuples instead?
     var subject_clashes = {
-        "COSC121": "COSC122",
-        "COSC122": "COSC121",
-        "EMTH118": "EMTH119",
-        "EMTH119": "EMTH118"
+        "COSC121": ["COSC122"],
+        "COSC122": ["COSC121"],
+        "EMTH118": ["EMTH119", "ENGR102"], // there are two subjects that emth118 clashes with
+        "EMTH119": ["EMTH118"],
+        "ENGR102": ["EMTH118"]
     }
 
     //var clash_subject_keys = Object.keys(subject_clashes);
     if (Object.keys(subject_clashes).indexOf(subject_name) != -1) { // subject where order matters
         // find it's pair's name, check if also selected
-        var compliment_subject = subject_clashes[subject_name];
-        var compliment_row = document.getElementsByClassName(compliment_subject);
-        if (compliment_row.length > 0) { // compliment subject also in table
-            checkSubjectOrder(subject, compliment_subject);
+        var compliment_subjects = subject_clashes[subject_name];
+        for (var i in compliment_subjects) {
+            var sub = compliment_subjects[i];
+            var compliment_row = document.getElementsByClassName(sub);
+            if (compliment_row.length > 0) { // compliment subject also in table
+                checkSubjectOrder(subject, sub);
+            }
         }
     }
 }
@@ -579,7 +611,7 @@ function updateTable(required_subjects) {
         document.getElementById("chem114-special").style.display = "none";
         document.getElementById("no-chemistry").style.display = "none";
     }
-    
+
     if (required_subjects.indexOf("CHEM111") != -1) {
         // check is CHEM111 is in both semesters
         if (semester_occurances["Semester 1"].indexOf("CHEM111") != -1) {
@@ -685,6 +717,11 @@ function buildButton(table_row, subject, selected, column) {
     var button = document.createElement("div");
     button.id = subject + "-" + column.slice(1);
     button.className = selected + " subject-button" + column;
+    button.onclick = function() {
+        subjectButtonClick(button);
+        semesterCount();
+        updateEngList();
+    };
 
     if (selected == true) {
         button.value = subject;
@@ -748,7 +785,7 @@ function drop(ev) {
 // used to move a subject to a different semester
 function swapDivs(div_a, div_b) {
     /* Input: two divs that need to be swapped
-     * Output: none
+     * Output: the first div
      */
 
     // get the parent div of the cell to be swapped
@@ -763,6 +800,9 @@ function swapDivs(div_a, div_b) {
     div_a.id = div_b_id;
     div_a.className = div_a.className.slice(0, -1) + div_a.id.slice(-1);
     div_b.className = div_b.className.slice(0, -1) + div_b.id.slice(-1);
+
+    // return for the case where the new column number is needed for checking subject collisions
+    return div_b;
 }
 
 
@@ -878,6 +918,35 @@ function updateEngList() {
         }
     }
 
-    updateReqSubjectList(possible_eng_names);
+    //updateReqSubjectList(possible_eng_names);
 
+}
+
+
+// react to subject button click
+function subjectButtonClick(subject) {
+    /* Input: subject button object
+     * Output: none
+     */
+
+    // get class of subject that was clicked
+    var current_class = subject.className;
+
+    // find the button that is currently selected and swap it with the clicked button
+    if (current_class.indexOf("false") != -1) {
+        var sibling_elements = subject.parentNode.parentNode.children;
+        for (var i = 0; i < sibling_elements.length; i++) { // every element except last (undefined)
+            if (sibling_elements[i].id.indexOf("cell") != -1) { // if it is a cell, i.e. has a subject button in it
+                var sibling_button = sibling_elements[i].children[0]; // get the button element
+                if (sibling_button != subject) { // if it is not subject that was clicked, check it's class
+                    if (sibling_button.className.indexOf("true") != -1) {
+                        var moved_subject = swapDivs(subject,  sibling_button);
+                        checkSubjectPrerequisites(moved_subject);
+                        semesterCount();
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }
