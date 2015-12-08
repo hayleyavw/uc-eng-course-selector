@@ -316,25 +316,28 @@ function checkSubjectPrerequisites(subject) {
      */
 
     var subject_name = subject.id.slice(0, 7);
+    console.log(subject_name);
 
     // subject pairs where order matters
     // TODO could be tuples instead?
     var subject_clashes = {
-        "COSC121": "COSC122",
-        "COSC122": "COSC121",
-        "EMTH118": "EMTH119",
-        "EMTH119": "EMTH118",
-        "EMTH118": "ENGR102",
-        "ENGR102": "EMTH118"
+        "COSC121": ["COSC122"],
+        "COSC122": ["COSC121"],
+        "EMTH118": ["EMTH119", "ENGR102"], // there are two subjects that emth118 clashes with
+        "EMTH119": ["EMTH118"],
+        "ENGR102": ["EMTH118"]
     }
 
     //var clash_subject_keys = Object.keys(subject_clashes);
     if (Object.keys(subject_clashes).indexOf(subject_name) != -1) { // subject where order matters
         // find it's pair's name, check if also selected
-        var compliment_subject = subject_clashes[subject_name];
-        var compliment_row = document.getElementsByClassName(compliment_subject);
-        if (compliment_row.length > 0) { // compliment subject also in table
-            checkSubjectOrder(subject, compliment_subject);
+        var compliment_subjects = subject_clashes[subject_name];
+        for (var i in compliment_subjects) {
+            var sub = compliment_subjects[i];
+            var compliment_row = document.getElementsByClassName(sub);
+            if (compliment_row.length > 0) { // compliment subject also in table
+                checkSubjectOrder(subject, sub);
+            }
         }
     }
 }
@@ -370,7 +373,6 @@ function checkSubjectOrder(shifted_subject, compliment_subject) {
             }
         }
     }
-    console.log(shifted_col, compliment_col);
 
     // try and shift the compliment subject if it is in the same column as the selected subject
     if (shifted_col == compliment_col) {
