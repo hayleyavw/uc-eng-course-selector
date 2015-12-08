@@ -94,7 +94,9 @@ $("input[type=radio]").change(function() {
         if(this.name == "background") {
             showBackgroundQuestions(this.id);
         }
-        siblings = $(this).siblings();
+        console.log(this);
+        var siblings = $(this).siblings();
+        console.log(siblings);
         for (var i in siblings) {
             if (siblings[i].tagName == "LABEL") {
                 siblings[i].className = "false";
