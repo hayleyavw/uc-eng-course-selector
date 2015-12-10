@@ -21,7 +21,7 @@ a {
 }
 
 
-.background-info-ncea, .background-info-ib, .background-info-cie, .sem-planner {
+.background-info, .sem-planner {
     display: none;
 }
 
@@ -139,7 +139,7 @@ input.submit {
 
 
 /* key */
-.key, .ncea-key {
+.key, .background-key {
     margin: 30px;
     display: block;
     text-align: center;
@@ -151,7 +151,7 @@ input.submit {
     line-height: 100%;
 }
 
-#key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+#key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
     height: 30px;
     padding: 10px;
     border-radius: 5px;
@@ -295,7 +295,7 @@ label.true.place-holder {
     /*border: 3px solid #7473A9;*/
 }
 
-.true, #key-selected, #ncea-key-selected {
+.true, #key-selected, #background-key-selected {
     background-color: #A09FC7;
 }
 
@@ -308,12 +308,12 @@ label.true.place-holder {
     background-color: white;
 }
 
-.false, #key-unselected, #ncea-key-unselected  {
+.false, #key-unselected, #background-key-unselected  {
     background-color: #D1D3D4;
 }
 
 
-.overflow, #key-overflow, #ncea-key-overflow {
+.overflow, #key-overflow, #background-key-overflow {
     background-color: #FFE28A;
 }
 
@@ -455,7 +455,7 @@ hr {
     .eng-options label {
         width: 25%;
     }
-    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+    #key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
         padding: 5px;
     }
 }
@@ -467,7 +467,7 @@ hr {
     .eng-options, #subject-table {
         font-size: 10px;
     }
-    #key-unselected, #key-selected, #key-overflow, #ncea-key-unselected, #ncea-key-selected, #ncea-key-overflow {
+    #key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
         padding: 2px;
     }
 }

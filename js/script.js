@@ -92,11 +92,10 @@ $("input[type=radio]").change(function() {
     if (this.checked == true) {
         // check if user has selected different school background
         if(this.name == "background") {
+            document.getElementsByClassName("background-info")[0].style.display = "block";
             showBackgroundQuestions(this.id);
         }
-        console.log(this);
         var siblings = $(this).siblings();
-        console.log(siblings);
         for (var i in siblings) {
             if (siblings[i].tagName == "LABEL") {
                 siblings[i].className = "false";
@@ -107,23 +106,48 @@ $("input[type=radio]").change(function() {
 });
 
 
+/* showBackgroundQuestions, hideElements, showElements
+ * 3 functions used to hide/show correct background questions
+ */
+
 // hide/show different background questions depening on which type clicked
 function showBackgroundQuestions(background_type) {
     /* Imput: string for background type (e.g. NCEA, IB or CIE")
      * Output: none
      */
     if (background_type == "NCEA") {
-        document.getElementsByClassName("background-info-ncea")[0].style.display = "block";
-        document.getElementsByClassName("background-info-ib")[0].style.display = "none";
-        document.getElementsByClassName("background-info-cie")[0].style.display = "none";
+        showElements(document.getElementsByClassName("ncea"));
+        hideElements(document.getElementsByClassName("ib"));
+        hideElements(document.getElementsByClassName("cie"));
     } else if (background_type == "IB") {
-        document.getElementsByClassName("background-info-ncea")[0].style.display = "none";
-        document.getElementsByClassName("background-info-ib")[0].style.display = "block";
-        document.getElementsByClassName("background-info-cie")[0].style.display = "none";
+        hideElements(document.getElementsByClassName("ncea"));
+        showElements(document.getElementsByClassName("ib"));
+        hideElements(document.getElementsByClassName("cie"));
     } else {
-        document.getElementsByClassName("background-info-ncea")[0].style.display = "none";
-        document.getElementsByClassName("background-info-ib")[0].style.display = "none";
-        document.getElementsByClassName("background-info-cie")[0].style.display = "block";
+        hideElements(document.getElementsByClassName("ncea"));
+        hideElements(document.getElementsByClassName("ib"));
+        showElements(document.getElementsByClassName("cie"));
+    }
+}
+
+
+// hide a list of elements
+function hideElements(element_list) {
+    /* Input: list of elements
+     * Output:  none
+     */
+    for (var i = 0; i < element_list.length; i++) {
+            element_list[i].style.display = "none";
+        }
+}
+
+// show a list of elements
+function showElements(element_list) {
+    /* Input: list of elements
+     * Output:  none
+     */
+    for (var i = 0; i < element_list.length; i++) {
+        element_list[i].style.display = "inline-block";
     }
 }
 
