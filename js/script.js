@@ -153,7 +153,7 @@ function showElements(element_list) {
 
 
 // changes the rules based on NCEA background when user clicks "save" button
-//NOTE: for a different background to NCEA, this function should be rewritten
+//NOTE: for a different background to NCEA, this function may need to be rewritten
 function adjustRules() {
     /* Input: none
      * Output: none
