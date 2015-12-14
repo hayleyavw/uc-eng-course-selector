@@ -24,48 +24,17 @@
         <h3>We are working on an iOS version for mobile devices but this is not currently functional</h3>
         <h3>Caution: Do not use with Internet Explorer (will give incorrect advice!)</h3>
 
-        <section>
+         <section class="background-info">
             <div class="arrow">
-                <div class="base"><p>START HERE</p></div><h2>School Background</h2>
+                <div class="base"><p>START HERE</p></div><h2>International Baccalaureate (IB) Background</h2>
             </div>
-            <form name="radio-btns-background" action="" onsubmit="return false;">
-                <div class="question">
-                    <p class="q-text">
-                        Click the type of qualification you have/are working on:
-                    </p>
-                    <input type="radio" name="background" id="NCEA" value=1 unchecked />
-                    <label for="NCEA">NCEA</label>
-                    <input type="radio" name="background" id="IB" value=0 unchecked />
-                    <label for="IB">IB</label>
-                    <input type="radio" name="background" id="CIE" value=0 unchecked />
-                    <label for="CIE">CIE</label>
-                </div>
-            </form>
-        </section>
 
-
-
-        <section class="background-info">
-            
-            <div class="arrow ncea">
-                <div class="base"><p>NEXT</p></div><h2>NCEA Background</h2>
-            </div>
-            <div class="arrow ib">
-                <div class="base"><p>NEXT</p></div><h2>International Baccalaureate (IB) Background</h2>
-            </div>
-            <div class="arrow cie">
-                <div class="base"><p>NEXT</p></div><h2>Cambridge International Examinations (CIE) Background</h2>
-            </div>
-            <br>
-            <p class="ncea">Help us personalise your semester plan by letting us know your NCEA background.</p>
-            <p class="ib">Help us personalise your semester plan by letting us know your IB background.</p>
-            <p class="cie">Help us personalise your semester plan by letting us know your CIE background.</p>
+            <p>Help us personalise your semester plan by letting us know your IB background.</p>
 
             <div class="background-key">
                 <label id="background-key-selected">Selected</label>
                 <label id="background-key-unselected">Unselected</label>
             </div>
-
             <form name="radio-btns" action="" onsubmit="return false;">
                 <div class="question">
                     <p class="q-text">
@@ -77,14 +46,8 @@
                     <label for="star-maths-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Are you doing at least 14 credits in NCEA L3 Maths?
-                    </p>
-                    <p class="q-text ib">
+                    <p class="q-text">
                         Are you likely to achieve at least a 4 at HL or a 6 at SL in Maths?
-                    </p>
-                    <p class="q-text cie">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Maths?
                     </p>
                     <input type="radio" name="l3-maths" id="l3-maths-yes" value=1 />
                     <label for="l3-maths-yes">Yes</label>
@@ -92,13 +55,7 @@
                     <label for="l3-maths-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Including Differentiation (NCEA Achievement Standard 91578)?
-                    </p>
-                    <p class="q-text ib">
-                        Did you study Differentiation?
-                    </p>
-                    <p class="q-text cie">
+                    <p class="q-text">
                         Did you study Differentiation?
                     </p>
                     <input type="radio" name="differentiation" id="differentiation-yes" value=1 />
@@ -107,13 +64,7 @@
                     <label for="differentiation-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Including Integration (NCEA Achievement Standard 91579)?
-                    </p>
-                    <p class="q-text ib">
-                        Did you study Integration?
-                    </p>
-                    <p class="q-text cie">
+                    <p class="q-text">
                         Did you study Integration?
                     </p>
                     <input type="radio" name="integration" id="integration-yes" value=1 />
@@ -122,14 +73,8 @@
                     <label for="integration-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Are you doing at least 14 credits in NCEA L3 Physics?
-                    </p>
-                    <p class="q-text ib">
+                    <p class="q-text">
                         Are you likely to achieve at least a 4 at HL or 6 at SL in Physics?
-                    </p>
-                    <p class="q-text cie">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Physics?
                     </p>
                     <input type="radio" name="l3-physics" id="l3-physics-yes" value=1 />
                     <label for="l3-physics-yes">Yes</label>
@@ -137,14 +82,8 @@
                     <label for="l3-physics-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Are you doing at least 14 credits in NCEA L3 Chemistry?
-                    </p>
-                    <p class="q-text ib">
+                    <p class="q-text">
                         Are you likely to achieve a 4 at HL or a 6 at SL in Chemistry?
-                    </p>
-                    <p class="q-text cie">
-                        Are you likely to achieve at least a D at A Level or an A at AS Level Chemistry?
                     </p>
                     <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value=1 />
                     <label for="l3-chemistry-yes">Yes</label>
@@ -152,14 +91,8 @@
                     <label for="l3-chemistry-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Did you complete NCEA L2 Chemistry?
-                    </p>
-                    <p class="q-text ib">
+                    <p class="q-text">
                         Did you pass at least SL Chemistry?
-                    </p>
-                    <p class="q-text cie">
-                        Did you take AS level Chemistry?
                     </p>
                     <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value=1 />
                     <label for="l2-chemistry-yes">Yes</label>
@@ -167,14 +100,8 @@
                     <label for="l2-chemistry-no" class="true">No</label>
                 </div>
                 <div class="question">
-                    <p class="q-text ncea">
-                        Do you expect Excellence Endorsement in any subject?
-                    </p>
-                    <p class="q-text ib">
+                    <p class="q-text">
                         Do you expect to achieve a 7 at HL in any of Maths, Physics or Chemistry?
-                    </p>
-                    <p class="q-text cie">
-                        Do you expect to achieve an A or A* at A Level in Maths, Physics or Chemistry?
                     </p>
                     <input type="radio" name="endorsement" id="endorsement-yes" value=1 />
                     <label for="endorsement-yes">Yes</label>
@@ -184,6 +111,8 @@
                 <input type="submit" value="Save" class="submit" onclick="adjustRules();" />
             </form>
         </section>
+
+
 
 
 
