@@ -333,6 +333,25 @@ hr {
     font-size: 12px;
 }
 
+#consult-sa-button {
+    display: inline-block;
+    border-radius: 5px;
+    border: none;
+    padding: 5px;
+    background-color: #A09FC7;
+}
+
+#consult-sa-button:hover {
+    transition: all .2s ease-in-out;
+    transform: scale(1.1);
+}
+
+#email-content-input{
+    display: none;
+    width: 100%;
+    height: 400px;
+}
+
 
 
 @media only screen and (max-width: 1350px) {

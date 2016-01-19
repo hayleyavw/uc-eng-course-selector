@@ -4,6 +4,8 @@
  * Minor Edits by Conan Fee, UNiversity of Canterbury
  * Date: November 2015
  *
+ * UpdatedL January 2016, Hayley van Waas
+ *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
@@ -151,6 +153,61 @@ function showElements(element_list) {
     }
 }
 
+function convertFalseToString(boolean_value) {
+    if (boolean_value == false) {
+        return "No";
+    }
+    return "Yes";
+}
+
+function showEmailTemplate() {
+    buildEmailTemplate();
+    document.getElementById("email-content-input").style.display = "block";
+}
+
+function buildEmailTemplate() {
+
+    // string formatting function (things like printf, "".format(), etc are not in JS by default)
+    if (!String.format) {
+      String.format = function(format) {
+        var args = Array.prototype.slice.call(arguments, 1);
+        return format.replace(/{(\d+)}/g, function(match, number) { 
+          return typeof args[number] != 'undefined'
+            ? args[number] 
+            : match
+          ;
+        });
+      };
+    }
+
+    var template = "Hi, my name is PLEASE INSERT YOUR NAME HERE and I would like you to please contact me regarding the Engineering Intermediate Year."
+        + "\n\nADD ANY SPECIFIC QUESTIONS HERE"
+        + String.format("\n\nMy {0} is:", document.getElementById("background").innerHTML)
+        + String.format("\n{0} {1}", document.getElementById("q-star-maths").children[0].innerHTML.trim(), convertFalseToString(prerequisites["star-maths"]))
+        + String.format("\n{0} {1}", document.getElementById("q-l3-maths").children[0].innerHTML.trim(), convertFalseToString(prerequisites["l3-maths"]))
+        + String.format("\n{0} {1}", document.getElementById("q-differentiation").children[0].innerHTML.trim(), convertFalseToString(prerequisites["differentiation"]))
+        + String.format("\n{0} {1}", document.getElementById("q-integration").children[0].innerHTML.trim(), convertFalseToString(prerequisites["integration"]))
+        + String.format("\n{0} {1}", document.getElementById("q-l3-physics").children[0].innerHTML.trim(), convertFalseToString(prerequisites["l3-physics"]))
+        + String.format("\n{0} {1}", document.getElementById("q-l3-chemistry").children[0].innerHTML.trim(), convertFalseToString(prerequisites["l3-chemistry"]))
+        + String.format("\n{0} {1}", document.getElementById("q-l2-chemistry").children[0].innerHTML.trim(), convertFalseToString(prerequisites["l2-chemistry"]))
+        + String.format("\n{0} {1}", document.getElementById("q-endorsement").children[0].innerHTML.trim(), convertFalseToString(prerequisites["endorsement"]))
+        + "\n\nI am interested in the following programmes:"
+
+    var selected_eng_options = document.getElementsByClassName("selected-eng");
+
+    for (var i in selected_eng_options) {
+        if (selected_eng_options[i].innerText == undefined) {
+            continue;
+        } else {
+            template = template + "\n" + selected_eng_options[i].innerText;
+        }
+    }
+    
+    var email_message_box = document.getElementById("email-content-input");
+    email_message_box.value = template;
+
+}
+
 
 // changes the rules based on NCEA background when user clicks "save" button
 //NOTE: for a different background to NCEA, this function may need to be rewritten
@@ -161,6 +218,8 @@ function adjustRules() {
 
     var new_rules = getRules()[0];
     var new_semester_occurances = getRules()[1];
+
+    buildEmailTemplate();
 
     var radio_btns = document.forms["radio-btns"].getElementsByTagName("input");
 

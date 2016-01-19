@@ -3,6 +3,8 @@
 <!--Minor Modifications: Conan Fee, University of Canterbury-->
 <!--Date: November 2015-->
 
+<!--Updated Jan 2016, Hayley van Waas-->
+
 
 <!doctype html>
 <html lang="en">
@@ -26,7 +28,7 @@
 
          <section class="background-info">
             <div class="arrow">
-                <div class="base"><p>START HERE</p></div><h2>International Baccalaureate (IB) Background</h2>
+                <div class="base"><p>START HERE</p></div><h2 id="background">International Baccalaureate (IB) Background</h2>
             </div>
 
             <p>Help us personalise your semester plan by letting us know your IB background.</p>
@@ -36,7 +38,7 @@
                 <label id="background-key-unselected">Unselected</label>
             </div>
             <form name="radio-btns" action="" onsubmit="return false;">
-                <div class="question">
+                <div class="question" id="q-star-maths">
                     <p class="q-text">
                         Are you doing or have you completed STAR Maths?
                     </p>
@@ -45,7 +47,7 @@
                     <input type="radio" name="star-maths" id="star-maths-no" value=0 checked />
                     <label for="star-maths-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-l3-maths">
                     <p class="q-text">
                         Are you likely to achieve at least a 4 at HL or a 6 at SL in Maths?
                     </p>
@@ -54,7 +56,7 @@
                     <input type="radio" name="l3-maths" id="l3-maths-no" value=0 checked />
                     <label for="l3-maths-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-differentiation">
                     <p class="q-text">
                         Did you study Differentiation?
                     </p>
@@ -63,7 +65,7 @@
                     <input type="radio" name="differentiation" id="differentiation-no" value=0 checked />
                     <label for="differentiation-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-integration">
                     <p class="q-text">
                         Did you study Integration?
                     </p>
@@ -72,7 +74,7 @@
                     <input type="radio" name="integration" id="integration-no" value=0 checked />
                     <label for="integration-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-l3-physics">
                     <p class="q-text">
                         Are you likely to achieve at least a 4 at HL or 6 at SL in Physics?
                     </p>
@@ -81,7 +83,7 @@
                     <input type="radio" name="l3-physics" id="l3-physics-no" value=0 checked />
                     <label for="l3-physics-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-l3-chemistry">
                     <p class="q-text">
                         Are you likely to achieve a 4 at HL or a 6 at SL in Chemistry?
                     </p>
@@ -90,7 +92,7 @@
                     <input type="radio" name="l3-chemistry" id="l3-chemistry-no" value=0 checked />
                     <label for="l3-chemistry-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-l2-chemistry">
                     <p class="q-text">
                         Did you pass at least SL Chemistry?
                     </p>
@@ -99,7 +101,7 @@
                     <input type="radio" name="l2-chemistry" id="l2-chemistry-no" value=0 checked />
                     <label for="l2-chemistry-no" class="true">No</label>
                 </div>
-                <div class="question">
+                <div class="question" id="q-endorsement">
                     <p class="q-text">
                         Do you expect to achieve a 7 at HL in any of Maths, Physics or Chemistry?
                     </p>
@@ -208,11 +210,20 @@
                 <div class="base"><p>Next</p></div>
                 <h2>Final Steps</h2>
                     <div id="final-steps">
-                        <p><a href="mailto:engdegreeadvice@canterbury.ac.nz">Consult Student Advisors</a> if instructed to do so, otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
+                        <p>Consult Student Advisors if instructed to do so (see template message below), otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
                         </p>
                     </div>
+
+                    <div id="email-template">
+                        <br>
+                        Add your own information where instructed, then copy and paste the message below into an email to <a href="mailto:engdegreeadvice@canterbury.ac.nz">engdegreeadvice@canterbury.ac.nz</a> and student advisors will get back to you as soon as possible.
+                        <br>
+                        <button id="consult-sa-button" onclick="showEmailTemplate()">Build template message</button>
+                        <textarea type="text" id="email-content-input" name="email-content" value=""></textarea>
+                    </div>
             </div>
-            
+
+
         </section>
 
         <script src="js/script.js"></script>
