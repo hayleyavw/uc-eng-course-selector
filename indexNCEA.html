@@ -2,8 +2,7 @@
 <!--Date: November 2015-->
 <!--Minor Modifications: Conan Fee, University of Canterbury-->
 <!--Date: November 2015-->
-
-<!--Updated Jan 2016, Hayley van Waas-->
+<!--Updated January 2016, Hayley van Waas-->
 
 
 <!doctype html>
@@ -23,15 +22,15 @@
 
         <h1>Planning Your Intermediate Engineering Year</h1>
         <h3>Compatible with Chrome, Safari and Firefox Browsers</h3>
-        <h3>We are working on an iOS version for mobile devices but this is not currently functional</h3>
         <h3>Caution: Do not use with Internet Explorer (will give incorrect advice!)</h3>
 
-         <section class="background-info">
+
+        <section class="background-info">
             <div class="arrow">
-                <div class="base"><p>START HERE</p></div><h2 id="background">International Baccalaureate (IB) Background</h2>
+                <div class="base"><p>START HERE</p></div><h2  id="background">NCEA Background</h2>
             </div>
 
-            <p>Help us personalise your semester plan by letting us know your IB background.</p>
+            <p>Help us personalise your semester plan by letting us know your NCEA background, then save and scroll down.</p>
 
             <div class="background-key">
                 <label id="background-key-selected">Selected</label>
@@ -49,7 +48,7 @@
                 </div>
                 <div class="question" id="q-l3-maths">
                     <p class="q-text">
-                        Are you likely to achieve at least a 4 at HL or a 6 at SL in Maths?
+                        Are you doing at least 14 credits in NCEA L3 Maths?
                     </p>
                     <input type="radio" name="l3-maths" id="l3-maths-yes" value=1 />
                     <label for="l3-maths-yes">Yes</label>
@@ -58,7 +57,7 @@
                 </div>
                 <div class="question" id="q-differentiation">
                     <p class="q-text">
-                        Did you study Differentiation?
+                        Including Differentiation (NCEA Achievement Standard 91578)?
                     </p>
                     <input type="radio" name="differentiation" id="differentiation-yes" value=1 />
                     <label for="differentiation-yes">Yes</label>
@@ -67,7 +66,7 @@
                 </div>
                 <div class="question" id="q-integration">
                     <p class="q-text">
-                        Did you study Integration?
+                        Including Integration (NCEA Achievement Standard 91579)?
                     </p>
                     <input type="radio" name="integration" id="integration-yes" value=1 />
                     <label for="integration-yes">Yes</label>
@@ -76,7 +75,7 @@
                 </div>
                 <div class="question" id="q-l3-physics">
                     <p class="q-text">
-                        Are you likely to achieve at least a 4 at HL or 6 at SL in Physics?
+                        Are you doing at least 14 credits in NCEA L3 Physics?
                     </p>
                     <input type="radio" name="l3-physics" id="l3-physics-yes" value=1 />
                     <label for="l3-physics-yes">Yes</label>
@@ -85,7 +84,7 @@
                 </div>
                 <div class="question" id="q-l3-chemistry">
                     <p class="q-text">
-                        Are you likely to achieve a 4 at HL or a 6 at SL in Chemistry?
+                        Are you doing at least 14 credits in NCEA L3 Chemistry?
                     </p>
                     <input type="radio" name="l3-chemistry" id="l3-chemistry-yes" value=1 />
                     <label for="l3-chemistry-yes">Yes</label>
@@ -94,7 +93,7 @@
                 </div>
                 <div class="question" id="q-l2-chemistry">
                     <p class="q-text">
-                        Did you pass at least SL Chemistry?
+                        Did you complete NCEA L2 Chemistry?
                     </p>
                     <input type="radio" name="l2-chemistry" id="l2-chemistry-yes" value=1 />
                     <label for="l2-chemistry-yes">Yes</label>
@@ -103,7 +102,7 @@
                 </div>
                 <div class="question" id="q-endorsement">
                     <p class="q-text">
-                        Do you expect to achieve a 7 at HL in any of Maths, Physics or Chemistry?
+                        Do you expect Excellence Endorsement in any subject?
                     </p>
                     <input type="radio" name="endorsement" id="endorsement-yes" value=1 />
                     <label for="endorsement-yes">Yes</label>
@@ -113,8 +112,6 @@
                 <input type="submit" value="Save" class="submit" onclick="adjustRules();" />
             </form>
         </section>
-
-
 
 
 
@@ -132,8 +129,8 @@
                 <label id="key-selected">Selected</label>
                 <label id="key-unselected">Alternative Semester*</label>
                 <label id="key-overflow">Too many subjects</label>
-                <p>*Some courses are available in multiple semesters. Drag and drop to move the course to an alternative semester.</p>
-                <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequiste for, and any engineering disciplines that required that course. Some courses are required for all engineering disciplines, these courses cannot be deleted.</p>
+                <p>*Some courses are available in multiple semesters. To move a course, just click on the alternative semester.</p>
+                <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequisite for, and any engineering disciplines that require that course. Some courses are required for all engineering disciplines; these courses cannot be deleted.</p>
             </div>
 
             <div id="tables">
@@ -186,6 +183,12 @@
                             </p>
                             <hr>
                         </div>
+                        <div id="no-physics" class="message-text">
+                            <p>
+                                PHYS111 cannot be counted as an elective. You may be required to take a further elective. Please contact Student Advisors to discuss.
+                            </p>
+                            <hr>
+                        </div>
                         <div id="chem114-special" class="message-text">
                             <p>
                                 CHEM114 NOTE: Consult Student Advisors regarding your need to do Chemistry. Special allowances may apply in 2015/2016 if you have not done Chemistry at high school.
@@ -209,21 +212,18 @@
             <div class="arrow">
                 <div class="base"><p>Next</p></div>
                 <h2>Final Steps</h2>
-                    <div id="final-steps">
-                        <p>Consult Student Advisors if instructed to do so (see template message below), otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
-                        </p>
-                    </div>
+                <div id="final-steps">
+                    <p>Consult Student Advisors if instructed to do so (see template message below), otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
+                    </p>
+                </div>
 
-                    <div id="email-template">
-                        <br>
-                        Add your own information where instructed, then copy and paste the message below into an email to <a href="mailto:engdegreeadvice@canterbury.ac.nz">engdegreeadvice@canterbury.ac.nz</a> and student advisors will get back to you as soon as possible.
-                        <br>
-                        <button id="consult-sa-button" onclick="showEmailTemplate()">Build template message</button>
-                        <textarea type="text" id="email-content-input" name="email-content" value=""></textarea>
-                    </div>
+                <div id="email-template">
+                    <br>
+                    <button id="consult-sa-button" onclick="showEmailTemplate()">Build template message</button> then copy and paste all of the text into an email and send it to us at <a href="mailto:engdegreeadvice@canterbury.ac.nz">engdegreeadvice@canterbury.ac.nz</a> and student advisors will get back to you as soon as possible.
+                    <textarea type="text" id="email-content-input" name="email-content" value=""></textarea>
+                </div>
             </div>
-
-
+            
         </section>
 
         <script src="js/script.js"></script>
