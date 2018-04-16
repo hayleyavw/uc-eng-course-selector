@@ -1,4 +1,7 @@
 @media print {
+	.print {
+		display: block !important;
+	}
 	.print-none {
 		display: none !important;
 	}
@@ -23,6 +26,9 @@
 	.question label.true, .question button.true, #eng-options .selected-eng {
 	    border: solid 1px #000;
 	    background-color: #FFF;
+	}
+	#eng-options {
+		margin-bottom: 0px;
 	}
 	#eng-options label {
 		display: inline-block;
@@ -62,5 +68,8 @@
 		/* Enable background color printing */
 		-webkit-print-color-adjust: exact !important;
 		color-adjust: exact !important; 
+	}
+	#final {
+		margin-top: 100px;
 	}
 }

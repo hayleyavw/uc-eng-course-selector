@@ -157,6 +157,9 @@ input.submit {
     border-radius: 5px;
 }
 
+#notes {
+    display: none;
+}
 
 /* eng boxes */
 
