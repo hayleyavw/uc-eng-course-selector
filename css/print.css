@@ -5,8 +5,10 @@
 	body, #message {
 		font-size: 10px;
 	}
+	#notes {
+		page-break-after: always;
+	}
 	#subject-table {
-	  /*-webkit-print-color-adjust: exact;*/
 	  clear: both;
 	  width: 100%;
 	}
@@ -30,23 +32,35 @@
 	}
 	.header-box {
 		background-color: #FFF;
-		color: #B9AEAE;
+		color: #000;
 	}
-	.empty-place-holder {
-		background-color: #4C4C55;
-		height: 100%;
+	.empty-place-holder.column-1, .empty-place-holder.column-2 {
+		background-color: #e3e3e3;
+		height: 93%;
+		/* Enable background color printing */
+		-webkit-print-color-adjust: exact !important;
+		color-adjust: exact !important; 
+		/*border: solid 1px #4C4C55;*/
 	}
-	.true.subject-button {
+	.true.subject-button, .long-place-holder {
 		border: solid 1px #000;
 		height: 93%;
 		background-color: #FFF;
 	}
 	.false.subject-button {
-		border: dotted 1px #4C4C55;
+		border: dotted 1px #878787;
+		height: 93%;
 		background-color: #FFF;
-		color: #4C4C55;
+		color: #878787;
 	}
-/*	.overflow.subject-button {
-		border: solid 1px #000;
-	}*/
+	.long-place-holder {
+		border-radius: 6px;
+	}
+	.overflow.subject-button {
+		background-color: #878787 !important;
+		color: #FFF;
+		/* Enable background color printing */
+		-webkit-print-color-adjust: exact !important;
+		color-adjust: exact !important; 
+	}
 }

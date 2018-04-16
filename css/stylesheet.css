@@ -299,11 +299,6 @@ label.true.place-holder {
     background-color: #A09FC7;
 }
 
-/*.true, #key-selected, #background-key-selected {
-    background-color: #A09FC7;
-}*/
-
-
 .empty-place-holder {
     background-color: #4C4C55;
 }
@@ -316,9 +311,8 @@ label.true.place-holder {
     background-color: #D1D3D4;
 }
 
-
 .overflow, #key-overflow, #background-key-overflow {
-    background-color: #FFE28A;
+    background-color: #FFE28A !important;
 }
 
 .message-text {
@@ -396,6 +390,7 @@ hr {
     .eng-options, #subject-table {
         font-size: 16px;
     }
+    /*#eng-options, #message {*/
     #left {
         width: 100%;
     }
