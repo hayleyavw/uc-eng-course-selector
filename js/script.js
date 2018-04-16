@@ -757,7 +757,7 @@ function updateTable(required_subjects) {
             img.onclick = function(img) {
                 removeSubject(img.target.id); };
             var img_div = document.createElement("div");
-            img_div.className = "trashcan";
+            img_div.className = "trashcan print-none";
             img_div.appendChild(img);
             table_row.appendChild(img_div);
         }

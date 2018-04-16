@@ -295,9 +295,13 @@ label.true.place-holder {
     /*border: 3px solid #7473A9;*/
 }
 
-.true, #key-selected, #background-key-selected {
+.table-row .true, #key-selected, #background-key-selected, .long-place-holder {
     background-color: #A09FC7;
 }
+
+/*.true, #key-selected, #background-key-selected {
+    background-color: #A09FC7;
+}*/
 
 
 .empty-place-holder {
@@ -378,6 +382,13 @@ hr {
     }
     .false.subject-button {
         line-height: 100%;
+    }
+}
+
+@media (max-width: 835px) {
+    #subject-table {
+        width: 100%;
+        float: none;
     }
 }
 

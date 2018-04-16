@@ -1,0 +1,52 @@
+@media print {
+	.print-none {
+		display: none !important;
+	}
+	body, #message {
+		font-size: 10px;
+	}
+	#subject-table {
+	  /*-webkit-print-color-adjust: exact;*/
+	  clear: both;
+	  width: 100%;
+	}
+	#left {
+		width: 100%;
+	}
+	/* Set default button background color to white (print friendly) */
+	.question label, #eng-options label{
+		background-color: #FFF;
+	}
+	/* Apply border when selected */
+	.question label.true, .question button.true, #eng-options .selected-eng {
+	    border: solid 1px #000;
+	    background-color: #FFF;
+	}
+	#eng-options label {
+		display: inline-block;
+		float: none;
+		width: auto;
+		height: auto;
+	}
+	.header-box {
+		background-color: #FFF;
+		color: #B9AEAE;
+	}
+	.empty-place-holder {
+		background-color: #4C4C55;
+		height: 100%;
+	}
+	.true.subject-button {
+		border: solid 1px #000;
+		height: 93%;
+		background-color: #FFF;
+	}
+	.false.subject-button {
+		border: dotted 1px #4C4C55;
+		background-color: #FFF;
+		color: #4C4C55;
+	}
+/*	.overflow.subject-button {
+		border: solid 1px #000;
+	}*/
+}
