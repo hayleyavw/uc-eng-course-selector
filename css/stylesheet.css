@@ -142,22 +142,23 @@ input.submit {
 
 
 /* key */
-.key, .background-key {
+.sem-planner-key, #background-key {
     margin: 30px;
     display: block;
     text-align: center;
     font-size: 10px;
 }
 
-.key p {
+.sem-planner-key p {
     font-size: 14px;
     line-height: 100%;
 }
 
-.key-unselected, .key-selected, .key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-    height: 30px;
-    padding: 10px;
-    border-radius: 5px;
+.sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+    #background-key .unselected, #background-key .selected, #background-key .overflow {
+        height: 30px;
+        padding: 10px;
+        border-radius: 5px;
 }
 
 #notes {
@@ -301,7 +302,7 @@ label.true.place-holder {
     /*border: 3px solid #7473A9;*/
 }
 
-.table-row .true, .key-selected, #background-key-selected, .long-place-holder {
+.table-row .true, .sem-planner-key .selected, #background-key .selected, .long-place-holder {
     background-color: #A09FC7;
 }
 
@@ -313,11 +314,15 @@ label.true.place-holder {
     background-color: white;
 }
 
-.false, .key-unselected, #background-key-unselected  {
+.false, .sem-planner-key .unselected, #background-key .unselected  {
     background-color: #D1D3D4;
 }
 
-.overflow, .key-overflow, #background-key-overflow {
+.sem-planner-key .overflow {
+    background-color: #FFE28A;
+}
+
+.cell .overflow {
     background-color: #FFE28A !important;
 }
 
@@ -328,7 +333,6 @@ label.true.place-holder {
 hr {
     border-top: 1px solid #D1D3D4;
 }
-
 
 #message {
     display: inline-block;
@@ -406,7 +410,7 @@ hr {
     #subject-table {
         width: 100%;
     }
-    .key {
+    .sem-planner-key {
         padding-top: 210px;
     }
     .false.subject-button {
@@ -486,8 +490,9 @@ hr {
     .eng-options label {
         width: 25%;
     }
-    .key-unselected, .key-selected, .key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-        padding: 5px;
+    .sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+        #background-key .unselected, #background-key .selected, #background-key .overflow {
+            padding: 5px;
     }
 }
 
@@ -498,7 +503,8 @@ hr {
     .eng-options, #subject-table {
         font-size: 10px;
     }
-    .key-unselected, .key-selected, .key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-        padding: 2px;
+    .sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+        #background-key .unselected, #background-key .selected, #background-key .overflow {
+            padding: 2px;
     }
 }

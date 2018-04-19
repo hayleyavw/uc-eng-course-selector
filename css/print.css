@@ -53,7 +53,7 @@
 		color-adjust: exact !important; 
 		/*border: solid 1px #4C4C55;*/
 	}
-	.key-selected, .true.subject-button, .long-place-holder {
+	.sem-planner-key .selected, .true.subject-button, .long-place-holder {
 		border: solid 1px #000;
 		height: 93%;
 		background-color: #FFF;
@@ -67,7 +67,7 @@
 	.long-place-holder {
 		border-radius: 6px;
 	}
-	.key-overflow, .overflow.subject-button {
+	.sem-planner-key .overflow, .overflow.subject-button {
 		background-color: #878787 !important;
 		color: #FFF;
 		/* Enable background color printing */

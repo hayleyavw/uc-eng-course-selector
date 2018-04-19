@@ -27,7 +27,7 @@
             <h3>Caution: Do not use with Internet Explorer (will give incorrect advice!)</h3>
         </div>
 
-        <section class="background-info">
+        <section id="background-info">
             <div class="arrow print-none">
                 <div class="base"><p>START HERE</p></div><h2 id="background">NCEA Background</h2>
             </div>
@@ -37,9 +37,9 @@
 
             <p class="print-none">Help us personalise your semester plan by letting us know your NCEA background, then save and scroll down.</p>
 
-            <div class="background-key print-none">
-                <label id="background-key-selected">Selected</label>
-                <label id="background-key-unselected">Unselected</label>
+            <div id="background-key" class="print-none">
+                <label class="selected">Selected</label>
+                <label class="unselected">Unselected</label>
             </div>
             <form name="radio-btns" action="" onsubmit="return false;">
                 <div class="question" id="q-star-maths">
@@ -133,24 +133,22 @@
                 <h2>Semester Planner</h2>
             </div>
 
-            <!-- <div id="cats" class="print-none"> -->
-                <p class="print-none">Click on the Engineering Disciplines that you are interested in to see possible semester plans for your Intermediate Year in the table below.
-                </p>
 
-                <div class="key print-none">
-                    <label class="key-selected">Selected</label>
-                    <label class="key-unselected">Alternative Semester*</label>
-                    <label class="key-overflow">Too many subjects</label>
-                    <p>*Some courses are available in multiple semesters. To move a course, just click on the alternative semester.</p>
-                    <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequisite for, and any engineering disciplines that require that course. Some courses are required for all engineering disciplines; these courses cannot be deleted.</p>
-                </div>
-                <div class="key print">
-                    <label class="key-selected">Selected</label>
-                    <label class="key-unselected">Alternative Semester</label>
-                    <label class="key-overflow">Too many subjects</label>
-                </div>
+            <p class="print-none">Click on the Engineering Disciplines that you are interested in to see possible semester plans for your Intermediate Year in the table below.
+            </p>
 
-            <!-- </div> -->
+            <div class="sem-planner-key print-none">
+                <label class="selected">Selected</label>
+                <label class="unselected">Alternative Semester*</label>
+                <label class="overflow">Too many subjects</label>
+                <p>*Some courses are available in multiple semesters. To move a course, just click on the alternative semester.</p>
+                <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequisite for, and any engineering disciplines that require that course. Some courses are required for all engineering disciplines; these courses cannot be deleted.</p>
+            </div>
+            <div class="sem-planner-key print">
+                <label class="selected">Selected</label>
+                <label class="unselected">Alternative Semester</label>
+                <label class="overflow">Too many subjects</label>
+            </div>
 
             <div id="tables">
 
