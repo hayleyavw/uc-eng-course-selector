@@ -62,7 +62,7 @@
 		height: 93%;
 		background-color: #FFF;
 	}
-	.false.subject-button {
+	.sem-planner-key .unselected, .false.subject-button {
 		border: dotted 1px #878787;
 		height: 93%;
 		background-color: #FFF;
@@ -74,6 +74,8 @@
 	.sem-planner-key .overflow, .overflow.subject-button {
 		background-color: #878787 !important;
 		color: #FFF;
+		height: 85%;
+		border: dashed 2px #000;
 		/* Enable background color printing */
 		-webkit-print-color-adjust: exact !important;
 		color-adjust: exact !important; 
