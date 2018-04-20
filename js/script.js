@@ -48,26 +48,30 @@ common_subjects = ["ENGR101", "PHYS101", "EMTH118", "EMTH119"];
 // checks for change in page size
 $(document).ready(function() {
     changeDivLayout();
-    window.addEventListener('resize', function(){ changeDivLayout() });
+    window.addEventListener('resize', function(){ changeDivLayout(false) });
 });
 
 
+window.onbeforeprint = function() {
+    changeDivLayout(true);
+};
+
 // changes layout of divs for different page sizes (i.e. shifts key and tables to different order on smaller page size)
-function changeDivLayout() {
+function changeDivLayout(print) {
     /* Input: none
      * Output: none
      */
 
     var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
-    var key_div = document.getElementById("key");
+    var key_div = document.getElementById("keys");
     var eng_options_div = document.getElementById("eng-options");
     var plan_advice_div = document.getElementById("plan-advice");
     var subject_table_div = document.getElementById("subject-table");
     var left_div = document.getElementById("left");
 
     var tables_div = document.getElementById("tables");
-    // if page is less than 853 pixels wide, set lineary order of elements in sem-planner
-    if (self.innerWidth <= 835) {
+    // if page is less than 853 pixels wide, set linear order of elements in sem-planner
+    if (self.innerWidth <= 835 || print == true) {
         tables_div.appendChild(eng_options_div);
         tables_div.appendChild(key_div);
         tables_div.appendChild(subject_table_div);
@@ -78,7 +82,7 @@ function changeDivLayout() {
         left_div.appendChild(plan_advice_div);
         tables_div.appendChild(left_div);
         tables_div.appendChild(subject_table_div);
-        $("#sem-planner-key").insertBefore(tables_div);
+        $("#keys").insertBefore(tables_div);
     }
 }
 

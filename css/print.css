@@ -9,15 +9,20 @@
 		font-size: 10px;
 	}
 	#notes {
-		page-break-after: always;
+		/*page-break-after: always;*/
+		font-style: italic;
 	}
 	#subject-table {
 	  clear: both;
 	  width: 100%;
+	  page-break-after: always;
 	}
 	#left {
 		width: 100%;
 		/*page-break-after: always;*/
+	}
+	.question p {
+		margin: 0px;
 	}
 	/* Set default button background color to white (print friendly) */
 	.question label, #eng-options label{
@@ -70,6 +75,8 @@
 	}
 	.long-place-holder {
 		border-radius: 6px;
+		padding-top: 12px;
+		line-height: 0%;
 	}
 	.sem-planner-key .overflow, .overflow.subject-button {
 		background-color: #878787 !important;
@@ -81,6 +88,8 @@
 		color-adjust: exact !important; 
 	}
 	#final {
-		margin-top: 100px;
+		/*margin-top: 100px;*/
+		position: fixed;
+		margin-bottom: 0px;
 	}
 }
