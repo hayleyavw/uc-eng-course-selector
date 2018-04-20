@@ -4,15 +4,11 @@
  * Minor Edits by Conan Fee, UNiversity of Canterbury
  * Date: November 2015
  *
- * UpdatedL January 2016, Hayley van Waas
+ * Updated January 2016, Hayley van Waas
+ * Updated April 2018, Hayley van Waas
  *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
-
-// TODO deal with global variables
-// TODO split up functions
-// TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
-// TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
 // these are each of the Yes/No questions at top of page
 var prerequisites = {
@@ -51,37 +47,40 @@ common_subjects = ["ENGR101", "PHYS101", "EMTH118", "EMTH119"];
 // checks for change in page size
 $(document).ready(function() {
     changeDivLayout();
-    window.addEventListener('resize', function(){ changeDivLayout() });
+    window.addEventListener('resize', function(){ changeDivLayout(false) });
 });
 
+window.onbeforeprint = function() {
+    changeDivLayout(true);
+};
 
 // changes layout of divs for different page sizes (i.e. shifts key and tables to different order on smaller page size)
-function changeDivLayout() {
+function changeDivLayout(print) {
     /* Input: none
      * Output: none
      */
 
     var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
-    var key_div = document.getElementById("key");
+    var key_div = document.getElementById("keys");
     var eng_options_div = document.getElementById("eng-options");
-    var message_div = document.getElementById("message");
+    var plan_advice_div = document.getElementById("plan-advice");
     var subject_table_div = document.getElementById("subject-table");
     var left_div = document.getElementById("left");
 
     var tables_div = document.getElementById("tables");
-    // if page is less than 853 pixels wide, set lineary order of elements in sem-planner
-    if (self.innerWidth <= 835) {
+    // if page is less than 853 pixels wide, set linear order of elements in sem-planner
+    if (self.innerWidth <= 835 || print == true) {
         tables_div.appendChild(eng_options_div);
         tables_div.appendChild(key_div);
         tables_div.appendChild(subject_table_div);
-        tables_div.appendChild(message_div);
+        tables_div.appendChild(plan_advice_div);
     } else {
         //sem_planner_section.appendChild(key_div);
         left_div.appendChild(eng_options_div);
-        left_div.appendChild(message_div);
+        left_div.appendChild(plan_advice_div);
         tables_div.appendChild(left_div);
         tables_div.appendChild(subject_table_div);
-        $("#key").insertBefore(tables_div);
+        $("#keys").insertBefore(tables_div);
     }
 }
 
@@ -764,7 +763,7 @@ function updateTable(required_subjects) {
             img.onclick = function(img) {
                 removeSubject(img.target.id); };
             var img_div = document.createElement("div");
-            img_div.className = "trashcan";
+            img_div.className = "trashcan print-none";
             img_div.appendChild(img);
             table_row.appendChild(img_div);
         }

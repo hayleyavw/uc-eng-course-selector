@@ -8,7 +8,7 @@
 	body, #plan-advice {
 		font-size: 10px;
 	}
-	#notes {
+	#notes p {
 		/*page-break-after: always;*/
 		font-style: italic;
 	}
