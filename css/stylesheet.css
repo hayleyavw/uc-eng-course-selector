@@ -18,10 +18,14 @@ body {
     display: none !important;
 }
 
-
 a {
     color: #7473A9;
     text-decoration: none;
+}
+
+#warning {
+    color: red;
+    font-size: 12px;
 }
 
 .sem-planner {
@@ -334,14 +338,14 @@ hr {
     border-top: 1px solid #D1D3D4;
 }
 
-#message {
+#plan-advice {
     display: inline-block;
     width: 90%;
     margin-bottom: 20px;
     font-size: 12px;
 }
 
-#consult-sa-button {
+#consult-sa-button, #print-button {
     display: inline-block;
     border-radius: 5px;
     border: none;
@@ -400,7 +404,7 @@ hr {
     .eng-options, #subject-table {
         font-size: 16px;
     }
-    /*#eng-options, #message {*/
+    /*#eng-options, #plan-advice {*/
     #left {
         width: 100%;
     }

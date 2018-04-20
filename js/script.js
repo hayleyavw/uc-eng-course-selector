@@ -4,15 +4,12 @@
  * Minor Edits by Conan Fee, UNiversity of Canterbury
  * Date: November 2015
  *
- * UpdatedL January 2016, Hayley van Waas
+ * Updated January 2016, Hayley van Waas
+ * Updated April 2018, Hayley van Waas
  *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
-// TODO deal with global variables
-// TODO split up functions
-// TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
-// TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
 // these are each of the Yes/No questions at top of page
 var prerequisites = {
@@ -64,7 +61,7 @@ function changeDivLayout() {
     var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
     var key_div = document.getElementById("key");
     var eng_options_div = document.getElementById("eng-options");
-    var message_div = document.getElementById("message");
+    var plan_advice_div = document.getElementById("plan-advice");
     var subject_table_div = document.getElementById("subject-table");
     var left_div = document.getElementById("left");
 
@@ -74,14 +71,14 @@ function changeDivLayout() {
         tables_div.appendChild(eng_options_div);
         tables_div.appendChild(key_div);
         tables_div.appendChild(subject_table_div);
-        tables_div.appendChild(message_div);
+        tables_div.appendChild(plan_advice_div);
     } else {
         //sem_planner_section.appendChild(key_div);
         left_div.appendChild(eng_options_div);
-        left_div.appendChild(message_div);
+        left_div.appendChild(plan_advice_div);
         tables_div.appendChild(left_div);
         tables_div.appendChild(subject_table_div);
-        $("#key").insertBefore(tables_div);
+        $("#sem-planner-key").insertBefore(tables_div);
     }
 }
 
