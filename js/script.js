@@ -56,6 +56,10 @@ window.onbeforeprint = function() {
     changeDivLayout(true);
 };
 
+window.onafterprint = function() {
+    changeDivLayout(false);
+};
+
 // changes layout of divs for different page sizes (i.e. shifts key and tables to different order on smaller page size)
 function changeDivLayout(print) {
     /* Input: none
