@@ -427,7 +427,6 @@ function checkSubjectPrerequisites(subject) {
      */
 
     var subject_name = subject.id.slice(0, 7);
-    console.log(subject_name);
 
     // subject pairs where order matters
     // TODO could be tuples instead?
@@ -508,7 +507,6 @@ function semesterCount() {
     var sem1_buttons = document.getElementsByClassName("true subject-button column-1");
     var sem1_count = sem1_buttons.length;
 
-
     // get all buttons in the second column (semester two) and check if they are set to true
     var sem2_buttons = document.getElementsByClassName("true subject-button column-2");
     var sem2_count = sem2_buttons.length;
@@ -539,11 +537,26 @@ function updateOverflowButtons(button_list, count, threshold) {
     /* Input: list of buttons in the same column, the number set as true in that column and the number of subjects allowed before overflow is reached
      * Output: boolean value for if overflow is true or false
      */
-
     // check which overflow message to hide/show
     if (count > threshold) {
         if (threshold == 4) { // i.e. semester 1 or 2
             document.getElementById("semester-overflow").style.display = "block";
+            // var semester_overflow_string = "";
+            // var summer_subjects = [];
+            // console.log(button_list);
+            // for (var i in button_list) {
+            //     var course_id = button_list[i].id;
+            //     if (course_id != undefined) {
+            //         if (course_id.indexOf("ENGR102") == 0) {
+            //             summer_subjects.push("ENGR102");
+            //         } else if (course_id.indexOf("EMTH119") == 0) {
+            //             summer_subjects.push("EMTH119");
+            //         } else if (course_id.indexOf("COSC122") == 0) {
+            //             summer_subjects.push("COSC122");
+            //         }
+            //     }
+            // }
+            // console.log(summer_subjects);
         } else { //summer
             document.getElementById("summer-overflow").style.display = "block";
         }
@@ -712,6 +725,28 @@ function updateTable(required_subjects) {
     } else {
         document.getElementById("no-physics").style.display = "none";
     }
+
+    //
+    if (required_subjects.indexOf("COSC122") != -1) {
+        document.getElementById("cosc122-note").style.display = "block";
+    } else {
+        document.getElementById("cosc122-note").style.display = "none";
+    }
+    if (required_subjects.indexOf("EMTH119") != -1) {
+        document.getElementById("emth119-note").style.display = "block";
+    } else {
+        document.getElementById("emth119-note").style.display = "none";
+    }
+    if (required_subjects.indexOf("ENGR102") != -1) {
+        document.getElementById("engr102-note").style.display = "block";
+    } else {
+        document.getElementById("engr102-note").style.display = "none";
+    }
+
+    // document.getElementById("EMTH119-note").style.display = "none";
+    // document.getElementById("ENGR102-note").style.display = "none";
+    // document.getElementById("COSC122-note").style.display = "none";
+    //
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
