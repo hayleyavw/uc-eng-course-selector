@@ -718,13 +718,14 @@ function updateTable(required_subjects) {
         }
     } else {
         document.getElementById("chem112-clash").style.display = "none";
-    } if (required_subjects.indexOf("PHYS111") != -1) {
-        document.getElementById("no-physics").style.display = "block";
-    } else {
-        document.getElementById("no-physics").style.display = "none";
     }
 
-    //
+    if (required_subjects.indexOf("MATH101") != -1) {
+        document.getElementById("no-maths").style.display = "block";
+    } else {
+        document.getElementById("no-maths").style.display = "none";
+    }
+
     if (required_subjects.indexOf("COSC122") != -1) {
         document.getElementById("cosc122-note").style.display = "block";
     } else {
@@ -740,11 +741,6 @@ function updateTable(required_subjects) {
     } else {
         document.getElementById("engr102-note").style.display = "none";
     }
-
-    // document.getElementById("EMTH119-note").style.display = "none";
-    // document.getElementById("ENGR102-note").style.display = "none";
-    // document.getElementById("COSC122-note").style.display = "none";
-    //
 
     // for each subject: build a div (new row) and attach columns
     for (var i in required_subjects) {
