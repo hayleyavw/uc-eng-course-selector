@@ -952,7 +952,7 @@ function buildFreeSpace(column) {
     var input = document.createElement("input");
     input.type = "text";
     input.className = "elective" + column;
-    input.value = "Elective";
+    input.value = "CHOOSE AN ELECTIVE";
     input.setAttribute('onFocus', 'onFocus(this)');
     input.setAttribute('onBlur', 'onBlur(this)');
     return input;

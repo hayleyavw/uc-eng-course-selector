@@ -271,12 +271,13 @@ input.submit {
 }
 
 input.elective {
-    width: 26%;
+    width: 29%;
     height: 80%;
-    padding-right: 4%;
+    padding-right: 1%;
     margin-left: auto;
     margin-right: 1%;
     color: #7473A9;
+    font-size: 12px;
 }
 
 .header-box, .empty-place-holder, .place-holder, .subject-button {
@@ -411,15 +412,27 @@ hr {
     .eng-options label {
         width: 29%;
     }
+    #eng-options {
+        padding-bottom: 180px;
+    }
     #subject-table {
         width: 100%;
     }
-/*    .sem-planner-key {
-        padding-top: 210px;
-    }*/
     .false.subject-button {
         line-height: 200%;
         font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    input.elective {
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 835px) {
+    input.elective {
+        font-size: 15px;
     }
 }
 
@@ -446,6 +459,9 @@ hr {
         width: 70%;
         font-size: 12px;
     }
+    input.elective {
+        font-size: 12px;
+    }
 }
 
 @media only screen and (max-width: 510px) {
@@ -460,6 +476,9 @@ hr {
 @media only screen and (max-width: 500px) {
     .eng-options, #subject-table {
         font-size: 14px;
+    }
+    input.elective {
+        font-size: 10px;
     }
 }
 
@@ -485,6 +504,9 @@ hr {
     .eng-options, #subject-table {
         font-size: 12px;
     }
+    input.elective {
+        font-size: 8px;
+    }
 }
 
 @media only screen and (max-width: 385px) {
@@ -497,6 +519,9 @@ hr {
     .sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
         #background-key .unselected, #background-key .selected, #background-key .overflow {
             padding: 5px;
+    }
+    input.elective {
+        font-size: 6px;
     }
 }
 
