@@ -699,7 +699,6 @@ function updateTable(required_subjects) {
 
     // rules that need to be displayed to user
     if (required_subjects.indexOf("CHEM114") != -1) {
-        document.getElementById("chem114-special").style.display = "block";
         if (prerequisites["l2-chemistry"] == 0) {
             // note: summer recommended
             document.getElementById("no-chemistry").style.display = "block";
@@ -707,7 +706,6 @@ function updateTable(required_subjects) {
             document.getElementById("no-chemistry").style.display = "none";
         }
     } else {
-        document.getElementById("chem114-special").style.display = "none";
         document.getElementById("no-chemistry").style.display = "none";
     }
 
