@@ -3,6 +3,8 @@
 <!--Minor Modifications: Conan Fee, University of Canterbury-->
 <!--Date: November 2015-->
 <!--Updated January 2016, Hayley van Waas-->
+<!--Updated April 2018, Hayley van Waas-->
+
 
 <!doctype html>
 <html lang="en">
@@ -11,29 +13,35 @@
         <title>Engineering at UC</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-        <!--<link rel="stylesheet" href="css/foundation.min.css">-->
         <script src="js/jquery-2.1.3.min.js"></script>
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/stylesheet.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
     </head>
 
     <body>
+        
+        <div id="headings" class="print-none">
+            <h1>Planning Your Intermediate Engineering Year</h1>
+            <p>Compatible with Chrome, Safari and Firefox Browsers</p>
+            <p id="warning">Caution: Do not use with Internet Explorer (will give incorrect advice!)</p>
+        </div>
 
-        <h1>Planning Your Intermediate Engineering Year</h1>
-        <h3>Compatible with Chrome, Safari and Firefox Browsers</h3>
-        <h3>Caution: Do not use with Internet Explorer (will give incorrect advice!)</h3>
-
-        <section class="background-info">
-            <div class="arrow">
+        <section id="background-info">
+            <div class="arrow print-none">
                 <div class="base"><p>START HERE</p></div><h2 id="background">Cambridge International Examinations (CIE) Background</h2>
             </div>
-
-            <p>Help us personalise your semester plan by letting us know your CIE background, then save and scroll down.</p>
-
-            <div class="background-key">
-                <label id="background-key-selected">Selected</label>
-                <label id="background-key-unselected">Unselected</label>
+            <div class="print">
+                <h2>Cambridge International Examinations (CIE) Background</h2>
             </div>
+
+            <p class="print-none">Help us personalise your semester plan by letting us know your CIE background, then save and scroll down.</p>
+
+            <div id="background-key" class="print-none">
+                <label class="selected">Selected</label>
+                <label class="unselected">Unselected</label>
+            </div>
+
             <form name="radio-btns" action="" onsubmit="return false;">
                 <div class="question" id="q-star-maths">
                     <p class="q-text">
@@ -111,25 +119,33 @@
             </form>
         </section>
 
-
-
-
         <section class="sem-planner">
 
-            <div class="arrow">
+            <div class="arrow print-none">
                 <div class="base"><p>Next</p></div>
                 <h2>Semester Planner</h2>
             </div>
+            <div class="print">
+                <h2>Semester Planner</h2>
+            </div>
 
-            <p>Click on the Engineering Disciplines that you are interested in to see possible semester plans for your Intermediate Year in the table below.
+
+            <p class="print-none">Click on the Engineering Disciplines that you are interested in to see possible semester plans for your Intermediate Year in the table below.
             </p>
-
-            <div id="key" class="key">
-                <label id="key-selected">Selected</label>
-                <label id="key-unselected">Alternative Semester*</label>
-                <label id="key-overflow">Too many subjects</label>
-                <p>*Some courses are available in multiple semesters. To move a course, just click on the alternative semester.</p>
-                <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequisite for, and any engineering disciplines that require that course. Some courses are required for all engineering disciplines; these courses cannot be deleted.
+    
+            <div id="keys">
+                <div class="sem-planner-key print-none">
+                    <label class="selected">Selected</label>
+                    <label class="unselected">Alternative Semester*</label>
+                    <label id="key-overflow" class="overflow">Too many subjects</label>
+                    <p>*Some courses are available in multiple semesters. To move a course, just click on the alternative semester.</p>
+                    <p>To delete a course, click the trashcan at the end of the row. This will also remove any courses that it is a prerequisite for, and any engineering disciplines that require that course. Some courses are required for all engineering disciplines; these courses cannot be deleted.</p>
+                </div>
+                <div class="sem-planner-key print">
+                    <label class="selected">Selected</label>
+                    <label class="unselected">Alternative Semester</label>
+                    <label class="overflow">Too many subjects</label>
+                </div>
             </div>
 
             <div id="tables">
@@ -139,61 +155,83 @@
                     <div id="eng-options" class="eng-options">
                     </div>
 
-                    <!-- TODO should be a section not div? -->
-                    <div id="message">
+                    <div id="plan-advice">
                         <h3>Plan Advice: Any relevant information regarding your semester plan will appear below.</h3>
                         <hr>
                         <div id="semester-elective" class="message-text">
                             <p>
-                                If you have selected fewer than four subjects in Semester 1 or Semester 2, you must select courses to fill them. A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
+                                CHOOSE AN ELECTIVE: If you have selected fewer than four subjects in Semester 1 or Semester 2, you must select courses to fill them.
+                            </p>
+                            <p>
+                                A second science course such as PHYS102, CHEM112 or COSC122 is a good idea to keep a pathway open into a related BSc major. Other popular choices are management or geological sciences but you may take courses from other science, forestry, arts, humanities, health, education or law subjects.
                             </p>
                             <hr>
                         </div>
                         <div id="semester-overflow" class="message-text">
                             <p>
-                                WARNING: Consult Student Advisors: Special permission is needed for more than 60 points in a semester
-                                <br>Try changing your chosen Discipline Options to reduce constraints
-                                <br>Otherwise, you may need at a least a summer semester or a 2 year Intermediate pathway
-                                <br>NOTE: ENGR102, EMTH119 and COSC122 are available in the summer, however, ENGR102 must be taken with or after EMTH119, not before it
+                                WARNING: Special permission is needed for more than 60 points in a semester.
+                                Please change your chosen Discipline Options to reduce contraints and discuss with an Engineering Student Advisor
+                                at the end of semester 1.
                             </p>
                             <hr>
                         </div>
                         <div id="summer-overflow" class="message-text">
                             <p>
-                                WARNING: Consult Student Advisors: You cannot take more than 30 points in the summer semester. EMTH171 may not be needed in Semester 2, in which case COSC122 can be taken then instead.
+                                WARNING: Consult <a  target="_blank" href="http://www.canterbury.ac.nz/engineering/contact-us/student-advisors/">Engineering Student Advisors</a>: You cannot take more than 30 points in the summer semester. EMTH171 may not be needed in Semester 2, in which case COSC122 can be taken then instead.
+                            </p>
+                            <hr>
+                        </div>
+                        <div id="cosc122-note" class="message-text">
+                            <p>
+                                NOTE: COSC122 is available in the summer.
+                            </p>
+                            <hr>
+                        </div>
+                        <div id="emth119-note" class="message-text">
+                            <p>
+                                NOTE: EMTH119 is available in the summer.
+                            </p>
+                            <hr>
+                        </div>
+                        <div id="engr102-note" class="message-text">
+                            <p>
+                                NOTE: ENGR102 is available in the summer, however, it must be taken with or after EMTH119, not before it.
                             </p>
                             <hr>
                         </div>
                         <div id="chem112-clash" class="message-text">
                             <p>
-                                CHEM111 is available in both semesters, so can be taken in semester 2 as long as you are not taking CHEM112
+                                CHEM111 is available in both semesters, so can be taken in semester 2 as long as you are not taking CHEM112.
                             </p>
                             <hr>
                         </div>
                         <div id="endorsement" class="message-text">
                             <p>
-                                OPPORTUNITY: Consult Student Advisors. Excellence endorsement in NCEA means that you may be eligible for a Modified Intermediate, quaranteed entry to your first choice of engineering discipline, or even Direct Entry to the 1st Professional (2nd) `Year of Engineering.
-                            </p>
-                            <hr>
-                        </div>
-                        <div id="no-physics" class="message-text">
-                            <p>
-                                PHYS111 cannot be counted as an elective. You may be required to take a further elective. Please contact Student Advisors to discuss.
+                                If you have achieved high grades or excellence endorsement in Maths, Physics, and/or Chemistry, you may be eligible for a Modified Intermediate Year or Direct Entry into the First Professional Year (2nd Year).  See the following link: <a href="http://www.canterbury.ac.nz/engineering/qualifications-and-courses/engineering/engineering-intermediate-year/">http://www.canterbury.ac.nz/engineering/qualifications-and-courses/engineering/engineering-intermediate-year/</a>.
                             </p>
                             <hr>
                         </div>
                         <div id="no-chemistry" class="message-text">
                             <p>
-                                Because you did not do Chemistry at Level 2, enrolment in Headstart Chemistry during the previous summer is strongly advised.
+                                Because you did not do AS Level Chemistry, enrolment in <a href="http://www.canterbury.ac.nz/get-started/transition/headstart/">Headstart Chemistry</a> during the previous summer is strongly advised.
                             </p>
                             <hr>
                         </div>
-                        <div id="chem114-special" class="message-text">
+                        <div id="no-maths" class="message-text">
                             <p>
-                                CHEM114 NOTE: Consult Student Advisors regarding your need to do Chemistry. Special allowances may apply in 2015/2016 if you have not done Chemistry at high school.
+                                MATH101 cannot be counted as an elective. You may be required to take a further elective. Please contact <a  target="_blank" href="http://www.canterbury.ac.nz/engineering/contact-us/student-advisors/">Engineering Student Advisors</a> to discuss.
                             </p>
                             <hr>
                         </div>
+                        <section id="notes" class="print">
+                            <h2>Notes:</h2>
+                            <p>
+                                Consult Student Advisors if instructed to do so, otherwise you're good to go!
+                            </p>
+                            <p>
+                                Student Advisors can be contacted at <a href="mailto:engdegreeadvice@canterbury.ac.nz">engdegreeadvice@canterbury.ac.nz</a> and will get back to you as soon as possible.
+                            </p>
+                        </section>
                     </div>
                 </div>
 
@@ -207,12 +245,11 @@
 
             </div>
 
-
-            <div class="arrow">
+            <div class="arrow print-none">
                 <div class="base"><p>Next</p></div>
                 <h2>Final Steps</h2>
-                <div id="final-steps">
-                    <p>Consult Student Advisors if instructed to do so (see template message below), otherwise you're good to go! Write down or print your semester plan to use when applying for your Intermediate Year at UC.
+                <div>
+                    <p>Consult Student Advisors if instructed to do so (see template message below), otherwise you're good to go! Write down or <button id="print-button" class="print-none" onclick="window.print();">print</button> your semester plan to use when applying for your Intermediate Year at UC.
                     </p>
                 </div>
 
@@ -222,6 +259,8 @@
                     <textarea type="text" id="email-content-input" name="email-content" value=""></textarea>
                 </div>
             </div>
+
+
             
         </section>
 
@@ -231,4 +270,3 @@
     </body>
 
 </html>
-

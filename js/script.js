@@ -4,15 +4,12 @@
  * Minor Edits by Conan Fee, UNiversity of Canterbury
  * Date: November 2015
  *
- * UpdatedL January 2016, Hayley van Waas
+ * Updated January 2016, Hayley van Waas
+ * Updated April 2018, Hayley van Waas
  *
  * This is a webpage designed to help new students select which subjects to take in their Intermediate Engineering Year at the University of Canterbury
  */
 
-// TODO deal with global variables
-// TODO split up functions
-// TODO work out where updateTable and updateEngList need to be called - they call each other, so only one needs to be called at a time
-// TODO table reorders itself when rows added/removed - could be better if it stayed constant?
 
 // these are each of the Yes/No questions at top of page
 var prerequisites = {
@@ -51,37 +48,45 @@ common_subjects = ["ENGR101", "PHYS101", "EMTH118", "EMTH119"];
 // checks for change in page size
 $(document).ready(function() {
     changeDivLayout();
-    window.addEventListener('resize', function(){ changeDivLayout() });
+    window.addEventListener('resize', function(){ changeDivLayout(false) });
 });
 
 
+window.onbeforeprint = function() {
+    changeDivLayout(true);
+};
+
+window.onafterprint = function() {
+    changeDivLayout(false);
+};
+
 // changes layout of divs for different page sizes (i.e. shifts key and tables to different order on smaller page size)
-function changeDivLayout() {
+function changeDivLayout(print) {
     /* Input: none
      * Output: none
      */
 
     var sem_planner_section = document.getElementsByClassName("sem-planner")[0];
-    var key_div = document.getElementById("key");
+    var key_div = document.getElementById("keys");
     var eng_options_div = document.getElementById("eng-options");
-    var message_div = document.getElementById("message");
+    var plan_advice_div = document.getElementById("plan-advice");
     var subject_table_div = document.getElementById("subject-table");
     var left_div = document.getElementById("left");
 
     var tables_div = document.getElementById("tables");
-    // if page is less than 853 pixels wide, set lineary order of elements in sem-planner
-    if (self.innerWidth <= 835) {
+    // if page is less than 853 pixels wide, set linear order of elements in sem-planner
+    if (self.innerWidth <= 835 || print == true) {
         tables_div.appendChild(eng_options_div);
         tables_div.appendChild(key_div);
         tables_div.appendChild(subject_table_div);
-        tables_div.appendChild(message_div);
+        tables_div.appendChild(plan_advice_div);
     } else {
         //sem_planner_section.appendChild(key_div);
         left_div.appendChild(eng_options_div);
-        left_div.appendChild(message_div);
+        left_div.appendChild(plan_advice_div);
         tables_div.appendChild(left_div);
         tables_div.appendChild(subject_table_div);
-        $("#key").insertBefore(tables_div);
+        $("#keys").insertBefore(tables_div);
     }
 }
 
@@ -426,7 +431,6 @@ function checkSubjectPrerequisites(subject) {
      */
 
     var subject_name = subject.id.slice(0, 7);
-    console.log(subject_name);
 
     // subject pairs where order matters
     // TODO could be tuples instead?
@@ -507,7 +511,6 @@ function semesterCount() {
     var sem1_buttons = document.getElementsByClassName("true subject-button column-1");
     var sem1_count = sem1_buttons.length;
 
-
     // get all buttons in the second column (semester two) and check if they are set to true
     var sem2_buttons = document.getElementsByClassName("true subject-button column-2");
     var sem2_count = sem2_buttons.length;
@@ -538,11 +541,26 @@ function updateOverflowButtons(button_list, count, threshold) {
     /* Input: list of buttons in the same column, the number set as true in that column and the number of subjects allowed before overflow is reached
      * Output: boolean value for if overflow is true or false
      */
-
     // check which overflow message to hide/show
     if (count > threshold) {
         if (threshold == 4) { // i.e. semester 1 or 2
             document.getElementById("semester-overflow").style.display = "block";
+            // var semester_overflow_string = "";
+            // var summer_subjects = [];
+            // console.log(button_list);
+            // for (var i in button_list) {
+            //     var course_id = button_list[i].id;
+            //     if (course_id != undefined) {
+            //         if (course_id.indexOf("ENGR102") == 0) {
+            //             summer_subjects.push("ENGR102");
+            //         } else if (course_id.indexOf("EMTH119") == 0) {
+            //             summer_subjects.push("EMTH119");
+            //         } else if (course_id.indexOf("COSC122") == 0) {
+            //             summer_subjects.push("COSC122");
+            //         }
+            //     }
+            // }
+            // console.log(summer_subjects);
         } else { //summer
             document.getElementById("summer-overflow").style.display = "block";
         }
@@ -685,7 +703,6 @@ function updateTable(required_subjects) {
 
     // rules that need to be displayed to user
     if (required_subjects.indexOf("CHEM114") != -1) {
-        document.getElementById("chem114-special").style.display = "block";
         if (prerequisites["l2-chemistry"] == 0) {
             // note: summer recommended
             document.getElementById("no-chemistry").style.display = "block";
@@ -693,7 +710,6 @@ function updateTable(required_subjects) {
             document.getElementById("no-chemistry").style.display = "none";
         }
     } else {
-        document.getElementById("chem114-special").style.display = "none";
         document.getElementById("no-chemistry").style.display = "none";
     }
 
@@ -706,6 +722,28 @@ function updateTable(required_subjects) {
         }
     } else {
         document.getElementById("chem112-clash").style.display = "none";
+    }
+
+    if (required_subjects.indexOf("MATH101") != -1) {
+        document.getElementById("no-maths").style.display = "block";
+    } else {
+        document.getElementById("no-maths").style.display = "none";
+    }
+
+    if (required_subjects.indexOf("COSC122") != -1) {
+        document.getElementById("cosc122-note").style.display = "block";
+    } else {
+        document.getElementById("cosc122-note").style.display = "none";
+    }
+    if (required_subjects.indexOf("EMTH119") != -1) {
+        document.getElementById("emth119-note").style.display = "block";
+    } else {
+        document.getElementById("emth119-note").style.display = "none";
+    }
+    if (required_subjects.indexOf("ENGR102") != -1) {
+        document.getElementById("engr102-note").style.display = "block";
+    } else {
+        document.getElementById("engr102-note").style.display = "none";
     }
 
     // for each subject: build a div (new row) and attach columns
@@ -757,7 +795,7 @@ function updateTable(required_subjects) {
             img.onclick = function(img) {
                 removeSubject(img.target.id); };
             var img_div = document.createElement("div");
-            img_div.className = "trashcan";
+            img_div.className = "trashcan print-none";
             img_div.appendChild(img);
             table_row.appendChild(img_div);
         }
@@ -914,7 +952,7 @@ function buildFreeSpace(column) {
     var input = document.createElement("input");
     input.type = "text";
     input.className = "elective" + column;
-    input.value = "Elective";
+    input.value = "CHOOSE AN ELECTIVE";
     input.setAttribute('onFocus', 'onFocus(this)');
     input.setAttribute('onBlur', 'onBlur(this)');
     return input;

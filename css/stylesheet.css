@@ -14,12 +14,19 @@ body {
     margin: 4% 8% 8% 8%;
 }
 
+.print {
+    display: none !important;
+}
 
 a {
     color: #7473A9;
     text-decoration: none;
 }
 
+#warning {
+    color: red;
+    font-size: 12px;
+}
 
 .sem-planner {
     display: none;
@@ -139,24 +146,28 @@ input.submit {
 
 
 /* key */
-.key, .background-key {
+.sem-planner-key, #background-key {
     margin: 30px;
     display: block;
     text-align: center;
     font-size: 10px;
 }
 
-.key p {
+.sem-planner-key p {
     font-size: 14px;
     line-height: 100%;
 }
 
-#key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-    height: 30px;
-    padding: 10px;
-    border-radius: 5px;
+.sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+    #background-key .unselected, #background-key .selected, #background-key .overflow {
+        height: 30px;
+        padding: 10px;
+        border-radius: 5px;
 }
 
+#notes {
+    display: none;
+}
 
 /* eng boxes */
 
@@ -260,12 +271,13 @@ input.submit {
 }
 
 input.elective {
-    width: 26%;
+    width: 29%;
     height: 80%;
-    padding-right: 4%;
+    padding-right: 1%;
     margin-left: auto;
     margin-right: 1%;
     color: #7473A9;
+    font-size: 12px;
 }
 
 .header-box, .empty-place-holder, .place-holder, .subject-button {
@@ -295,10 +307,9 @@ label.true.place-holder {
     /*border: 3px solid #7473A9;*/
 }
 
-.true, #key-selected, #background-key-selected {
+.table-row .true, .sem-planner-key .selected, #background-key .selected, .long-place-holder {
     background-color: #A09FC7;
 }
-
 
 .empty-place-holder {
     background-color: #4C4C55;
@@ -308,13 +319,16 @@ label.true.place-holder {
     background-color: white;
 }
 
-.false, #key-unselected, #background-key-unselected  {
+.false, .sem-planner-key .unselected, #background-key .unselected  {
     background-color: #D1D3D4;
 }
 
-
-.overflow, #key-overflow, #background-key-overflow {
+.sem-planner-key .overflow {
     background-color: #FFE28A;
+}
+
+.cell .overflow {
+    background-color: #FFE28A !important;
 }
 
 .message-text {
@@ -325,15 +339,14 @@ hr {
     border-top: 1px solid #D1D3D4;
 }
 
-
-#message {
+#plan-advice {
     display: inline-block;
     width: 90%;
     margin-bottom: 20px;
     font-size: 12px;
 }
 
-#consult-sa-button {
+#consult-sa-button, #print-button {
     display: inline-block;
     border-radius: 5px;
     border: none;
@@ -381,25 +394,45 @@ hr {
     }
 }
 
+@media (max-width: 835px) {
+    #subject-table {
+        width: 100%;
+        float: none;
+    }
+}
+
 @media only screen and (max-width: 835px) {
     .eng-options, #subject-table {
         font-size: 16px;
     }
+    /*#eng-options, #plan-advice {*/
     #left {
         width: 100%;
     }
     .eng-options label {
         width: 29%;
     }
+    #eng-options {
+        padding-bottom: 180px;
+    }
     #subject-table {
         width: 100%;
-    }
-    .key {
-        padding-top: 210px;
     }
     .false.subject-button {
         line-height: 200%;
         font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 960px) {
+    input.elective {
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 835px) {
+    input.elective {
+        font-size: 15px;
     }
 }
 
@@ -426,6 +459,9 @@ hr {
         width: 70%;
         font-size: 12px;
     }
+    input.elective {
+        font-size: 12px;
+    }
 }
 
 @media only screen and (max-width: 510px) {
@@ -440,6 +476,9 @@ hr {
 @media only screen and (max-width: 500px) {
     .eng-options, #subject-table {
         font-size: 14px;
+    }
+    input.elective {
+        font-size: 10px;
     }
 }
 
@@ -465,6 +504,9 @@ hr {
     .eng-options, #subject-table {
         font-size: 12px;
     }
+    input.elective {
+        font-size: 8px;
+    }
 }
 
 @media only screen and (max-width: 385px) {
@@ -474,8 +516,12 @@ hr {
     .eng-options label {
         width: 25%;
     }
-    #key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-        padding: 5px;
+    .sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+        #background-key .unselected, #background-key .selected, #background-key .overflow {
+            padding: 5px;
+    }
+    input.elective {
+        font-size: 6px;
     }
 }
 
@@ -486,7 +532,8 @@ hr {
     .eng-options, #subject-table {
         font-size: 10px;
     }
-    #key-unselected, #key-selected, #key-overflow, #background-key-unselected, #background-key-selected, #background-key-overflow {
-        padding: 2px;
+    .sem-planner-key .unselected, .sem-planner-key .selected, .sem-planner-key .overflow,
+        #background-key .unselected, #background-key .selected, #background-key .overflow {
+            padding: 2px;
     }
 }
